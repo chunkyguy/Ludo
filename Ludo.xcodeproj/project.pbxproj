@@ -26,6 +26,12 @@
 		1957EA40181BD77300F5832B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1957EA17181BD77300F5832B /* UIKit.framework */; };
 		1957EA48181BD77300F5832B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1957EA46181BD77300F5832B /* InfoPlist.strings */; };
 		1957EA4A181BD77300F5832B /* LudoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1957EA49181BD77300F5832B /* LudoTests.m */; };
+		1957EA54181BE7BC00F5832B /* Ludo.m in Sources */ = {isa = PBXBuildFile; fileRef = 1957EA53181BE7BC00F5832B /* Ludo.m */; };
+		1957EA93181C02B900F5832B /* he_Console.m in Sources */ = {isa = PBXBuildFile; fileRef = 1957EA7A181C02B900F5832B /* he_Console.m */; };
+		1957EA94181C02B900F5832B /* he_Mesh.m in Sources */ = {isa = PBXBuildFile; fileRef = 1957EA7D181C02B900F5832B /* he_Mesh.m */; };
+		1957EA95181C02B900F5832B /* he_Shader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1957EA7F181C02B900F5832B /* he_Shader.m */; };
+		1957EA96181C02B900F5832B /* he_Transform.m in Sources */ = {isa = PBXBuildFile; fileRef = 1957EA82181C02B900F5832B /* he_Transform.m */; };
+		1957EA97181C02B900F5832B /* he_Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 1957EA85181C02B900F5832B /* he_Utilities.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +69,21 @@
 		1957EA45181BD77300F5832B /* LudoTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "LudoTests-Info.plist"; sourceTree = "<group>"; };
 		1957EA47181BD77300F5832B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1957EA49181BD77300F5832B /* LudoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LudoTests.m; sourceTree = "<group>"; };
+		1957EA53181BE7BC00F5832B /* Ludo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Ludo.m; sourceTree = "<group>"; };
+		1957EA55181BE7CE00F5832B /* Ludo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Ludo.h; sourceTree = "<group>"; };
+		1957EA79181C02B900F5832B /* he_Console.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = he_Console.h; sourceTree = "<group>"; };
+		1957EA7A181C02B900F5832B /* he_Console.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = he_Console.m; sourceTree = "<group>"; };
+		1957EA7B181C02B900F5832B /* he_Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = he_Constants.h; sourceTree = "<group>"; };
+		1957EA7C181C02B900F5832B /* he_Mesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = he_Mesh.h; sourceTree = "<group>"; };
+		1957EA7D181C02B900F5832B /* he_Mesh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = he_Mesh.m; sourceTree = "<group>"; };
+		1957EA7E181C02B900F5832B /* he_Shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = he_Shader.h; sourceTree = "<group>"; };
+		1957EA7F181C02B900F5832B /* he_Shader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = he_Shader.m; sourceTree = "<group>"; };
+		1957EA80181C02B900F5832B /* he_std_incl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = he_std_incl.h; sourceTree = "<group>"; };
+		1957EA81181C02B900F5832B /* he_Transform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = he_Transform.h; sourceTree = "<group>"; };
+		1957EA82181C02B900F5832B /* he_Transform.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = he_Transform.m; sourceTree = "<group>"; };
+		1957EA83181C02B900F5832B /* he_Types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = he_Types.h; sourceTree = "<group>"; };
+		1957EA84181C02B900F5832B /* he_Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = he_Utilities.h; sourceTree = "<group>"; };
+		1957EA85181C02B900F5832B /* he_Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = he_Utilities.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,6 +147,7 @@
 		1957EA1D181BD77300F5832B /* Ludo */ = {
 			isa = PBXGroup;
 			children = (
+				1957EA78181C02B900F5832B /* he */,
 				1957EA26181BD77300F5832B /* LDAppDelegate.h */,
 				1957EA27181BD77300F5832B /* LDAppDelegate.m */,
 				1957EA29181BD77300F5832B /* Main_iPhone.storyboard */,
@@ -134,6 +156,8 @@
 				1957EA31181BD77300F5832B /* Shader.vsh */,
 				1957EA33181BD77300F5832B /* LDViewController.h */,
 				1957EA34181BD77300F5832B /* LDViewController.m */,
+				1957EA53181BE7BC00F5832B /* Ludo.m */,
+				1957EA55181BE7CE00F5832B /* Ludo.h */,
 				1957EA36181BD77300F5832B /* Images.xcassets */,
 				1957EA1E181BD77300F5832B /* Supporting Files */,
 			);
@@ -167,6 +191,26 @@
 				1957EA46181BD77300F5832B /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		1957EA78181C02B900F5832B /* he */ = {
+			isa = PBXGroup;
+			children = (
+				1957EA79181C02B900F5832B /* he_Console.h */,
+				1957EA7A181C02B900F5832B /* he_Console.m */,
+				1957EA7B181C02B900F5832B /* he_Constants.h */,
+				1957EA7C181C02B900F5832B /* he_Mesh.h */,
+				1957EA7D181C02B900F5832B /* he_Mesh.m */,
+				1957EA7E181C02B900F5832B /* he_Shader.h */,
+				1957EA7F181C02B900F5832B /* he_Shader.m */,
+				1957EA80181C02B900F5832B /* he_std_incl.h */,
+				1957EA81181C02B900F5832B /* he_Transform.h */,
+				1957EA82181C02B900F5832B /* he_Transform.m */,
+				1957EA83181C02B900F5832B /* he_Types.h */,
+				1957EA84181C02B900F5832B /* he_Utilities.h */,
+				1957EA85181C02B900F5832B /* he_Utilities.m */,
+			);
+			path = he;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -271,8 +315,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				1957EA28181BD77300F5832B /* LDAppDelegate.m in Sources */,
+				1957EA96181C02B900F5832B /* he_Transform.m in Sources */,
+				1957EA94181C02B900F5832B /* he_Mesh.m in Sources */,
+				1957EA97181C02B900F5832B /* he_Utilities.m in Sources */,
+				1957EA93181C02B900F5832B /* he_Console.m in Sources */,
+				1957EA95181C02B900F5832B /* he_Shader.m in Sources */,
 				1957EA24181BD77300F5832B /* main.m in Sources */,
 				1957EA35181BD77300F5832B /* LDViewController.m in Sources */,
+				1957EA54181BE7BC00F5832B /* Ludo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
