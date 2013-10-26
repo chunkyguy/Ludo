@@ -1,0 +1,506 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1957EA14181BD77300F5832B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1957EA13181BD77300F5832B /* Foundation.framework */; };
+		1957EA16181BD77300F5832B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1957EA15181BD77300F5832B /* CoreGraphics.framework */; };
+		1957EA18181BD77300F5832B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1957EA17181BD77300F5832B /* UIKit.framework */; };
+		1957EA1A181BD77300F5832B /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1957EA19181BD77300F5832B /* GLKit.framework */; };
+		1957EA1C181BD77300F5832B /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1957EA1B181BD77300F5832B /* OpenGLES.framework */; };
+		1957EA22181BD77300F5832B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1957EA20181BD77300F5832B /* InfoPlist.strings */; };
+		1957EA24181BD77300F5832B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1957EA23181BD77300F5832B /* main.m */; };
+		1957EA28181BD77300F5832B /* LDAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1957EA27181BD77300F5832B /* LDAppDelegate.m */; };
+		1957EA2B181BD77300F5832B /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1957EA29181BD77300F5832B /* Main_iPhone.storyboard */; };
+		1957EA2E181BD77300F5832B /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1957EA2C181BD77300F5832B /* Main_iPad.storyboard */; };
+		1957EA30181BD77300F5832B /* Shader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 1957EA2F181BD77300F5832B /* Shader.fsh */; };
+		1957EA32181BD77300F5832B /* Shader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 1957EA31181BD77300F5832B /* Shader.vsh */; };
+		1957EA35181BD77300F5832B /* LDViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1957EA34181BD77300F5832B /* LDViewController.m */; };
+		1957EA37181BD77300F5832B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1957EA36181BD77300F5832B /* Images.xcassets */; };
+		1957EA3E181BD77300F5832B /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1957EA3D181BD77300F5832B /* XCTest.framework */; };
+		1957EA3F181BD77300F5832B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1957EA13181BD77300F5832B /* Foundation.framework */; };
+		1957EA40181BD77300F5832B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1957EA17181BD77300F5832B /* UIKit.framework */; };
+		1957EA48181BD77300F5832B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1957EA46181BD77300F5832B /* InfoPlist.strings */; };
+		1957EA4A181BD77300F5832B /* LudoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1957EA49181BD77300F5832B /* LudoTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		1957EA41181BD77300F5832B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1957EA08181BD77300F5832B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1957EA0F181BD77300F5832B;
+			remoteInfo = Ludo;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		1957EA10181BD77300F5832B /* Ludo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ludo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1957EA13181BD77300F5832B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		1957EA15181BD77300F5832B /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		1957EA17181BD77300F5832B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		1957EA19181BD77300F5832B /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
+		1957EA1B181BD77300F5832B /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		1957EA1F181BD77300F5832B /* Ludo-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Ludo-Info.plist"; sourceTree = "<group>"; };
+		1957EA21181BD77300F5832B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1957EA23181BD77300F5832B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		1957EA25181BD77300F5832B /* Ludo-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Ludo-Prefix.pch"; sourceTree = "<group>"; };
+		1957EA26181BD77300F5832B /* LDAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LDAppDelegate.h; sourceTree = "<group>"; };
+		1957EA27181BD77300F5832B /* LDAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LDAppDelegate.m; sourceTree = "<group>"; };
+		1957EA2A181BD77300F5832B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
+		1957EA2D181BD77300F5832B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
+		1957EA2F181BD77300F5832B /* Shader.fsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = Shader.fsh; path = Shaders/Shader.fsh; sourceTree = "<group>"; };
+		1957EA31181BD77300F5832B /* Shader.vsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = Shader.vsh; path = Shaders/Shader.vsh; sourceTree = "<group>"; };
+		1957EA33181BD77300F5832B /* LDViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LDViewController.h; sourceTree = "<group>"; };
+		1957EA34181BD77300F5832B /* LDViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LDViewController.m; sourceTree = "<group>"; };
+		1957EA36181BD77300F5832B /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		1957EA3C181BD77300F5832B /* LudoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LudoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1957EA3D181BD77300F5832B /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		1957EA45181BD77300F5832B /* LudoTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "LudoTests-Info.plist"; sourceTree = "<group>"; };
+		1957EA47181BD77300F5832B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1957EA49181BD77300F5832B /* LudoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LudoTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1957EA0D181BD77300F5832B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1957EA1C181BD77300F5832B /* OpenGLES.framework in Frameworks */,
+				1957EA16181BD77300F5832B /* CoreGraphics.framework in Frameworks */,
+				1957EA18181BD77300F5832B /* UIKit.framework in Frameworks */,
+				1957EA1A181BD77300F5832B /* GLKit.framework in Frameworks */,
+				1957EA14181BD77300F5832B /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1957EA39181BD77300F5832B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1957EA3E181BD77300F5832B /* XCTest.framework in Frameworks */,
+				1957EA40181BD77300F5832B /* UIKit.framework in Frameworks */,
+				1957EA3F181BD77300F5832B /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1957EA07181BD77300F5832B = {
+			isa = PBXGroup;
+			children = (
+				1957EA1D181BD77300F5832B /* Ludo */,
+				1957EA43181BD77300F5832B /* LudoTests */,
+				1957EA12181BD77300F5832B /* Frameworks */,
+				1957EA11181BD77300F5832B /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		1957EA11181BD77300F5832B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1957EA10181BD77300F5832B /* Ludo.app */,
+				1957EA3C181BD77300F5832B /* LudoTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1957EA12181BD77300F5832B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1957EA13181BD77300F5832B /* Foundation.framework */,
+				1957EA15181BD77300F5832B /* CoreGraphics.framework */,
+				1957EA17181BD77300F5832B /* UIKit.framework */,
+				1957EA19181BD77300F5832B /* GLKit.framework */,
+				1957EA1B181BD77300F5832B /* OpenGLES.framework */,
+				1957EA3D181BD77300F5832B /* XCTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		1957EA1D181BD77300F5832B /* Ludo */ = {
+			isa = PBXGroup;
+			children = (
+				1957EA26181BD77300F5832B /* LDAppDelegate.h */,
+				1957EA27181BD77300F5832B /* LDAppDelegate.m */,
+				1957EA29181BD77300F5832B /* Main_iPhone.storyboard */,
+				1957EA2C181BD77300F5832B /* Main_iPad.storyboard */,
+				1957EA2F181BD77300F5832B /* Shader.fsh */,
+				1957EA31181BD77300F5832B /* Shader.vsh */,
+				1957EA33181BD77300F5832B /* LDViewController.h */,
+				1957EA34181BD77300F5832B /* LDViewController.m */,
+				1957EA36181BD77300F5832B /* Images.xcassets */,
+				1957EA1E181BD77300F5832B /* Supporting Files */,
+			);
+			path = Ludo;
+			sourceTree = "<group>";
+		};
+		1957EA1E181BD77300F5832B /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				1957EA1F181BD77300F5832B /* Ludo-Info.plist */,
+				1957EA20181BD77300F5832B /* InfoPlist.strings */,
+				1957EA23181BD77300F5832B /* main.m */,
+				1957EA25181BD77300F5832B /* Ludo-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		1957EA43181BD77300F5832B /* LudoTests */ = {
+			isa = PBXGroup;
+			children = (
+				1957EA49181BD77300F5832B /* LudoTests.m */,
+				1957EA44181BD77300F5832B /* Supporting Files */,
+			);
+			path = LudoTests;
+			sourceTree = "<group>";
+		};
+		1957EA44181BD77300F5832B /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				1957EA45181BD77300F5832B /* LudoTests-Info.plist */,
+				1957EA46181BD77300F5832B /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1957EA0F181BD77300F5832B /* Ludo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1957EA4D181BD77300F5832B /* Build configuration list for PBXNativeTarget "Ludo" */;
+			buildPhases = (
+				1957EA0C181BD77300F5832B /* Sources */,
+				1957EA0D181BD77300F5832B /* Frameworks */,
+				1957EA0E181BD77300F5832B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Ludo;
+			productName = Ludo;
+			productReference = 1957EA10181BD77300F5832B /* Ludo.app */;
+			productType = "com.apple.product-type.application";
+		};
+		1957EA3B181BD77300F5832B /* LudoTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1957EA50181BD77300F5832B /* Build configuration list for PBXNativeTarget "LudoTests" */;
+			buildPhases = (
+				1957EA38181BD77300F5832B /* Sources */,
+				1957EA39181BD77300F5832B /* Frameworks */,
+				1957EA3A181BD77300F5832B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1957EA42181BD77300F5832B /* PBXTargetDependency */,
+			);
+			name = LudoTests;
+			productName = LudoTests;
+			productReference = 1957EA3C181BD77300F5832B /* LudoTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		1957EA08181BD77300F5832B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = LD;
+				LastUpgradeCheck = 0500;
+				ORGANIZATIONNAME = whackylabs;
+				TargetAttributes = {
+					1957EA3B181BD77300F5832B = {
+						TestTargetID = 1957EA0F181BD77300F5832B;
+					};
+				};
+			};
+			buildConfigurationList = 1957EA0B181BD77300F5832B /* Build configuration list for PBXProject "Ludo" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 1957EA07181BD77300F5832B;
+			productRefGroup = 1957EA11181BD77300F5832B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1957EA0F181BD77300F5832B /* Ludo */,
+				1957EA3B181BD77300F5832B /* LudoTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1957EA0E181BD77300F5832B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1957EA30181BD77300F5832B /* Shader.fsh in Resources */,
+				1957EA2E181BD77300F5832B /* Main_iPad.storyboard in Resources */,
+				1957EA2B181BD77300F5832B /* Main_iPhone.storyboard in Resources */,
+				1957EA37181BD77300F5832B /* Images.xcassets in Resources */,
+				1957EA22181BD77300F5832B /* InfoPlist.strings in Resources */,
+				1957EA32181BD77300F5832B /* Shader.vsh in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1957EA3A181BD77300F5832B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1957EA48181BD77300F5832B /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1957EA0C181BD77300F5832B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1957EA28181BD77300F5832B /* LDAppDelegate.m in Sources */,
+				1957EA24181BD77300F5832B /* main.m in Sources */,
+				1957EA35181BD77300F5832B /* LDViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1957EA38181BD77300F5832B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1957EA4A181BD77300F5832B /* LudoTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		1957EA42181BD77300F5832B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1957EA0F181BD77300F5832B /* Ludo */;
+			targetProxy = 1957EA41181BD77300F5832B /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		1957EA20181BD77300F5832B /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1957EA21181BD77300F5832B /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		1957EA29181BD77300F5832B /* Main_iPhone.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1957EA2A181BD77300F5832B /* Base */,
+			);
+			name = Main_iPhone.storyboard;
+			sourceTree = "<group>";
+		};
+		1957EA2C181BD77300F5832B /* Main_iPad.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1957EA2D181BD77300F5832B /* Base */,
+			);
+			name = Main_iPad.storyboard;
+			sourceTree = "<group>";
+		};
+		1957EA46181BD77300F5832B /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1957EA47181BD77300F5832B /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		1957EA4B181BD77300F5832B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		1957EA4C181BD77300F5832B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		1957EA4E181BD77300F5832B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Ludo/Ludo-Prefix.pch";
+				INFOPLIST_FILE = "Ludo/Ludo-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		1957EA4F181BD77300F5832B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Ludo/Ludo-Prefix.pch";
+				INFOPLIST_FILE = "Ludo/Ludo-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		1957EA51181BD77300F5832B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Ludo.app/Ludo";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Ludo/Ludo-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "LudoTests/LudoTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		1957EA52181BD77300F5832B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Ludo.app/Ludo";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Ludo/Ludo-Prefix.pch";
+				INFOPLIST_FILE = "LudoTests/LudoTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1957EA0B181BD77300F5832B /* Build configuration list for PBXProject "Ludo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1957EA4B181BD77300F5832B /* Debug */,
+				1957EA4C181BD77300F5832B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1957EA4D181BD77300F5832B /* Build configuration list for PBXNativeTarget "Ludo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1957EA4E181BD77300F5832B /* Debug */,
+				1957EA4F181BD77300F5832B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		1957EA50181BD77300F5832B /* Build configuration list for PBXNativeTarget "LudoTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1957EA51181BD77300F5832B /* Debug */,
+				1957EA52181BD77300F5832B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 1957EA08181BD77300F5832B /* Project object */;
+}
