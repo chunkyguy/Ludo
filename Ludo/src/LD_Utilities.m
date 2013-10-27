@@ -5,13 +5,13 @@
 //  Created by Sid on 22/08/13.
 //  Copyright (c) 2013 whackylabs. All rights reserved.
 //
-#include "he_std_incl.h"
+#include "LD_std_incl.h"
 
 #import <string.h>
 #import <Foundation/Foundation.h>
 
-#import "he_Utilities.h"
-#import "he_Constants.h"
+#import "LD_Utilities.h"
+#import "LD_Constants.h"
 
 /**
  *	Split filename into file and extension.

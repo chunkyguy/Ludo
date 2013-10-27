@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 whackylabs. All rights reserved.
 //
 
-#import "LDAppDelegate.h"
+#import "LD_AppDelegate.h"
 
 @implementation LDAppDelegate
 

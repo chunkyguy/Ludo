@@ -1,11 +1,3 @@
-//
-//  Shader.vsh
-//  Ludo
-//
-//  Created by Sid on 26/10/13.
-//  Copyright (c) 2013 whackylabs. All rights reserved.
-//
-
 attribute vec4 a_Position;
 attribute vec3 a_Normal;
 
@@ -18,7 +10,7 @@ uniform lowp vec4 u_Color;
 void main()
 {
     vec3 eyeNormal = normalize(u_N * a_Normal);
-    vec3 lightPosition = vec3(0.0, 0.0, 1.0);
+    vec3 lightPosition = vec3(0.0, 1.0, 0.0);
     
     float nDotVP = max(0.0, dot(eyeNormal, normalize(lightPosition)));
                  

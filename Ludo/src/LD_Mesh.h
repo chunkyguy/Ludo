@@ -8,7 +8,7 @@
 
 #ifndef Camera_Cube_h
 #define Camera_Cube_h
-#include "he_Types.h"
+#include "LD_Types.h"
 
 Mesh *CreateMesh(Mesh *mesh,
                  const kCommonMesh mesh_type);
@@ -16,6 +16,7 @@ Mesh *CreateMesh(Mesh *mesh,
 
 Mesh *CreateMeshFromFile(Mesh *mesh, const char *filename);
 
+Mesh *CreateMeshFromGrid(Mesh *mesh, Grid *grid);
 
 const Mesh *RenderMesh(const Mesh *mesh,   /*	The mesh to be rendered */
                        const Transform *transform, /*	The transform. */

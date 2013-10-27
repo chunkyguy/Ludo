@@ -8,7 +8,7 @@
 
 #ifndef Camera_Types_h
 #define Camera_Types_h
-#include "he_std_incl.h"
+#include "LD_std_incl.h"
 
 /*******************************************************************************
  MARK: Maths
@@ -62,11 +62,13 @@ typedef struct {
 /*******************************************************************************
  MARK: Shader
  *******************************************************************************/
+#define kShaderAttribMask(attrib) 	(0x1 << attrib)
 // Compiled shader program
 typedef struct {
  GLuint vert_shader;
  GLuint frag_shader;
  GLuint program;
+ int attrib_flag;
 } Shader;
 
 /*******************************************************************************
@@ -83,8 +85,21 @@ typedef struct {
  GLuint vbo;			// Vertex buffer object
  int vertex_count;	// Number of vertices.
  GLuint ibo;			// Index buffer object (if available)
- int index_count;		// Number of indices. This is the default rendering behavior. Set as -1 if rendering as glDrawArrays()
+ int index_count;		// Number of indices.
+                        //This is the default rendering behavior.
+                        //Set as -1 if rendering as glDrawArrays()
+ GLenum primitive;	// Triangles, fan, strip, lines or points
 } Mesh;
+
+typedef union {
+ GLvoid *ptr;
+ size_t size;
+} Offset;
+
+typedef struct {
+ int rows;
+ int cols;
+} Grid;
 
 /*******************************************************************************
  MARK: Transform
@@ -132,5 +147,22 @@ typedef union {
  GLushort data[3];
 } Face;
 
+
+typedef struct {
+ Frustum f;
+ Transform t;
+} World;
+
+typedef struct {
+ Mesh *m;
+ Transform t;
+ Vec4f color;
+} Cube;
+
+typedef struct {
+ Mesh m;
+ Transform t;
+ Vec4f color;
+} Board;
 
 #endif

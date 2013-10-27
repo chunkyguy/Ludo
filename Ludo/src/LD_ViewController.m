@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 whackylabs. All rights reserved.
 //
 
-#import "LDViewController.h"
-#import "Ludo.h"
+#import "LD_ViewController.h"
+#import "LD_Root.h"
 
 @interface LDViewController () {
 }

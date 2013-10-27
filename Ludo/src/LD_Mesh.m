@@ -6,16 +6,11 @@
 //  Copyright (c) 2013 whackylabs. All rights reserved.
 //
 
-#include "he_std_incl.h"
-#include "he_Mesh.h"
-#include "he_Constants.h"
-#include "he_Transform.h"
-#include "he_Utilities.h"
-
-typedef union {
- GLvoid *ptr;
- size_t size;
-} Offset;
+#include "Ld_std_incl.h"
+#include "LD_Mesh.h"
+#include "LD_Constants.h"
+#include "LD_Transform.h"
+#include "LD_Utilities.h"
 
 /*******************************************************************************
  MARK: private
@@ -25,6 +20,7 @@ static Mesh *create_mesh(Mesh *mesh,
                          int vertex_count, size_t vertex_data_size, GLfloat *vertex_data,
 						int face_count, size_t face_data_size, GLushort *face_data) {
  Mesh m;
+ m.primitive = GL_TRIANGLES;
  m.index_count = face_count * 3;
  m.vertex_count = vertex_count;
  
@@ -226,6 +222,10 @@ Mesh *CreateMeshFromFile(Mesh *mesh, const char *filename) {
                     face_count, sizeof(face[0]) * face_count, (GLushort*)face);
 }
 
+Mesh *CreateMeshFromGrid(Mesh *mesh, Grid *grid) {
+ return mesh;
+}
+
 const Mesh *RenderMesh(const Mesh *mesh,   /*	TGLK mesh to be rendered */
                        const Transform *transform, /*	TGLK transform. */
                        const Shader *shader,	/*	TGLK program in use. */
@@ -259,8 +259,12 @@ const Mesh *RenderMesh(const Mesh *mesh,   /*	TGLK mesh to be rendered */
  /*	Enable tGLK custom vertex attributes at some indices (for eg. kAttribPosition).
   We previously binded those indices to tGLK variables in our shader (for eg. vec4 a_Position)
   */
- glEnableVertexAttribArray(kAttribPosition);
- glEnableVertexAttribArray(kAttribNormal);
+ if (shader->attrib_flag & kShaderAttribMask(kAttribPosition)) {
+  glEnableVertexAttribArray(kAttribPosition);
+ }
+ if (shader->attrib_flag & kShaderAttribMask(kAttribNormal)) {
+  glEnableVertexAttribArray(kAttribNormal);
+ }
  
  /*
   This function allows tGLK use of otGLKr primitive types : triangle strips, lines, ...
@@ -268,14 +272,18 @@ const Mesh *RenderMesh(const Mesh *mesh,   /*	TGLK mesh to be rendered */
   Else draws a non-indexed triangle array from tGLK pointers previously given.
   */
  if (mesh->index_count > 0) {
-  glDrawElements(GL_TRIANGLES, mesh->index_count, GL_UNSIGNED_SHORT, 0);
+  glDrawElements(mesh->primitive, mesh->index_count, GL_UNSIGNED_SHORT, 0);
  } else {
-  glDrawArrays(GL_TRIANGLES, 0, mesh->vertex_count);
+  glDrawArrays(mesh->primitive, 0, mesh->vertex_count);
  }
- 
+
  // Unbind tGLK VAO
+ if (shader->attrib_flag & kShaderAttribMask(kAttribPosition)) {
  glDisableVertexAttribArray(kAttribPosition);
- glDisableVertexAttribArray(kAttribNormal);
+ }
+ if (shader->attrib_flag & kShaderAttribMask(kAttribNormal)) {
+  glDisableVertexAttribArray(kAttribNormal);
+ }
  glBindVertexArrayOES(0);
  
  return mesh;

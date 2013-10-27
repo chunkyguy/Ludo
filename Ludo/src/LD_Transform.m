@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 whackylabs. All rights reserved.
 //
 
-#include "he_Transform.h"
-#include "he_Console.h"
+#include "LD_Transform.h"
+#include "LD_Console.h"
 
 Transform *DefaultTransform(Transform *transform) {
  Transform t = {

@@ -6,11 +6,10 @@
 //  Copyright (c) 2013 whackylabs. All rights reserved.
 //
 
-#include "he_std_incl.h"
-#include "he_Shader.h"
-#include "he_Utilities.h"
-#include "he_Constants.h"
-
+#include "LD_std_incl.h"
+#include "LD_Shader.h"
+#include "LD_Utilities.h"
+#include "LD_Constants.h"
 
 Shader *CompileShader(Shader *shader,
                       const char *vsh_filename,
@@ -82,8 +81,13 @@ Shader *CompileShaderSource(Shader *shader,
  glAttachShader(sh.program, sh.frag_shader);
  
  //Bind attributes
- glBindAttribLocation(sh.program, kAttribPosition, "a_Position");
- glBindAttribLocation(sh.program, kAttribNormal, "a_Normal");
+ int sh_attrib = shader->attrib_flag;
+ if (sh_attrib & kShaderAttribMask(kAttribPosition)) {
+  glBindAttribLocation(sh.program, kAttribPosition, "a_Position");
+ }
+ if (sh_attrib & kShaderAttribMask(kAttribNormal)) {
+  glBindAttribLocation(sh.program, kAttribNormal, "a_Normal");
+ }
  
  
  // Link the program
