@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 whackylabs. All rights reserved.
 //
 
-varying lowp vec4 colorVarying;
+varying lowp vec4 v_Color;
 
 void main()
 {
-    gl_FragColor = colorVarying;
+    gl_FragColor = v_Color;
 }

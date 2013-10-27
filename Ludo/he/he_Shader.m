@@ -19,13 +19,9 @@ Shader *CompileShader(Shader *shader,
  char fsh_src[kBuffer4K] = {0};
  char path_buffer[kBuffer1K] = {0};
  
- BundlePath(path_buffer, vsh_filename);
- ReadFile(path_buffer, vsh_src);
- 
- BundlePath(path_buffer, fsh_filename);
- ReadFile(path_buffer, fsh_src);
- 
- return CompileShaderSource(shader, vsh_src, fsh_src);
+ return CompileShaderSource(shader,
+                             ReadFile(vsh_src, BundlePath(path_buffer, vsh_filename)),
+                             ReadFile(fsh_src, BundlePath(path_buffer, fsh_filename)));
 }
 
 Shader *CompileShaderSource(Shader *shader,

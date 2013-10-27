@@ -51,10 +51,11 @@ char *ReadFile(char *buffer, const char *path) {
  assert(file);
  
  int ch;
+ char *bp = buffer;
  while ((ch = fgetc(file)) != EOF) {
-  *buffer++ = ch;
+  *bp++ = ch;
  }
- *buffer = '\0';
+ *bp = '\0';
  fclose(file);
  return buffer;
 }
