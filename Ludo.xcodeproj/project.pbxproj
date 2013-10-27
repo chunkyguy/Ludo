@@ -20,6 +20,9 @@
 		1957EA40181BD77300F5832B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1957EA17181BD77300F5832B /* UIKit.framework */; };
 		1957EA48181BD77300F5832B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1957EA46181BD77300F5832B /* InfoPlist.strings */; };
 		1957EA4A181BD77300F5832B /* LudoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1957EA49181BD77300F5832B /* LudoTests.m */; };
+		19681112181D6BA60043DBF0 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1968110E181D6BA60043DBF0 /* Main_iPad.storyboard */; };
+		19681113181D6BA60043DBF0 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 19681110181D6BA60043DBF0 /* Main_iPhone.storyboard */; };
+		19681116181D6C340043DBF0 /* LD_RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 19681115181D6C340043DBF0 /* LD_RootViewController.m */; };
 		19BCCBC0181D09490087BC8E /* mesh.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 19BCCBA9181D09490087BC8E /* mesh.fsh */; };
 		19BCCBC1181D09490087BC8E /* mesh.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 19BCCBAA181D09490087BC8E /* mesh.vsh */; };
 		19BCCBDE181D09E90087BC8E /* LD_AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 19BCCBCC181D09E90087BC8E /* LD_AppDelegate.m */; };
@@ -61,6 +64,10 @@
 		1957EA45181BD77300F5832B /* LudoTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "LudoTests-Info.plist"; sourceTree = "<group>"; };
 		1957EA47181BD77300F5832B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1957EA49181BD77300F5832B /* LudoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LudoTests.m; sourceTree = "<group>"; };
+		1968110F181D6BA60043DBF0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
+		19681111181D6BA60043DBF0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
+		19681114181D6C340043DBF0 /* LD_RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LD_RootViewController.h; sourceTree = "<group>"; };
+		19681115181D6C340043DBF0 /* LD_RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LD_RootViewController.m; sourceTree = "<group>"; };
 		19BCCBA9181D09490087BC8E /* mesh.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = mesh.fsh; sourceTree = "<group>"; };
 		19BCCBAA181D09490087BC8E /* mesh.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = mesh.vsh; sourceTree = "<group>"; };
 		19BCCBCB181D09E90087BC8E /* LD_AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LD_AppDelegate.h; sourceTree = "<group>"; };
@@ -162,6 +169,8 @@
 				1957EA20181BD77300F5832B /* InfoPlist.strings */,
 				1957EA23181BD77300F5832B /* main.m */,
 				1957EA25181BD77300F5832B /* Ludo-Prefix.pch */,
+				1968110E181D6BA60043DBF0 /* Main_iPad.storyboard */,
+				19681110181D6BA60043DBF0 /* Main_iPhone.storyboard */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -217,6 +226,8 @@
 				19BCCBD8181D09E90087BC8E /* LD_Transform.m */,
 				19BCCBDA181D09E90087BC8E /* LD_Utilities.h */,
 				19BCCBDB181D09E90087BC8E /* LD_Utilities.m */,
+				19681114181D6C340043DBF0 /* LD_RootViewController.h */,
+				19681115181D6C340043DBF0 /* LD_RootViewController.m */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -302,7 +313,9 @@
 				1957EA22181BD77300F5832B /* InfoPlist.strings in Resources */,
 				19BCCBC1181D09490087BC8E /* mesh.vsh in Resources */,
 				19BCCBC0181D09490087BC8E /* mesh.fsh in Resources */,
+				19681113181D6BA60043DBF0 /* Main_iPhone.storyboard in Resources */,
 				19BCCBE9181D104F0087BC8E /* color.fsh in Resources */,
+				19681112181D6BA60043DBF0 /* Main_iPad.storyboard in Resources */,
 				19BCCBE7181D10210087BC8E /* color.vsh in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -328,6 +341,7 @@
 				19BCCBE0181D09E90087BC8E /* LD_Mesh.m in Sources */,
 				19BCCBDE181D09E90087BC8E /* LD_AppDelegate.m in Sources */,
 				19BCCBE4181D09E90087BC8E /* LD_Utilities.m in Sources */,
+				19681116181D6C340043DBF0 /* LD_RootViewController.m in Sources */,
 				19BCCBDF181D09E90087BC8E /* LD_Console.m in Sources */,
 				19BCCBE2181D09E90087BC8E /* LD_Shader.m in Sources */,
 				1957EA24181BD77300F5832B /* main.m in Sources */,
@@ -367,6 +381,22 @@
 				1957EA47181BD77300F5832B /* en */,
 			);
 			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		1968110E181D6BA60043DBF0 /* Main_iPad.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1968110F181D6BA60043DBF0 /* Base */,
+			);
+			name = Main_iPad.storyboard;
+			sourceTree = "<group>";
+		};
+		19681110181D6BA60043DBF0 /* Main_iPhone.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				19681111181D6BA60043DBF0 /* Base */,
+			);
+			name = Main_iPhone.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
