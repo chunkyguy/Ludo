@@ -10,8 +10,10 @@
 #include "he/he_Constants.h"
 #include "he/he_Utilities.h"
 #include "he/he_Shader.h"
+#include "he/he_Mesh.h"
+#include "he/he_Transform.h"
 
-#define BUFFER_OFFSET(i) ((char *)NULL + (i))
+//#define BUFFER_OFFSET(i) ((char *)NULL + (i))
 
 // Uniform index.
 //enum
@@ -33,60 +35,74 @@
 //GLuint _program;
 Shader shader;
 
-GLfloat gCubeVertexData[216] =
-{
- // Data layout for each line below is:
- // positionX, positionY, positionZ,     normalX, normalY, normalZ,
- 0.5f, -0.5f, -0.5f,        1.0f, 0.0f, 0.0f,
- 0.5f, 0.5f, -0.5f,         1.0f, 0.0f, 0.0f,
- 0.5f, -0.5f, 0.5f,         1.0f, 0.0f, 0.0f,
- 0.5f, -0.5f, 0.5f,         1.0f, 0.0f, 0.0f,
- 0.5f, 0.5f, -0.5f,          1.0f, 0.0f, 0.0f,
- 0.5f, 0.5f, 0.5f,         1.0f, 0.0f, 0.0f,
- 
- 0.5f, 0.5f, -0.5f,         0.0f, 1.0f, 0.0f,
- -0.5f, 0.5f, -0.5f,        0.0f, 1.0f, 0.0f,
- 0.5f, 0.5f, 0.5f,          0.0f, 1.0f, 0.0f,
- 0.5f, 0.5f, 0.5f,          0.0f, 1.0f, 0.0f,
- -0.5f, 0.5f, -0.5f,        0.0f, 1.0f, 0.0f,
- -0.5f, 0.5f, 0.5f,         0.0f, 1.0f, 0.0f,
- 
- -0.5f, 0.5f, -0.5f,        -1.0f, 0.0f, 0.0f,
- -0.5f, -0.5f, -0.5f,       -1.0f, 0.0f, 0.0f,
- -0.5f, 0.5f, 0.5f,         -1.0f, 0.0f, 0.0f,
- -0.5f, 0.5f, 0.5f,         -1.0f, 0.0f, 0.0f,
- -0.5f, -0.5f, -0.5f,       -1.0f, 0.0f, 0.0f,
- -0.5f, -0.5f, 0.5f,        -1.0f, 0.0f, 0.0f,
- 
- -0.5f, -0.5f, -0.5f,       0.0f, -1.0f, 0.0f,
- 0.5f, -0.5f, -0.5f,        0.0f, -1.0f, 0.0f,
- -0.5f, -0.5f, 0.5f,        0.0f, -1.0f, 0.0f,
- -0.5f, -0.5f, 0.5f,        0.0f, -1.0f, 0.0f,
- 0.5f, -0.5f, -0.5f,        0.0f, -1.0f, 0.0f,
- 0.5f, -0.5f, 0.5f,         0.0f, -1.0f, 0.0f,
- 
- 0.5f, 0.5f, 0.5f,          0.0f, 0.0f, 1.0f,
- -0.5f, 0.5f, 0.5f,         0.0f, 0.0f, 1.0f,
- 0.5f, -0.5f, 0.5f,         0.0f, 0.0f, 1.0f,
- 0.5f, -0.5f, 0.5f,         0.0f, 0.0f, 1.0f,
- -0.5f, 0.5f, 0.5f,         0.0f, 0.0f, 1.0f,
- -0.5f, -0.5f, 0.5f,        0.0f, 0.0f, 1.0f,
- 
- 0.5f, -0.5f, -0.5f,        0.0f, 0.0f, -1.0f,
- -0.5f, -0.5f, -0.5f,       0.0f, 0.0f, -1.0f,
- 0.5f, 0.5f, -0.5f,         0.0f, 0.0f, -1.0f,
- 0.5f, 0.5f, -0.5f,         0.0f, 0.0f, -1.0f,
- -0.5f, -0.5f, -0.5f,       0.0f, 0.0f, -1.0f,
- -0.5f, 0.5f, -0.5f,        0.0f, 0.0f, -1.0f
-};
+//GLfloat gCubeVertexData[216] =
+//{
+// // Data layout for each line below is:
+// // positionX, positionY, positionZ,     normalX, normalY, normalZ,
+// 0.5f, -0.5f, -0.5f,        1.0f, 0.0f, 0.0f,
+// 0.5f, 0.5f, -0.5f,         1.0f, 0.0f, 0.0f,
+// 0.5f, -0.5f, 0.5f,         1.0f, 0.0f, 0.0f,
+// 0.5f, -0.5f, 0.5f,         1.0f, 0.0f, 0.0f,
+// 0.5f, 0.5f, -0.5f,          1.0f, 0.0f, 0.0f,
+// 0.5f, 0.5f, 0.5f,         1.0f, 0.0f, 0.0f,
+// 
+// 0.5f, 0.5f, -0.5f,         0.0f, 1.0f, 0.0f,
+// -0.5f, 0.5f, -0.5f,        0.0f, 1.0f, 0.0f,
+// 0.5f, 0.5f, 0.5f,          0.0f, 1.0f, 0.0f,
+// 0.5f, 0.5f, 0.5f,          0.0f, 1.0f, 0.0f,
+// -0.5f, 0.5f, -0.5f,        0.0f, 1.0f, 0.0f,
+// -0.5f, 0.5f, 0.5f,         0.0f, 1.0f, 0.0f,
+// 
+// -0.5f, 0.5f, -0.5f,        -1.0f, 0.0f, 0.0f,
+// -0.5f, -0.5f, -0.5f,       -1.0f, 0.0f, 0.0f,
+// -0.5f, 0.5f, 0.5f,         -1.0f, 0.0f, 0.0f,
+// -0.5f, 0.5f, 0.5f,         -1.0f, 0.0f, 0.0f,
+// -0.5f, -0.5f, -0.5f,       -1.0f, 0.0f, 0.0f,
+// -0.5f, -0.5f, 0.5f,        -1.0f, 0.0f, 0.0f,
+// 
+// -0.5f, -0.5f, -0.5f,       0.0f, -1.0f, 0.0f,
+// 0.5f, -0.5f, -0.5f,        0.0f, -1.0f, 0.0f,
+// -0.5f, -0.5f, 0.5f,        0.0f, -1.0f, 0.0f,
+// -0.5f, -0.5f, 0.5f,        0.0f, -1.0f, 0.0f,
+// 0.5f, -0.5f, -0.5f,        0.0f, -1.0f, 0.0f,
+// 0.5f, -0.5f, 0.5f,         0.0f, -1.0f, 0.0f,
+// 
+// 0.5f, 0.5f, 0.5f,          0.0f, 0.0f, 1.0f,
+// -0.5f, 0.5f, 0.5f,         0.0f, 0.0f, 1.0f,
+// 0.5f, -0.5f, 0.5f,         0.0f, 0.0f, 1.0f,
+// 0.5f, -0.5f, 0.5f,         0.0f, 0.0f, 1.0f,
+// -0.5f, 0.5f, 0.5f,         0.0f, 0.0f, 1.0f,
+// -0.5f, -0.5f, 0.5f,        0.0f, 0.0f, 1.0f,
+// 
+// 0.5f, -0.5f, -0.5f,        0.0f, 0.0f, -1.0f,
+// -0.5f, -0.5f, -0.5f,       0.0f, 0.0f, -1.0f,
+// 0.5f, 0.5f, -0.5f,         0.0f, 0.0f, -1.0f,
+// 0.5f, 0.5f, -0.5f,         0.0f, 0.0f, -1.0f,
+// -0.5f, -0.5f, -0.5f,       0.0f, 0.0f, -1.0f,
+// -0.5f, 0.5f, -0.5f,        0.0f, 0.0f, -1.0f
+//};
+//
+//GLuint _vertexArray;
+//GLuint _vertexBuffer;
+Mesh cube_mesh;
+typedef struct {
+ Mesh *m;
+ Transform t;
+ Vec4f color;
+} Cube;
+Cube redcube;
+Cube bluecube;
 
+typedef struct {
+ Frustum f;
+ Transform t;
+} World;
+World world;
 
-float _rotation;
-
-GLuint _vertexArray;
-GLuint _vertexBuffer;
-
-float _aspect;
+//float _rotation;
+//
+//
+//float _aspect;
 
 //static void loadShaders();
 //static bool compileShader(GLuint *shader, GLenum type, const char *file);
@@ -99,26 +115,44 @@ void Load() {
  CompileShader(&shader, "Shader.vsh", "Shader.fsh");
  
  glEnable(GL_DEPTH_TEST);
+
+ CreateMesh(&cube_mesh, kCommonMesh_Cube);
+
+ DefaultTransform(&world.t);
+ world.t.position.z = -10.0f;
+ world.t.axis = GLKVector3Make(0.0f, 1.0f, 0.0f);
  
- glGenVertexArraysOES(1, &_vertexArray);
- glBindVertexArrayOES(_vertexArray);
+ redcube.m = &cube_mesh;
+ DefaultTransform(&redcube.t);
+ redcube.t.parent = &world.t;
+ redcube.t.position.z = 1.5f;
+ redcube.color = GLKVector4Make(1.0f, 0.0f, 0.0f, 1.0f);
  
- glGenBuffers(1, &_vertexBuffer);
- glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
- glBufferData(GL_ARRAY_BUFFER, sizeof(gCubeVertexData), gCubeVertexData, GL_STATIC_DRAW);
+ bluecube.m = &cube_mesh;
+ DefaultTransform(&bluecube.t);
+ bluecube.t.parent = &world.t;
+ bluecube.t.position.z = -1.5f;
+ bluecube.color = GLKVector4Make(0.0f, 0.0f, 1.0f, 1.0f);
  
- glEnableVertexAttribArray(kAttribPosition);
- glVertexAttribPointer(kAttribPosition, 3, GL_FLOAT, GL_FALSE, 24, BUFFER_OFFSET(0));
- glEnableVertexAttribArray(kAttribNormal);
- glVertexAttribPointer(kAttribNormal, 3, GL_FLOAT, GL_FALSE, 24, BUFFER_OFFSET(12));
- 
- glBindVertexArrayOES(0);
+// glGenVertexArraysOES(1, &_vertexArray);
+// glBindVertexArrayOES(_vertexArray);
+// 
+// glGenBuffers(1, &_vertexBuffer);
+// glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
+// glBufferData(GL_ARRAY_BUFFER, sizeof(gCubeVertexData), gCubeVertexData, GL_STATIC_DRAW);
+// 
+// glEnableVertexAttribArray(kAttribPosition);
+// glVertexAttribPointer(kAttribPosition, 3, GL_FLOAT, GL_FALSE, 24, BUFFER_OFFSET(0));
+// glEnableVertexAttribArray(kAttribNormal);
+// glVertexAttribPointer(kAttribNormal, 3, GL_FLOAT, GL_FALSE, 24, BUFFER_OFFSET(12));
+// 
+// glBindVertexArrayOES(0);
 }
 
 void Unload() {
- glDeleteBuffers(1, &_vertexBuffer);
- glDeleteVertexArraysOES(1, &_vertexArray);
-
+// glDeleteBuffers(1, &_vertexBuffer);
+// glDeleteVertexArraysOES(1, &_vertexArray);
+ ReleaseMesh(&cube_mesh);
  ReleaseShader(&shader);
 // if (_program) {
 //  glDeleteProgram(_program);
@@ -127,12 +161,23 @@ void Unload() {
  
 }
 
-void Reshape(GLsizei width, GLsizei GLKight) {
- _aspect = fabsf((float)width / (float)GLKight);
+void Reshape(GLsizei width, GLsizei height) {
+ DefaultPerspective(&world.f);
+ if (width > height) {
+  world.f.dimension.x = 1.0f;
+  world.f.dimension.y = fabsf((float)height / (float)width);
+ } else {
+  world.f.dimension.x = fabsf((float)width / (float)height);
+  world.f.dimension.y = 1.0f;
+ }
+// world.f.dimension.x = width;
+// world.f.dimension.y = height;
+ // _aspect = fabsf((float)width / (float)GLKight);
 }
 
 void Update(int dt) {
- _rotation += dt * 0.0005;
+ world.t.angle += dt * 0.05f;
+ // _rotation += dt * 0.0005;
  
 }
 
@@ -144,40 +189,43 @@ void Render() {
 //  assert(0);
 // }
 //#endif
- glBindVertexArrayOES(_vertexArray);
+// glBindVertexArrayOES(_vertexArray);
  
  // Render tGLK object again with ES2
  glUseProgram(shader.program);
- GLuint mvp_loc = glGetUniformLocation(shader.program, "u_Mvp");
- GLuint n_loc = glGetUniformLocation(shader.program, "u_N");
- GLuint clr_loc = glGetUniformLocation(shader.program, "u_Color");
+// GLuint mvp_loc = glGetUniformLocation(shader.program, "u_Mvp");
+// GLuint n_loc = glGetUniformLocation(shader.program, "u_N");
+// GLuint clr_loc = glGetUniformLocation(shader.program, "u_Color");
 
- Mat4 projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(65.0f), _aspect, 0.1f, 100.0f);
+ RenderMesh(redcube.m, &redcube.t, &shader, &world.f, &redcube.color);
+ RenderMesh(bluecube.m, &bluecube.t, &shader, &world.f, &bluecube.color);
  
- Mat4 baseModelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, -4.0f);
- baseModelViewMatrix = GLKMatrix4Rotate(baseModelViewMatrix, _rotation, 0.0f, 1.0f, 0.0f);
- 
- // Compute tGLK model view matrix for tGLK object rendered with GLKit
- Mat4 modelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, -1.5f);
- modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, _rotation, 1.0f, 1.0f, 1.0f);
- modelViewMatrix = GLKMatrix4Multiply(baseModelViewMatrix, modelViewMatrix);
- Mat4 modelViewProjectionMatrix = GLKMatrix4Multiply(projectionMatrix, modelViewMatrix);;
- Mat3 normalMatrix = GLKMatrix3InvertAndTranspose(GLKMatrix4GetMatrix3(modelViewMatrix), NULL);
- glUniformMatrix4fv(mvp_loc, 1, 0, modelViewProjectionMatrix.m);
- glUniformMatrix3fv(n_loc, 1, 0, normalMatrix.m);
- glUniform4f(clr_loc, 0.8f, 0.4f, 0.4f, 1.0f);
- glDrawArrays(GL_TRIANGLES, 0, 36);
- 
- // Compute tGLK model view matrix for tGLK object rendered with ES2
- modelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, 1.5f);
- modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, _rotation, 1.0f, 1.0f, 1.0f);
- modelViewMatrix = GLKMatrix4Multiply(baseModelViewMatrix, modelViewMatrix);
- modelViewProjectionMatrix = GLKMatrix4Multiply(projectionMatrix, modelViewMatrix);;
- normalMatrix = GLKMatrix3InvertAndTranspose(GLKMatrix4GetMatrix3(modelViewMatrix), NULL);
- glUniformMatrix4fv(mvp_loc, 1, 0, modelViewProjectionMatrix.m);
- glUniformMatrix3fv(n_loc, 1, 0, normalMatrix.m);
- glUniform4f(clr_loc, 0.4f, 0.4f, 0.8f, 1.0f);
- glDrawArrays(GL_TRIANGLES, 0, 36);
+// Mat4 projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(65.0f), _aspect, 0.1f, 100.0f);
+// 
+// Mat4 baseModelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, -4.0f);
+// baseModelViewMatrix = GLKMatrix4Rotate(baseModelViewMatrix, _rotation, 0.0f, 1.0f, 0.0f);
+// 
+// // Compute tGLK model view matrix for tGLK object rendered with GLKit
+// Mat4 modelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, -1.5f);
+// modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, _rotation, 1.0f, 1.0f, 1.0f);
+// modelViewMatrix = GLKMatrix4Multiply(baseModelViewMatrix, modelViewMatrix);
+// Mat4 modelViewProjectionMatrix = GLKMatrix4Multiply(projectionMatrix, modelViewMatrix);;
+// Mat3 normalMatrix = GLKMatrix3InvertAndTranspose(GLKMatrix4GetMatrix3(modelViewMatrix), NULL);
+// glUniformMatrix4fv(mvp_loc, 1, 0, modelViewProjectionMatrix.m);
+// glUniformMatrix3fv(n_loc, 1, 0, normalMatrix.m);
+// glUniform4f(clr_loc, 0.8f, 0.4f, 0.4f, 1.0f);
+// glDrawArrays(GL_TRIANGLES, 0, 36);
+// 
+// // Compute tGLK model view matrix for tGLK object rendered with ES2
+// modelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, 1.5f);
+// modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, _rotation, 1.0f, 1.0f, 1.0f);
+// modelViewMatrix = GLKMatrix4Multiply(baseModelViewMatrix, modelViewMatrix);
+// modelViewProjectionMatrix = GLKMatrix4Multiply(projectionMatrix, modelViewMatrix);;
+// normalMatrix = GLKMatrix3InvertAndTranspose(GLKMatrix4GetMatrix3(modelViewMatrix), NULL);
+// glUniformMatrix4fv(mvp_loc, 1, 0, modelViewProjectionMatrix.m);
+// glUniformMatrix3fv(n_loc, 1, 0, normalMatrix.m);
+// glUniform4f(clr_loc, 0.4f, 0.4f, 0.8f, 1.0f);
+// glDrawArrays(GL_TRIANGLES, 0, 36);
 }
 
 //static void loadShaders() {

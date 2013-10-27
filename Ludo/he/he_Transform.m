@@ -11,12 +11,12 @@
 
 Transform *DefaultTransform(Transform *transform) {
  Transform t = {
-  {0.0f, 0.0f, 0.0f},
-  {1.0f, 1.0f, 1.0f},
-  0.0f,
-  {1.0f, 1.0f, 1.0f},
-  NULL,
-  (kTransformMask_Translation | kTransformMask_Rotation | kTransformMask_Scaling)
+  {0.0f, 0.0f, 0.0f}, //position
+  {1.0f, 1.0f, 1.0f}, //axis
+  0.0f, //angle
+  {1.0f, 1.0f, 1.0f}, //scale
+  NULL, // parent
+  (kTransformMask_Translation | kTransformMask_Rotation | kTransformMask_Scaling) //mask
  };
  return memcpy(transform, &t, sizeof(t));
 }
@@ -71,7 +71,7 @@ bool TransformsEqual(const Transform* one, const Transform* two) {
 Frustum *DefaultPerspective(Frustum *frustum) {
  Frustum f = {
   {1.0f, 1.0f, 100.0f},	/* dimensions */
-  1.0f	/* far */
+  1.0f	/* near */
  };
  return memcpy(frustum, &f, sizeof(f));
 }
