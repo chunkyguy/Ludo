@@ -41,11 +41,13 @@ Shader *CompileShaderSource(Shader *shader,
  GLint bShaderCompiled;
  glGetShaderiv(sh.vert_shader, GL_COMPILE_STATUS, &bShaderCompiled);
  if (!bShaderCompiled)	{
-  char info_log[kBuffer1K] = {0};
   int info_log_len, chars_written;
   glGetShaderiv(sh.vert_shader, GL_INFO_LOG_LENGTH, &info_log_len);
-  glGetShaderInfoLog(sh.vert_shader, info_log_len, &chars_written, info_log);
-  printf("Failed to compile vertex shader: %s\n", info_log);
+  if (info_log_len > 0 && info_log_len < kBuffer1K) {
+   char info_log[kBuffer1K] = {0};
+   glGetShaderInfoLog(sh.vert_shader, info_log_len, &chars_written, info_log);
+   printf("Failed to compile vertex shader: %s\n", info_log);
+  }
   assert(0);
  }
 #endif
@@ -60,12 +62,13 @@ Shader *CompileShaderSource(Shader *shader,
 #if defined (TEST_ERR_SHADER)
  glGetShaderiv(sh.frag_shader, GL_COMPILE_STATUS, &bShaderCompiled);
  if (!bShaderCompiled) {
-  char info_log[kBuffer1K] = {0};
   int info_log_len, chars_written;
-  
   glGetShaderiv(sh.frag_shader, GL_INFO_LOG_LENGTH, &info_log_len);
-  glGetShaderInfoLog(sh.frag_shader, info_log_len, &chars_written, info_log);
-  printf("Failed to compile fragment shader: %s\n", info_log);
+  if (info_log_len > 0 && info_log_len < kBuffer1K) {
+   char info_log[kBuffer1K] = {0};
+   glGetShaderInfoLog(sh.frag_shader, info_log_len, &chars_written, info_log);
+   printf("Failed to compile fragment shader: %s\n", info_log);
+  }
   assert(0);
  }
 #endif
@@ -91,12 +94,13 @@ Shader *CompileShaderSource(Shader *shader,
  GLint bLinked;
  glGetProgramiv(sh.program, GL_LINK_STATUS, &bLinked);
  if (!bLinked) {
-  char info_log[kBuffer1K] = {0};
   int info_log_len, chars_written;
-  
   glGetProgramiv(sh.program, GL_INFO_LOG_LENGTH, &info_log_len);
-  glGetProgramInfoLog(sh.program, info_log_len, &chars_written, info_log);
-  printf("Failed to link program: %s\n", info_log);
+  if (info_log_len > 0 && info_log_len < kBuffer1K) {
+   char info_log[kBuffer1K] = {0};
+   glGetProgramInfoLog(sh.program, info_log_len, &chars_written, info_log);
+   printf("Failed to link program: %s\n", info_log);
+  }
   assert(0);
  }
 #endif
@@ -117,3 +121,20 @@ void ReleaseShader(Shader *shader) {
  glDeleteProgram(shader->program);
  shader = NULL;
 }
+
+#if defined (TEST_ERR_SHADER)
+bool ValidateShader(Shader *shader) {
+ GLint logLength, status;
+ 
+ glValidateProgram(shader->program);
+ glGetProgramiv(shader->program, GL_INFO_LOG_LENGTH, &logLength);
+ if (logLength > 0 && logLength < kBuffer1K) {
+  char info_log[kBuffer1K] = {0};
+  glGetProgramInfoLog(shader->program, logLength, &logLength, info_log);
+  printf("Program validate log:\n%s", info_log);
+ }
+ 
+ glGetProgramiv(shader->program, GL_VALIDATE_STATUS, &status);
+ return status;
+}
+#endif

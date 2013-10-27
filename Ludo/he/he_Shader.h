@@ -36,4 +36,9 @@ Shader *CompileShaderSource(Shader *shader,
  *	@param	program	The program object.
  */
 void ReleaseShader(Shader *shader);
+
+/**
+ Call for debugging purpose, probably from some render routine.
+ */
+bool ValidateShader(Shader *shader);
 #endif
