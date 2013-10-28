@@ -7,14 +7,22 @@
 //
 
 #import <UIKit/UIKit.h>
+@interface LD_PauseView : UIView
+
+@end
 
 @interface LD_CellView : UIView
 @end
 
-@interface LD_RootViewController : UIViewController
-@property (weak, nonatomic) IBOutlet LD_CellView *redView;
-@property (weak, nonatomic) IBOutlet LD_CellView *blueView;
-@property (weak, nonatomic) IBOutlet LD_CellView *greenView;
-@property (weak, nonatomic) IBOutlet LD_CellView *yellowView;
+@interface LD_RootViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+@property (nonatomic, assign) IBOutlet LD_PauseView *pauseView;
+
+@property (nonatomic, assign) IBOutlet LD_CellView *redView;
+@property (nonatomic, assign) IBOutlet LD_CellView *blueView;
+@property (nonatomic, assign) IBOutlet LD_CellView *greenView;
+@property (nonatomic, assign) IBOutlet LD_CellView *yellowView;
+
+- (IBAction)pause:(UIButton *)sender;
+- (IBAction)newGame:(UISegmentedControl *)sender;
 
 @end

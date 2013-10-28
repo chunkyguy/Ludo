@@ -7,6 +7,29 @@
 //
 
 #import "LD_RootViewController.h"
+typedef struct {
+
+} Piece;
+
+typedef struct {
+ Piece piece[4];
+ float color[4];
+} Player;
+
+/************************************************************************
+ MARK: LD_CellView
+ ***********************************************************************/
+@interface LD_PieceView : UIView
+@end
+
+@implementation LD_PieceView
+
+-(void) drawRect:(CGRect)rect {
+ CGContextRef context = UIGraphicsGetCurrentContext();
+ CGContextFillEllipseInRect(context, self.bounds);
+}
+
+@end
 /************************************************************************
 MARK: LD_CellView
  ***********************************************************************/
@@ -57,25 +80,85 @@ MARK: LD_CellView
 /************************************************************************
  MARK: LD_RootViewController
  ***********************************************************************/
-@interface LD_RootViewController ()
+@interface LD_RootViewController () {
+ BOOL isPaused;
+ NSMutableArray *games;
+}
+-(NSString *) saveFilePath;
+-(BOOL) saveData;
 @end
 
 @implementation LD_RootViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
- self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
- if (self) {
- }
- return self;
+-(NSString *) saveFilePath {
+ return [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"game.plist"];
+}
+
+-(BOOL) saveData {
+ return [games writeToFile:[self saveFilePath] atomically:YES];
+}
+
+-(void) dealloc {
+ [games release];
+ [super dealloc];
 }
 
 - (void)viewDidLoad {
  [super viewDidLoad];
+ isPaused = NO;
+ if ([[NSFileManager defaultManager] fileExistsAtPath:[self saveFilePath]]) {
+  games = [[NSMutableArray alloc] initWithContentsOfFile:[self saveFilePath]];
+ } else {
+  games = [[NSMutableArray alloc] init];
+ }
+}
 
+-(void) viewDidAppear:(BOOL)animated {
+ [super viewDidAppear:YES];
 }
 
 - (void)didReceiveMemoryWarning {
  [super didReceiveMemoryWarning];
 }
 
+- (IBAction)pause:(UIButton *)sender {
+ if (isPaused) {
+  isPaused = NO;
+  [self.pauseView setHidden:YES];
+ } else {
+  isPaused = YES;
+  [self.pauseView setHidden:NO];
+ }
+}
+
+- (IBAction)newGame:(UISegmentedControl *)sender {
+ switch (sender.selectedSegmentIndex) {
+  case 0: // local (bluetooth/wifi)
+   break;
+   
+  case 1: // online
+   break;
+   
+  case 2: // computer
+   break;
+  default:
+   break;
+ }
+}
+
+-(NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+ return [games count];
+}
+
+-(NSInteger) numberOfSectionsInTableView:(UITableView *)tableView {
+ return 1;
+}
+
+-(UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+ UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"GameCell"];
+ if (!cell) {
+  cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"GameCell"] autorelease];
+ }
+ return cell;
+}
 @end
