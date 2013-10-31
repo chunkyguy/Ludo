@@ -73,15 +73,8 @@
 #define TILE_MAX 15
 #define MOVE_MAX 56
 /************************************************************************
- MARK: Tilemap
+ MARK: pathmap
  ***********************************************************************/
-typedef struct  {
- CGPoint point;
- char flag;
-} Tile;
-
-Tile g_Tilemap[TILE_MAX][TILE_MAX];
-
 int g_PathMap[4][MOVE_MAX] = {
  /* red */
  {
@@ -132,43 +125,10 @@ int g_PathMap[4][MOVE_MAX] = {
  }
 };
 
-void GenTilemap() {
- CGFloat minx = 20.0f;
- CGFloat miny = 20.0f;
- CGFloat maxx = 800.0f;
- CGFloat maxy = 1080.0f;
- CGFloat dx = (maxx - minx)/TILE_MAX;
- CGFloat dy = (maxy - miny)/TILE_MAX;
- char *map =
- "xxxxxx000xxxxxx"
- "xxxxxx0r0xxxxxx"
- "xxxxxx0r0xxxxxx"
- "xxxxxx0r0xxxxxx"
- "xxxxxx0r0xxxxxx"
- "xxxxxx0r0xxxxxx"
- "000000hhh000000"
- "0ggggghhhbbbbb0"
- "000000hhh000000"
- "xxxxxx0y0xxxxxx"
- "xxxxxx0y0xxxxxx"
- "xxxxxx0y0xxxxxx"
- "xxxxxx0y0xxxxxx"
- "xxxxxx0y0xxxxxx"
- "xxxxxx000xxxxxx"
- ;
- 
- for (int i = 0; i < TILE_MAX; ++i) {
-  for (int j = 0; j < TILE_MAX; ++j) {
-   g_Tilemap[i][j].point = CGPointMake(minx + (j*dx), miny + (i*dy));
-   g_Tilemap[i][j].flag = map[i+TILE_MAX*j];
-  }
- }
-}
-
 /************************************************************************
  MARK: Utility
  ***********************************************************************/
-static float *flag_to_color(float *color, const char flag) {
+static float *flag_to_color(float color[], const char flag) {
  color[0] = 0.0f;
  color[1] = 0.0f;
  color[2] = 0.0f;
@@ -181,6 +141,25 @@ static float *flag_to_color(float *color, const char flag) {
   case 'y': color[0] = 1.0f; color[1] = 1.0f;   break;
  }
  return color;
+}
+
+/* The center point where the pieces stand at the beginning */
+static CGPoint *flag_to_origin(CGPoint *center, const char flag) {
+ 
+ switch (flag) {
+  case 'r': center->x = 600.0f; center->y = 200.0f;   break;
+  case 'g': center->x = 100.0f; 	center->y = 200.0f;   break;
+  case 'b': center->x = 600.0f; center->y = 800.0f;   break;
+  case 'y': center->x = 100.0f; 	center->y = 800.0f;   break;
+ }
+ 
+ return center;
+}
+
+typedef void(^DispatchEventAction)(void);
+void DispatchEvent(float secs, DispatchEventAction action) {
+ dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(secs * NSEC_PER_SEC));
+ dispatch_after(popTime, dispatch_get_main_queue(), ^(void){action();});
 }
 
 /************************************************************************
@@ -215,22 +194,56 @@ typedef struct {
  char flag;
 } Player;
 
+typedef struct  {
+ CGPoint point;
+ char flag;
+} Tile;
+
 typedef struct {
  int turn;
  Player player[4];
+ int dice_val;
+ Tile map[TILE_MAX][TILE_MAX];
 } Game;
+
+static void GenTilemap(Tile map[][TILE_MAX]) {
+ CGFloat minx = 20.0f;
+ CGFloat miny = 20.0f;
+ CGFloat maxx = 800.0f;
+ CGFloat maxy = 1080.0f;
+ CGFloat dx = (maxx - minx)/TILE_MAX;
+ CGFloat dy = (maxy - miny)/TILE_MAX;
+ 
+ for (int i = 0; i < TILE_MAX; ++i) {
+  for (int j = 0; j < TILE_MAX; ++j) {
+   map[i][j].point = CGPointMake(minx + (j*dx), miny + (i*dy));
+   map[i][j].flag = 'x';
+  }
+ }
+}
 
 static void GenGame(Game *game) {
  char flags[] = {
   'r', 'b', 'y', 'g'
  };
 
+ /* create tilemap */
+ GenTilemap(game->map);
+
  /* create players */
+ CGPoint center;
+ CGPoint center_offset[] = {
+  {-50, -50},
+  {50, -50},
+  {-50, 50},
+  {50, 50}
+ };
  for (int i = 0; i < 4; ++i) {
   game->player[i].flag = flags[i];
+  flag_to_origin(&center, flags[i]);
   for (int j = 0; j < 4; ++j) {
    game->player[i].piece[j].step_index = -1;
-   game->player[i].piece[j].view = [[LD_PieceView alloc] initWithFrame:CGRectMake(-100, 0, 50, 50)];
+   game->player[i].piece[j].view = [[LD_PieceView alloc] initWithFrame:CGRectMake(center.x + center_offset[j].x, center.y + center_offset[j].y, 50, 50)];
    game->player[i].piece[j].view.flag = flags[i];
   }
  }
@@ -247,39 +260,43 @@ static void DeleteGame(Game *game) {
  }
 }
 
-static void DrawPiece(Piece *p, int player_index) {
- int tile_index = g_PathMap[player_index][p->step_index];
- Tile tile = g_Tilemap[tile_index/15][tile_index%15];
- [p->view setCenter:tile.point];
-}
-
-static void StepPlayer(Player *p, int player_index, int roll) {
-/* if 6, launch a new piece
- dumb strategy, move first piece visible */
- bool moved = false;
- for (int i = 0; i < 4 && !moved; ++i) {
-  if ((p->piece[i].step_index >= 0) && (p->piece[i].step_index + roll < MOVE_MAX)) {
-   p->piece[i].step_index += roll;
-   DrawPiece(&p->piece[i], player_index);
-   moved = true;
-  } else if (roll == 6) {
-   p->piece[i].step_index = 0;
-   DrawPiece(&p->piece[i], player_index);
-   moved = true;
+static void StepPlayer(int player_index, Game *game) {
+ Player *player = &game->player[player_index];
+ int dice_val = game->dice_val;
+ bool can_move = false;
+ Piece *piece = NULL;
+ 
+ /* if 6, launch a new piece
+  dumb strategy, move first piece visible */
+ for (int i = 0; i < 4 && !can_move; ++i) {
+  piece = &player->piece[i];
+  
+  if ((piece->step_index >= 0) && (piece->step_index + dice_val < MOVE_MAX)) {
+   piece->step_index += dice_val;
+   can_move = true;
+  } else if (dice_val == 6) {
+   piece->step_index = 0;
+   can_move = true;
   }
+ }
+
+ /* update state */
+ if (can_move && piece) {
+  int tile_index = g_PathMap[player_index][piece->step_index];
+  Tile tile = game->map[tile_index/15][tile_index%15];
+  tile.flag = player->flag;
+  [piece->view setCenter:tile.point];
  }
 }
 
 
 /**
- 	Move game one step further. Return the current dice value [1,6]
+ 	Move game one step further. Expect the dice value in range [1,6]
  */
-static int StepGame(Game *game) {
- int dice_val = rand()%6 + 1;
+static void StepGame(Game *game) {
  int player_index = game->turn%4;
- StepPlayer(&game->player[player_index], player_index, dice_val);
+ StepPlayer(player_index, game);
  game->turn++;
- return dice_val;
 }
 
 
@@ -369,10 +386,8 @@ MARK: LD_CellView
   games = [[NSMutableArray alloc] init];
  }
 
- GenTilemap();
  GenGame(&game);
- 
- [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(update:) userInfo:nil repeats:YES];
+ [self updateBackground];
 }
 
 -(void) viewDidAppear:(BOOL)animated {
@@ -386,12 +401,6 @@ MARK: LD_CellView
 
 - (void)didReceiveMemoryWarning {
  [super didReceiveMemoryWarning];
-}
-
--(void) update:(NSTimer *)timer {
- /* update */
- int dv = StepGame(&game);
- [self.diceView setText:[NSString stringWithFormat:@"%d",dv]];
 }
 
 - (IBAction)pause:(UIButton *)sender {
@@ -434,4 +443,30 @@ MARK: LD_CellView
  }
  return cell;
 }
+
+-(void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+ UITouch *touch = [touches anyObject];
+ CGPoint touch_pt = [touch locationInView:nil];
+ if (CGRectContainsPoint(self.diceView.frame, touch_pt)) {
+
+  game.dice_val = rand()%6 + 1;
+  [self.diceView setText:[NSString stringWithFormat:@"%d",game.dice_val]];
+
+  DispatchEvent(0.5f, ^{
+   StepGame(&game);
+   DispatchEvent(1.0f, ^{
+    [self updateBackground];
+   });
+  });
+ }
+}
+
+-(void) updateBackground {
+ char flags[] = {'r','b','y','g'};
+ float color[4];
+ flag_to_color(color, flags[game.turn%4]);
+ [self.view setBackgroundColor:[UIColor colorWithRed:color[0] green:color[1] blue:color[2] alpha:0.5]];
+ self.diceView.text = @"-";
+}
+
 @end
