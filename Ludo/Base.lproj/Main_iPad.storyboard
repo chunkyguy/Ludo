@@ -33,6 +33,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="6" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1k8-W3-7yG">
+                                <rect key="frame" x="380" y="490" width="30" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="36"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rwa-EN-idr" customClass="LD_CellView">
                                 <rect key="frame" x="302" y="0.0" width="165" height="413"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -167,6 +174,7 @@
                     </view>
                     <connections>
                         <outlet property="blueView" destination="4dg-Kx-kSk" id="FQ4-EE-tfV"/>
+                        <outlet property="diceView" destination="1k8-W3-7yG" id="uuz-pG-jqW"/>
                         <outlet property="greenView" destination="toK-gN-NKv" id="uwT-3Y-ymW"/>
                         <outlet property="pauseView" destination="FtO-EY-gsy" id="kxd-2h-Uo2"/>
                         <outlet property="redView" destination="rwa-EN-idr" id="41N-sk-EBU"/>

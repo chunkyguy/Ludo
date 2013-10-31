@@ -21,6 +21,7 @@
 @property (nonatomic, assign) IBOutlet LD_CellView *blueView;
 @property (nonatomic, assign) IBOutlet LD_CellView *greenView;
 @property (nonatomic, assign) IBOutlet LD_CellView *yellowView;
+@property (retain, nonatomic) IBOutlet UILabel *diceView;
 
 - (IBAction)pause:(UIButton *)sender;
 - (IBAction)newGame:(UISegmentedControl *)sender;

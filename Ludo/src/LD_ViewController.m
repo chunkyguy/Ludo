@@ -41,6 +41,7 @@
  if ([EAGLContext currentContext] == self.context) {
   [EAGLContext setCurrentContext:nil];
  }
+ [super dealloc];
 }
 
 - (void)didReceiveMemoryWarning {
