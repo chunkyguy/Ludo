@@ -12,6 +12,8 @@
 #import "lua/include/lualib.h"
 #import "lua/include/lauxlib.h"
 
+#define kCheatcode_autoplay
+
 //lua_State *L;
 //
 //static int average() {
@@ -71,57 +73,77 @@
 //}
 
 #define TILE_MAX 15
-#define MOVE_MAX 56
+#define MOVE_MAX 57
 /************************************************************************
  MARK: pathmap
  ***********************************************************************/
 int g_PathMap[4][MOVE_MAX] = {
  /* red */
  {
-  23,38,53,68,83,99,101,102,103,104,119,
+  //8,
+  23,38,53,68,83,99,100,101,102,103,104,119,
+  
   134,
-  133,132,131,130,129,143,158,173,188, 203,218,217,
+  133,132,131,130,129,143,158,173,188,203,218,217,
+  
   216,
   201,186,171,156,141,125,124,123,122,121,120,105,
+  
   90,
   91,92,93,94,95,81,66,51,36,21,6,7,
-  22,37,5267,82
+  
+  22,37,52,67,82,97
  },
  
  /* blue */
  {
-  133,132,131,130,129,143,158,173,188, 203,218,217,
+  //134,
+  133,132,131,130,129,143,158,173,188,203,218,217,
+  
   216,
   201,186,171,156,141,125,124,123,122,121,120,105,
+  
   90,
   91,92,93,94,95,81,66,51,36,21,6,7,
+
   8,
-  23,38,53,68,83,99,101,102,103,104,119,
-  118,117,116,115,114
+  23,38,53,68,83,99,100,101,102,103,104,119,
+  
+  118,117,116,115,114,113
  },
  
  /* yellow */
  {
+  //216,
   201,186,171,156,141,125,124,123,122,121,120,105,
+  
   90,
   91,92,93,94,95,81,66,51,36,21,6,7,
+  
   8,
-  23,38,53,68,83,99,101,102,103,104,119,
+  23,38,53,68,83,99,100,101,102,103,104,119,
+
   134,
-  133,132,131,130,129,143,158,173,188, 203,218,217,
-  202,187,172,157,142
+  133,132,131,130,129,143,158,173,188,203,218,217,
+  
+  202,187,172,157,142,127
  },
  
  /* green */
  {
+  //90,
   91,92,93,94,95,81,66,51,36,21,6,7,
+  
   8,
-  23,38,53,68,83,99,101,102,103,104,119,
+  23,38,53,68,83,99,100,101,102,103,104,119,
+  
   134,
-  133,132,131,130,129,143,158,173,188, 203,218,217,
+  133,132,131,130,129,143,158,173,188,203,218,217,
+
   216,
   201,186,171,156,141,125,124,123,122,121,120,105,
-  106,107,108,109,110
+  
+  106,107,108,109,110,111
  }
 };
 
@@ -144,22 +166,34 @@ static float *flag_to_color(float color[], const char flag) {
 }
 
 /* The center point where the pieces stand at the beginning */
-static CGPoint *flag_to_origin(CGPoint *center, const char flag) {
+static CGPoint *flag_to_origin(CGPoint *origin, const char flag, int offset_index) {
  
  switch (flag) {
-  case 'r': center->x = 600.0f; center->y = 200.0f;   break;
-  case 'g': center->x = 100.0f; 	center->y = 200.0f;   break;
-  case 'b': center->x = 600.0f; center->y = 800.0f;   break;
-  case 'y': center->x = 100.0f; 	center->y = 800.0f;   break;
+  case 'r': origin->x = 600.0f; origin->y = 200.0f;   break;
+  case 'g': origin->x = 100.0f; origin->y = 200.0f;   break;
+  case 'b': origin->x = 600.0f; origin->y = 800.0f;   break;
+  case 'y': origin->x = 100.0f; origin->y = 800.0f;   break;
  }
+
+ CGPoint center_offset[] = {
+  {-50, -50},
+  {50, -50},
+  {-50, 50},
+  {50, 50}
+ };
+ origin->x += center_offset[offset_index].x;
+ origin->y += center_offset[offset_index].y;
  
- return center;
+ return origin;
 }
 
 typedef void(^DispatchEventAction)(void);
-void DispatchEvent(float secs, DispatchEventAction action) {
- dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(secs * NSEC_PER_SEC));
- dispatch_after(popTime, dispatch_get_main_queue(), ^(void){action();});
+/* 	Call some action after delay */
+void DispatchEvent(float delay_secs, DispatchEventAction action) {
+ dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay_secs * NSEC_PER_SEC));
+ dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+  action();
+ });
 }
 
 /************************************************************************
@@ -194,9 +228,13 @@ typedef struct {
  char flag;
 } Player;
 
+typedef struct {
+ int one;
+ int two;
+} Set2i;
+
 typedef struct  {
  CGPoint point;
- char flag;
 } Tile;
 
 typedef struct {
@@ -206,6 +244,16 @@ typedef struct {
  Tile map[TILE_MAX][TILE_MAX];
 } Game;
 
+//static void PrintTilemap(Tile map[][TILE_MAX]) {
+// for (int i = 0; i < TILE_MAX; ++i) {
+//  for (int j = 0; j < TILE_MAX; ++j) {
+//   printf("[%d,%d] = {%.2f,%.2f}\n", i, j,map[i][j].point.x, map[i][j].point.y);
+//  }
+//  printf("\n");
+// }
+//}
+
+/* fill init tilemap */
 static void GenTilemap(Tile map[][TILE_MAX]) {
  CGFloat minx = 20.0f;
  CGFloat miny = 20.0f;
@@ -217,9 +265,9 @@ static void GenTilemap(Tile map[][TILE_MAX]) {
  for (int i = 0; i < TILE_MAX; ++i) {
   for (int j = 0; j < TILE_MAX; ++j) {
    map[i][j].point = CGPointMake(minx + (j*dx), miny + (i*dy));
-   map[i][j].flag = 'x';
   }
  }
+ //PrintTilemap(map);
 }
 
 static void GenGame(Game *game) {
@@ -231,7 +279,7 @@ static void GenGame(Game *game) {
  GenTilemap(game->map);
 
  /* create players */
- CGPoint center;
+ CGPoint origin;
  CGPoint center_offset[] = {
   {-50, -50},
   {50, -50},
@@ -240,10 +288,10 @@ static void GenGame(Game *game) {
  };
  for (int i = 0; i < 4; ++i) {
   game->player[i].flag = flags[i];
-  flag_to_origin(&center, flags[i]);
   for (int j = 0; j < 4; ++j) {
+   flag_to_origin(&origin, flags[i], j);
+   game->player[i].piece[j].view = [[LD_PieceView alloc] initWithFrame:CGRectMake(origin.x, origin.y + center_offset[j].y, 50, 50)];
    game->player[i].piece[j].step_index = -1;
-   game->player[i].piece[j].view = [[LD_PieceView alloc] initWithFrame:CGRectMake(center.x + center_offset[j].x, center.y + center_offset[j].y, 50, 50)];
    game->player[i].piece[j].view.flag = flags[i];
   }
  }
@@ -260,38 +308,83 @@ static void DeleteGame(Game *game) {
  }
 }
 
+/* Search for player-piece set at given index
+ Store the result in set.
+ Return false, if not found.
+ */
+static bool SearchPlayerPieceAtTileIndex(Set2i *set, Game *game, int tile_index) {
+ for (set->one = 0; set->one < 4; ++set->one) {
+  for (set->two = 0; set->two < 4; ++set->two) {
+   int si = game->player[set->one].piece[set->two].step_index;
+   if (g_PathMap[set->one][si] == tile_index) {
+     return true;
+   }
+  }
+ }
+ 
+ return false;
+}
+
+static void MovePlayerPiece(Game *game, Set2i *playerpiece_index, int steps) {
+ Player *player = &game->player[playerpiece_index->one];
+ int next_si = player->piece[playerpiece_index->two].step_index + steps;
+ if (steps < 0) {
+  next_si = 0;
+ }
+ int tile_index = g_PathMap[playerpiece_index->one][next_si];
+ Tile tile = game->map[tile_index/15][tile_index%15];
+ 
+ /* test if there is something already at that tile
+  	Otherwise, it dies it and goes back to where it came from.
+  */
+ Set2i old_ppi;
+ if (SearchPlayerPieceAtTileIndex(&old_ppi, game, tile_index)) {
+  char old_flag = game->player[old_ppi.one].flag;
+  if (player->flag != old_flag) {
+   CGPoint p_origin;
+   flag_to_origin(&p_origin, old_flag, old_ppi.two);
+   Piece *old_piece = &game->player[old_ppi.one].piece[old_ppi.two];
+   old_piece->view.center = p_origin;
+   old_piece->step_index = -1;
+  }
+ }
+ 
+ /* Move the piece */
+ [player->piece[playerpiece_index->two].view setCenter:tile.point];
+ player->piece[playerpiece_index->two].step_index = next_si;
+}
+
 static void StepPlayer(int player_index, Game *game) {
  Player *player = &game->player[player_index];
  int dice_val = game->dice_val;
- bool can_move = false;
- Piece *piece = NULL;
+ Set2i playerpiece_set = {
+  player_index,
+  0
+ };
  
- /* if 6, launch a new piece
-  dumb strategy, move first piece visible */
- for (int i = 0; i < 4 && !can_move; ++i) {
-  piece = &player->piece[i];
-  
-  if ((piece->step_index >= 0) && (piece->step_index + dice_val < MOVE_MAX)) {
-   piece->step_index += dice_val;
-   can_move = true;
-  } else if (dice_val == 6) {
-   piece->step_index = 0;
-   can_move = true;
+ /* if 6, launch a new piece */
+ if (dice_val == 6) {
+  for (playerpiece_set.two = 0; playerpiece_set.two < 4; ++playerpiece_set.two) {
+   int si = player->piece[playerpiece_set.two].step_index;
+   if (si < 0) {
+    MovePlayerPiece(game, &playerpiece_set, -1);
+    return;
+   }
   }
  }
 
- /* update state */
- if (can_move && piece) {
-  int tile_index = g_PathMap[player_index][piece->step_index];
-  Tile tile = game->map[tile_index/15][tile_index%15];
-  tile.flag = player->flag;
-  [piece->view setCenter:tile.point];
+ /* else move first piece visible */
+ for (playerpiece_set.two = 0; playerpiece_set.two < 4; ++playerpiece_set.two) {
+  int si = player->piece[playerpiece_set.two].step_index;
+  if (si >= 0 && (si + dice_val) < MOVE_MAX) {
+   MovePlayerPiece(game, &playerpiece_set, dice_val);
+   return;
+  }
  }
 }
 
 
-/**
- 	Move game one step further. Expect the dice value in range [1,6]
+/** Move game one step further. Expect the dice value in range [1,6]
  */
 static void StepGame(Game *game) {
  int player_index = game->turn%4;
@@ -299,6 +392,17 @@ static void StepGame(Game *game) {
  game->turn++;
 }
 
+/** Test for game state */
+static bool IsGameOver(const Game *game) {
+ for (int i = 0; i < 4; ++i) {
+  for (int j = 0; j < 4; ++j) {
+   if (game->player[i].piece[j].step_index != MOVE_MAX-1) {
+    return false;
+   }
+  }
+ }
+ return true;
+}
 
 /************************************************************************
 MARK: LD_CellView
@@ -397,7 +501,20 @@ MARK: LD_CellView
    [self.view addSubview: game.player[i].piece[j].view];
   }
  }
+ 
+#if defined (kCheatcode_autoplay)
+ [NSTimer scheduledTimerWithTimeInterval:3.0f target:self selector:@selector(autoplay:) userInfo:nil repeats:YES];
+#endif
 }
+
+#if defined (kCheatcode_autoplay)
+-(void) autoplay:(NSTimer *) timer {
+ if (!IsGameOver(&game)) {
+  [self next];
+ }
+}
+#endif
+
 
 - (void)didReceiveMemoryWarning {
  [super didReceiveMemoryWarning];
@@ -448,17 +565,22 @@ MARK: LD_CellView
  UITouch *touch = [touches anyObject];
  CGPoint touch_pt = [touch locationInView:nil];
  if (CGRectContainsPoint(self.diceView.frame, touch_pt)) {
-
-  game.dice_val = rand()%6 + 1;
-  [self.diceView setText:[NSString stringWithFormat:@"%d",game.dice_val]];
-
-  DispatchEvent(0.5f, ^{
-   StepGame(&game);
-   DispatchEvent(1.0f, ^{
-    [self updateBackground];
-   });
-  });
+  [self next];
  }
+}
+
+-(void) next {
+
+ game.dice_val = rand()%6 + 1;
+ [self.diceView setText:[NSString stringWithFormat:@"%d",game.dice_val]];
+ 
+ DispatchEvent(0.5f, ^{
+  StepGame(&game);
+  DispatchEvent(1.0f, ^{
+   [self updateBackground];
+  });
+ });
+ 
 }
 
 -(void) updateBackground {
