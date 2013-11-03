@@ -8,75 +8,18 @@
 
 #import "LD_RootViewController.h"
 
-#import "lua/include/lua.h"
-#import "lua/include/lualib.h"
-#import "lua/include/lauxlib.h"
-
 #define kCheatcode_autoplay
-
-//lua_State *L;
-//
-//static int average() {
-// /* get number of arguments */
-// int n = lua_gettop(L);
-// double sum = 0.0;
-// 
-// /* loop through args */
-// for (int i = 1; i <=n; i++) {
-//  sum += lua_tonumber(L, i);
-// }
-// 
-// lua_pushnumber(L, sum/n);	/* push average */
-// lua_pushnumber(L, sum);	/* push sum */
-// 
-// return 2;	/* return num of results*/
-//}
-//
-//static int Add(int x, int y) {
-// int sum;
-// 
-// /* the function name */
-// lua_getglobal(L, "add");
-// /* pass args */
-// lua_pushnumber(L, x);
-// lua_pushnumber(L, y);
-// /* call function with 2 args and 1 return */
-// lua_call(L, 2, 1);
-// /* get result */
-// sum = lua_tointeger(L, -1);
-// lua_pop(L, 1);
-// return sum;
-//}
-//
-//static void LuaInit() {
-///* initialze lua */
-// L = luaL_newstate();
-//
-// /* load lua libs */
-// luaL_openlibs(L);
-// 
-// /* register function, will be called from lua */
-// lua_register(L, "average", average);
-// 
-// /* run script that calls C function from Lua */
-// NSString *script_path = [[NSBundle mainBundle] pathForResource:@"avg" ofType:@"lua"];
-// luaL_dofile(L, [script_path UTF8String]);
-// 
-// /* run script that calls Lua function from C */
-// script_path = [[NSBundle mainBundle] pathForResource:@"add" ofType:@"lua"];
-// luaL_dofile(L, [script_path UTF8String]);
-// printf("sum = %d,",Add(10,20));
-// 
-// /* cleanup lua */
-// lua_close(L);
-// 
-//}
+#define kCheatcode_dice
 
 #define TILE_MAX 15
 #define MOVE_MAX 57
 /************************************************************************
  MARK: pathmap
  ***********************************************************************/
+/** Path map: maps to all the possible location any piece can have
+ If you watch closely, you can see a pattern.
+ I was just being lazy, to calculate it programatically.
+ */
 int g_PathMap[4][MOVE_MAX] = {
  /* red */
  {
@@ -150,6 +93,10 @@ int g_PathMap[4][MOVE_MAX] = {
 /************************************************************************
  MARK: Utility
  ***********************************************************************/
+/** Get the color for a flag value 
+@param color An array of 4 floats.
+ @param flag The flag {rgby}
+ */
 static float *flag_to_color(float color[], const char flag) {
  color[0] = 0.0f;
  color[1] = 0.0f;
@@ -189,11 +136,16 @@ static CGPoint *flag_to_origin(CGPoint *origin, const char flag, int offset_inde
 
 typedef void(^DispatchEventAction)(void);
 /* 	Call some action after delay */
-void DispatchEvent(float delay_secs, DispatchEventAction action) {
+static void DispatchEvent(float delay_secs, DispatchEventAction action) {
  dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay_secs * NSEC_PER_SEC));
  dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
   action();
  });
+}
+
+/** Returns a value in set [1.6] */
+static int RollDice() {
+ return rand() % 6 + 1;
 }
 
 /************************************************************************
@@ -270,6 +222,7 @@ static void GenTilemap(Tile map[][TILE_MAX]) {
  //PrintTilemap(map);
 }
 
+/** Init the game state. */
 static void GenGame(Game *game) {
  char flags[] = {
   'r', 'b', 'y', 'g'
@@ -299,6 +252,7 @@ static void GenGame(Game *game) {
  game->turn = 0;
 }
 
+/* Release any resources occupied at GenGame */
 static void DeleteGame(Game *game) {
  /* delete players */
  for (int i = 0; i < 4; ++i) {
@@ -325,6 +279,11 @@ static bool SearchPlayerPieceAtTileIndex(Set2i *set, Game *game, int tile_index)
  return false;
 }
 
+/** Move a give piece forward steps 
+  @param playerpiece_index The set of {player_index, piece_index}
+  @param steps Number of steps to be moved forward. 
+  @note If steps < 0, then moves to the home tile i.e. step # 0.
+ */
 static void MovePlayerPiece(Game *game, Set2i *playerpiece_index, int steps) {
  Player *player = &game->player[playerpiece_index->one];
  int next_si = player->piece[playerpiece_index->two].step_index + steps;
@@ -354,6 +313,7 @@ static void MovePlayerPiece(Game *game, Set2i *playerpiece_index, int steps) {
  player->piece[playerpiece_index->two].step_index = next_si;
 }
 
+/** Step the player */
 static void StepPlayer(int player_index, Game *game) {
  Player *player = &game->player[player_index];
  int dice_val = game->dice_val;
@@ -384,7 +344,8 @@ static void StepPlayer(int player_index, Game *game) {
 }
 
 
-/** Move game one step further. Expect the dice value in range [1,6]
+/** Move game one step further. Expect the dice value to be already filled and in range [1,6]
+  The turn also advances forward.
  */
 static void StepGame(Game *game) {
  int player_index = game->turn%4;
@@ -392,25 +353,48 @@ static void StepGame(Game *game) {
  game->turn++;
 }
 
-/** Test for game state */
-static bool IsGameOver(const Game *game) {
+/** Ordering matters. It's in the order the player's play */
+typedef enum {
+ kGameState_RedWins,
+ kGameState_GreenWins,
+ kGameState_YellowWins,
+ kGameState_BlueWins,
+ kGameState_None
+} kGameState;
+
+/** Current game state */
+static kGameState GameState(const Game *game) {
+ kGameState states[] = {
+  kGameState_RedWins,
+  kGameState_GreenWins,
+  kGameState_YellowWins,
+  kGameState_BlueWins,
+  kGameState_None
+};
+ 
  for (int i = 0; i < 4; ++i) {
+  int players_home = 0;
   for (int j = 0; j < 4; ++j) {
-   if (game->player[i].piece[j].step_index != MOVE_MAX-1) {
-    return false;
+   if (game->player[i].piece[j].step_index == MOVE_MAX-1) {
+    players_home++;
    }
   }
+  if (players_home == 3) {
+   return states[i];
+  }
  }
- return true;
+ return kGameState_None;
 }
 
 /************************************************************************
 MARK: LD_CellView
  ***********************************************************************/
+/** The view that has grid drawn to it */
 @interface LD_CellView ()
 @end
 
 @implementation LD_CellView
+/** Draw the grid */
 -(void)drawRect:(CGRect)rect {
  CGContextRef context = UIGraphicsGetCurrentContext();
  if (self.bounds.size.width > self.bounds.size.height) {
@@ -458,6 +442,9 @@ MARK: LD_CellView
  BOOL isPaused;
  NSMutableArray *games;
  Game game;
+#if defined (kCheatcode_dice)
+ int cheat_value;
+#endif
 }
 -(NSString *) saveFilePath;
 -(BOOL) saveData;
@@ -509,8 +496,9 @@ MARK: LD_CellView
 
 #if defined (kCheatcode_autoplay)
 -(void) autoplay:(NSTimer *) timer {
- if (!IsGameOver(&game)) {
-  [self next];
+ [self next];
+ if (GameState(&game) != kGameState_None) {
+  [timer invalidate];
  }
 }
 #endif
@@ -545,6 +533,12 @@ MARK: LD_CellView
  }
 }
 
+- (IBAction)cheatDice:(UISegmentedControl *)sender {
+#if defined (kCheatcode_dice)
+ cheat_value = sender.selectedSegmentIndex + 1;
+#endif
+}
+
 -(NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
  return [games count];
 }
@@ -569,9 +563,29 @@ MARK: LD_CellView
  }
 }
 
+/** Step forward the game.
+  Roll the dice and update the game state + UI 
+ */
 -(void) next {
+ if (GameState(&game) != kGameState_None) {
+  NSString *msg = @"";
+  switch (GameState(&game)) {
+   case kGameState_RedWins: 	msg = @"Red Wins"; break;
+   case kGameState_BlueWins: 	msg = @"Blue Wins"; break;
+   case kGameState_YellowWins: 	msg = @"Yellow Wins"; break;
+   case kGameState_GreenWins: 	msg = @"Green Wins"; break;
+   case kGameState_None: break;
+  }
+  UIAlertView *alrt = [[UIAlertView alloc] initWithTitle:@"Game Over" message:msg delegate:nil cancelButtonTitle:@"Done" otherButtonTitles:nil];
+  [alrt show];
+  [alrt release];
+ }
+ 
 
- game.dice_val = rand()%6 + 1;
+ game.dice_val = RollDice();
+#if defined (kCheatcode_dice)
+ game.dice_val = cheat_value;
+#endif
  [self.diceView setText:[NSString stringWithFormat:@"%d",game.dice_val]];
  
  DispatchEvent(0.5f, ^{

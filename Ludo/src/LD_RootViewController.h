@@ -25,5 +25,6 @@
 
 - (IBAction)pause:(UIButton *)sender;
 - (IBAction)newGame:(UISegmentedControl *)sender;
+- (IBAction)cheatDice:(UISegmentedControl *)sender;
 
 @end
