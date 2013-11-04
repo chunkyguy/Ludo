@@ -151,18 +151,43 @@ static int RollDice() {
 /************************************************************************
  MARK: Piece
  ***********************************************************************/
-@interface LD_PieceView : UIView
-@property (nonatomic, assign) char flag;
+@interface LD_PieceView : UILabel {
+ char cflag;
+}
+-(id) initWithFrame:(CGRect)frame color_flag:(const char)in_cflag name:(const char *)in_name;
 @end
 
 @implementation LD_PieceView
-@synthesize flag;
+-(id) initWithFrame:(CGRect)frame color_flag:(const char)in_cflag name:(const char *)in_name {
+ self = [super initWithFrame:frame];
+ if (self) {
+  cflag = in_cflag;
+
+  NSString *name = [[NSString alloc] initWithCString:in_name encoding:NSASCIIStringEncoding];
+  [self setText:name];
+  [self setTextAlignment:NSTextAlignmentCenter];
+  [name release];
+  
+//  CGFloat color[4];
+//  flag_to_color(color, cflag);
+//  [self setBackgroundColor:[UIColor colorWithRed:color[0] green:color[1] blue:color[2] alpha:color[3]]];
+ }
+ return self;
+}
+
+-(void) dealloc {
+ [super dealloc];
+}
 
 -(void) drawRect:(CGRect)rect {
  CGContextRef context = UIGraphicsGetCurrentContext();
  CGFloat color[4];
- CGContextSetFillColor(context, flag_to_color(color, self.flag));
+ CGContextSetFillColor(context, flag_to_color(color, cflag));
+ CGFloat strok_clr[4] = {1.0f};
+ CGContextSetStrokeColor(context, strok_clr);
  CGContextFillEllipseInRect(context, self.bounds);
+
+ [super drawRect:rect];
 }
 @end
 
@@ -243,9 +268,14 @@ static void GenGame(Game *game) {
   game->player[i].flag = flags[i];
   for (int j = 0; j < 4; ++j) {
    flag_to_origin(&origin, flags[i], j);
-   game->player[i].piece[j].view = [[LD_PieceView alloc] initWithFrame:CGRectMake(origin.x, origin.y + center_offset[j].y, 50, 50)];
+   char name[3];
+   name[0] = flags[i];
+   name[1] = 'A'+j;
+   name[2] = '\0';
+   game->player[i].piece[j].view =
+   [[LD_PieceView alloc] initWithFrame:CGRectMake(origin.x, origin.y + center_offset[j].y, 50, 50)
+                            color_flag:flags[i] name:name];
    game->player[i].piece[j].step_index = -1;
-   game->player[i].piece[j].view.flag = flags[i];
   }
  }
  
@@ -263,20 +293,24 @@ static void DeleteGame(Game *game) {
 }
 
 /* Search for player-piece set at given index
- Store the result in set.
- Return false, if not found.
+ Store the results in set. The set should have enough space to hold the data.
+ Typically for 16 pieces, it should not exceed 15
+ Return number of sets found.
  */
-static bool SearchPlayerPieceAtTileIndex(Set2i *set, Game *game, int tile_index) {
- for (set->one = 0; set->one < 4; ++set->one) {
-  for (set->two = 0; set->two < 4; ++set->two) {
-   int si = game->player[set->one].piece[set->two].step_index;
-   if (g_PathMap[set->one][si] == tile_index) {
-     return true;
+static int SearchPlayerPiecesAtTileIndex(Set2i *set, Game *game, int tile_index) {
+ int count = 0;
+ for (int player_index = 0; player_index < 4; ++player_index) {
+  for (int piece_index = 0; piece_index < 4; ++piece_index) {
+   int si = game->player[player_index].piece[piece_index].step_index;
+   if (g_PathMap[player_index][si] == tile_index) {
+    set[count].one = player_index;
+    set[count].two = piece_index;
+    count++;
    }
   }
  }
  
- return false;
+ return count;
 }
 
 /** Move a give piece forward steps 
@@ -294,15 +328,17 @@ static void MovePlayerPiece(Game *game, Set2i *playerpiece_index, int steps) {
  Tile tile = game->map[tile_index/15][tile_index%15];
  
  /* test if there is something already at that tile
-  	Otherwise, it dies it and goes back to where it came from.
+  Otherwise, it dies it and goes back to where it came from.
+  Except for the same flag pieces.
   */
- Set2i old_ppi;
- if (SearchPlayerPieceAtTileIndex(&old_ppi, game, tile_index)) {
-  char old_flag = game->player[old_ppi.one].flag;
+ Set2i old_ppi[15];
+ int old_ppi_count = SearchPlayerPiecesAtTileIndex(old_ppi, game, tile_index);
+ for (int i = 0; i < old_ppi_count; ++i) {
+  char old_flag = game->player[old_ppi[i].one].flag;
   if (player->flag != old_flag) {
    CGPoint p_origin;
-   flag_to_origin(&p_origin, old_flag, old_ppi.two);
-   Piece *old_piece = &game->player[old_ppi.one].piece[old_ppi.two];
+   flag_to_origin(&p_origin, old_flag, old_ppi[i].two);
+   Piece *old_piece = &game->player[old_ppi[i].one].piece[old_ppi[i].two];
    old_piece->view.center = p_origin;
    old_piece->step_index = -1;
   }
@@ -356,9 +392,9 @@ static void StepGame(Game *game) {
 /** Ordering matters. It's in the order the player's play */
 typedef enum {
  kGameState_RedWins,
- kGameState_GreenWins,
- kGameState_YellowWins,
  kGameState_BlueWins,
+ kGameState_YellowWins,
+ kGameState_GreenWins,
  kGameState_None
 } kGameState;
 
@@ -366,10 +402,9 @@ typedef enum {
 static kGameState GameState(const Game *game) {
  kGameState states[] = {
   kGameState_RedWins,
-  kGameState_GreenWins,
-  kGameState_YellowWins,
   kGameState_BlueWins,
-  kGameState_None
+  kGameState_YellowWins,
+  kGameState_GreenWins,
 };
  
  for (int i = 0; i < 4; ++i) {
@@ -379,7 +414,7 @@ static kGameState GameState(const Game *game) {
     players_home++;
    }
   }
-  if (players_home == 3) {
+  if (players_home == 4) {
    return states[i];
   }
  }
@@ -492,13 +527,18 @@ MARK: LD_CellView
 #if defined (kCheatcode_autoplay)
  [NSTimer scheduledTimerWithTimeInterval:3.0f target:self selector:@selector(autoplay:) userInfo:nil repeats:YES];
 #endif
+ 
+#if defined (kCheatcode_dice)
+ cheat_value = 6;
+#endif
 }
 
 #if defined (kCheatcode_autoplay)
 -(void) autoplay:(NSTimer *) timer {
- [self next];
  if (GameState(&game) != kGameState_None) {
   [timer invalidate];
+ } else {
+  [self next];
  }
 }
 #endif
@@ -567,20 +607,6 @@ MARK: LD_CellView
   Roll the dice and update the game state + UI 
  */
 -(void) next {
- if (GameState(&game) != kGameState_None) {
-  NSString *msg = @"";
-  switch (GameState(&game)) {
-   case kGameState_RedWins: 	msg = @"Red Wins"; break;
-   case kGameState_BlueWins: 	msg = @"Blue Wins"; break;
-   case kGameState_YellowWins: 	msg = @"Yellow Wins"; break;
-   case kGameState_GreenWins: 	msg = @"Green Wins"; break;
-   case kGameState_None: break;
-  }
-  UIAlertView *alrt = [[UIAlertView alloc] initWithTitle:@"Game Over" message:msg delegate:nil cancelButtonTitle:@"Done" otherButtonTitles:nil];
-  [alrt show];
-  [alrt release];
- }
- 
 
  game.dice_val = RollDice();
 #if defined (kCheatcode_dice)
@@ -592,6 +618,7 @@ MARK: LD_CellView
   StepGame(&game);
   DispatchEvent(1.0f, ^{
    [self updateBackground];
+   [self testGameState];
   });
  });
  
@@ -605,4 +632,19 @@ MARK: LD_CellView
  self.diceView.text = @"-";
 }
 
+-(void) testGameState {
+ if (GameState(&game) != kGameState_None) {
+  NSString *msg = @"";
+  switch (GameState(&game)) {
+   case kGameState_RedWins: 	msg = @"Red Wins"; break;
+   case kGameState_BlueWins: 	msg = @"Blue Wins"; break;
+   case kGameState_YellowWins: 	msg = @"Yellow Wins"; break;
+   case kGameState_GreenWins: 	msg = @"Green Wins"; break;
+   case kGameState_None: break;
+  }
+  UIAlertView *alrt = [[UIAlertView alloc] initWithTitle:@"Game Over" message:msg delegate:nil cancelButtonTitle:@"Done" otherButtonTitles:nil];
+  [alrt show];
+  [alrt release];
+ }
+}
 @end
