@@ -182,10 +182,8 @@
 }
 
 -(void) updateBackground:(const Game *)gp {
- char flags[] = {'r','b','y','g'};
  float color[4];
- int cpi = CurrentPlayerIndex(gp);
- FlagToColor(color, flags[cpi]);
+ FlagToColor(color, IndexToFlag(CurrentPlayerIndex(gp)));
  [self.view setBackgroundColor:[UIColor colorWithRed:color[0] green:color[1] blue:color[2] alpha:0.5]];
  //self.diceView.text = @"-";
 }

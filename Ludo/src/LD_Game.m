@@ -448,7 +448,23 @@ void HandlePieceTouchEvent(Game *game, const Set2i *ppi) {
  /* step the game. By this time the dice should have the value.
   Update UI
   */
- step_player(cpi, game);
+ Move moves[8];
+ int movec = calc_possible_moves(moves, cpi, game);
+
+ for (int i = 0; i < movec; ++i) {
+  if (moves[i].ppi.two == ppi->two) {
+   move(game, &moves[i]);
+   break;
+  }
+ }
+
+// Move m;
+// m.ppi.one = ppi->one;
+// m.ppi.two = ppi->two;
+// m.steps = game->dice_val;
+//
+// move(game, &m);
+// step_player(cpi, game);
  
 
  step_game_forward(game);
