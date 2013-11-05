@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		19272B0E1827941600E374B5 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 19272B0D1827941600E374B5 /* GameKit.framework */; };
+		19272B181827990C00E374B5 /* LD_MenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = 19272B151827990C00E374B5 /* LD_MenuController.m */; };
+		19272B191827990C00E374B5 /* LD_RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 19272B171827990C00E374B5 /* LD_RootViewController.m */; };
 		1957EA14181BD77300F5832B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1957EA13181BD77300F5832B /* Foundation.framework */; };
 		1957EA16181BD77300F5832B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1957EA15181BD77300F5832B /* CoreGraphics.framework */; };
 		1957EA18181BD77300F5832B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1957EA17181BD77300F5832B /* UIKit.framework */; };
@@ -22,7 +25,6 @@
 		1957EA4A181BD77300F5832B /* LudoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1957EA49181BD77300F5832B /* LudoTests.m */; };
 		19681112181D6BA60043DBF0 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1968110E181D6BA60043DBF0 /* Main_iPad.storyboard */; };
 		19681113181D6BA60043DBF0 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 19681110181D6BA60043DBF0 /* Main_iPhone.storyboard */; };
-		19681116181D6C340043DBF0 /* LD_RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 19681115181D6C340043DBF0 /* LD_RootViewController.m */; };
 		19BCCBC0181D09490087BC8E /* mesh.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 19BCCBA9181D09490087BC8E /* mesh.fsh */; };
 		19BCCBC1181D09490087BC8E /* mesh.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 19BCCBAA181D09490087BC8E /* mesh.vsh */; };
 		19BCCBDE181D09E90087BC8E /* LD_AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 19BCCBCC181D09E90087BC8E /* LD_AppDelegate.m */; };
@@ -35,6 +37,8 @@
 		19BCCBE5181D09E90087BC8E /* LD_ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 19BCCBDD181D09E90087BC8E /* LD_ViewController.m */; };
 		19BCCBE7181D10210087BC8E /* color.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 19BCCBE6181D10210087BC8E /* color.vsh */; };
 		19BCCBE9181D104F0087BC8E /* color.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 19BCCBE8181D104F0087BC8E /* color.fsh */; };
+		19BE33271828D80700401687 /* LD_Game.m in Sources */ = {isa = PBXBuildFile; fileRef = 19BE33261828D80700401687 /* LD_Game.m */; };
+		19BE332A1828DF1500401687 /* LD_PieceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 19BE33291828DF1500401687 /* LD_PieceView.m */; };
 		19C3BB1018265B77001F5437 /* LD_LuaInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 19C3BB0F18265B77001F5437 /* LD_LuaInterface.m */; };
 		19F68B0E182030CD00A90621 /* lapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 19F68ADA182030CD00A90621 /* lapi.c */; };
 		19F68B0F182030CD00A90621 /* lauxlib.c in Sources */ = {isa = PBXBuildFile; fileRef = 19F68ADC182030CD00A90621 /* lauxlib.c */; };
@@ -83,6 +87,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		19272B0D1827941600E374B5 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
+		19272B141827990C00E374B5 /* LD_MenuController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LD_MenuController.h; sourceTree = "<group>"; };
+		19272B151827990C00E374B5 /* LD_MenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LD_MenuController.m; sourceTree = "<group>"; };
+		19272B161827990C00E374B5 /* LD_RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LD_RootViewController.h; sourceTree = "<group>"; };
+		19272B171827990C00E374B5 /* LD_RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LD_RootViewController.m; sourceTree = "<group>"; };
 		1957EA10181BD77300F5832B /* Ludo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ludo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1957EA13181BD77300F5832B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1957EA15181BD77300F5832B /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -101,8 +110,6 @@
 		1957EA49181BD77300F5832B /* LudoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LudoTests.m; sourceTree = "<group>"; };
 		1968110F181D6BA60043DBF0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
 		19681111181D6BA60043DBF0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
-		19681114181D6C340043DBF0 /* LD_RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LD_RootViewController.h; sourceTree = "<group>"; };
-		19681115181D6C340043DBF0 /* LD_RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LD_RootViewController.m; sourceTree = "<group>"; };
 		19BCCBA9181D09490087BC8E /* mesh.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = mesh.fsh; sourceTree = "<group>"; };
 		19BCCBAA181D09490087BC8E /* mesh.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = mesh.vsh; sourceTree = "<group>"; };
 		19BCCBCB181D09E90087BC8E /* LD_AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LD_AppDelegate.h; sourceTree = "<group>"; };
@@ -126,6 +133,10 @@
 		19BCCBDD181D09E90087BC8E /* LD_ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LD_ViewController.m; sourceTree = "<group>"; };
 		19BCCBE6181D10210087BC8E /* color.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = color.vsh; sourceTree = "<group>"; };
 		19BCCBE8181D104F0087BC8E /* color.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = color.fsh; sourceTree = "<group>"; };
+		19BE33251828D80700401687 /* LD_Game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LD_Game.h; sourceTree = "<group>"; };
+		19BE33261828D80700401687 /* LD_Game.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LD_Game.m; sourceTree = "<group>"; };
+		19BE33281828DF1500401687 /* LD_PieceView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LD_PieceView.h; sourceTree = "<group>"; };
+		19BE33291828DF1500401687 /* LD_PieceView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LD_PieceView.m; sourceTree = "<group>"; };
 		19C3BB0F18265B77001F5437 /* LD_LuaInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LD_LuaInterface.m; sourceTree = "<group>"; };
 		19F68AD4182030CD00A90621 /* lauxlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lauxlib.h; sourceTree = "<group>"; };
 		19F68AD5182030CD00A90621 /* lua.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lua.h; sourceTree = "<group>"; };
@@ -196,6 +207,7 @@
 				1957EA1C181BD77300F5832B /* OpenGLES.framework in Frameworks */,
 				1957EA16181BD77300F5832B /* CoreGraphics.framework in Frameworks */,
 				1957EA18181BD77300F5832B /* UIKit.framework in Frameworks */,
+				19272B0E1827941600E374B5 /* GameKit.framework in Frameworks */,
 				1957EA1A181BD77300F5832B /* GLKit.framework in Frameworks */,
 				1957EA14181BD77300F5832B /* Foundation.framework in Frameworks */,
 			);
@@ -214,6 +226,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		19272B131827990C00E374B5 /* Prototype */ = {
+			isa = PBXGroup;
+			children = (
+				19272B141827990C00E374B5 /* LD_MenuController.h */,
+				19272B151827990C00E374B5 /* LD_MenuController.m */,
+				19272B161827990C00E374B5 /* LD_RootViewController.h */,
+				19272B171827990C00E374B5 /* LD_RootViewController.m */,
+				19BE33281828DF1500401687 /* LD_PieceView.h */,
+				19BE33291828DF1500401687 /* LD_PieceView.m */,
+			);
+			path = Prototype;
+			sourceTree = "<group>";
+		};
 		1957EA07181BD77300F5832B = {
 			isa = PBXGroup;
 			children = (
@@ -236,6 +261,7 @@
 		1957EA12181BD77300F5832B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				19272B0D1827941600E374B5 /* GameKit.framework */,
 				1957EA13181BD77300F5832B /* Foundation.framework */,
 				1957EA15181BD77300F5832B /* CoreGraphics.framework */,
 				1957EA17181BD77300F5832B /* UIKit.framework */,
@@ -323,9 +349,10 @@
 				19BCCBD8181D09E90087BC8E /* LD_Transform.m */,
 				19BCCBDA181D09E90087BC8E /* LD_Utilities.h */,
 				19BCCBDB181D09E90087BC8E /* LD_Utilities.m */,
-				19681114181D6C340043DBF0 /* LD_RootViewController.h */,
-				19681115181D6C340043DBF0 /* LD_RootViewController.m */,
 				19C3BB0F18265B77001F5437 /* LD_LuaInterface.m */,
+				19BE33251828D80700401687 /* LD_Game.h */,
+				19BE33261828D80700401687 /* LD_Game.m */,
+				19272B131827990C00E374B5 /* Prototype */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -467,6 +494,14 @@
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = whackylabs;
 				TargetAttributes = {
+					1957EA0F181BD77300F5832B = {
+						DevelopmentTeam = B8H28JR3TT;
+						SystemCapabilities = {
+							com.apple.GameCenter = {
+								enabled = 1;
+							};
+						};
+					};
 					1957EA3B181BD77300F5832B = {
 						TestTargetID = 1957EA0F181BD77300F5832B;
 					};
@@ -528,6 +563,7 @@
 				19F68B1B182030CD00A90621 /* linit.c in Sources */,
 				19F68B15182030CD00A90621 /* ldblib.c in Sources */,
 				19BCCBE3181D09E90087BC8E /* LD_Transform.m in Sources */,
+				19272B181827990C00E374B5 /* LD_MenuController.m in Sources */,
 				19F68B28182030CD00A90621 /* ltable.c in Sources */,
 				19F68B13182030CD00A90621 /* lcorolib.c in Sources */,
 				19F68B29182030CD00A90621 /* ltablib.c in Sources */,
@@ -535,6 +571,7 @@
 				19F68B18182030CD00A90621 /* ldump.c in Sources */,
 				19F68B2A182030CD00A90621 /* ltm.c in Sources */,
 				19F68B1F182030CD00A90621 /* lmem.c in Sources */,
+				19272B191827990C00E374B5 /* LD_RootViewController.m in Sources */,
 				19BCCBE5181D09E90087BC8E /* LD_ViewController.m in Sources */,
 				19BCCBE1181D09E90087BC8E /* LD_Root.m in Sources */,
 				19BCCBE0181D09E90087BC8E /* LD_Mesh.m in Sources */,
@@ -547,7 +584,7 @@
 				19F68B24182030CD00A90621 /* lparser.c in Sources */,
 				19F68B17182030CD00A90621 /* ldo.c in Sources */,
 				19BCCBE4181D09E90087BC8E /* LD_Utilities.m in Sources */,
-				19681116181D6C340043DBF0 /* LD_RootViewController.m in Sources */,
+				19BE33271828D80700401687 /* LD_Game.m in Sources */,
 				19F68B2B182030CD00A90621 /* lundump.c in Sources */,
 				19F68B20182030CD00A90621 /* loadlib.c in Sources */,
 				19F68B14182030CD00A90621 /* lctype.c in Sources */,
@@ -567,6 +604,7 @@
 				19F68B25182030CD00A90621 /* lstate.c in Sources */,
 				19F68B26182030CD00A90621 /* lstring.c in Sources */,
 				19F68B1C182030CD00A90621 /* liolib.c in Sources */,
+				19BE332A1828DF1500401687 /* LD_PieceView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -704,10 +742,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Ludo/Ludo-Prefix.pch";
 				INFOPLIST_FILE = "Ludo/Ludo-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -718,10 +759,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Ludo/Ludo-Prefix.pch";
 				INFOPLIST_FILE = "Ludo/Ludo-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

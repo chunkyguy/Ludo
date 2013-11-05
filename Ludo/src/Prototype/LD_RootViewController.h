@@ -7,10 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "../LD_Game.h"
+
 @interface LD_CellView : UIView
 @end
 
-@interface LD_RootViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+@interface LD_RootViewController : UIViewController
 @property (nonatomic, assign) IBOutlet LD_CellView *redView;
 @property (nonatomic, assign) IBOutlet LD_CellView *blueView;
 @property (nonatomic, assign) IBOutlet LD_CellView *greenView;
@@ -21,4 +23,7 @@
 - (IBAction)newGame:(UISegmentedControl *)sender;
 - (IBAction)cheatDice:(UISegmentedControl *)sender;
 
+/* Update the GUI */
+-(void) updateDice:(const Game *)gp;
+-(void) updatePieces:(const Game *)gp state:(kGameState) state;
 @end

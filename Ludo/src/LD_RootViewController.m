@@ -8,8 +8,8 @@
 
 #import "LD_RootViewController.h"
 
-#define kCheatcode_autoplay
-#define kCheatcode_dice
+//#define kCheatcode_autoplay
+//#define kCheatcode_dice
 
 #define TILE_MAX 15
 #define MOVE_MAX 57
@@ -551,10 +551,8 @@ MARK: LD_CellView
 - (IBAction)pause:(UIButton *)sender {
  if (isPaused) {
   isPaused = NO;
-  [self.pauseView setHidden:YES];
  } else {
   isPaused = YES;
-  [self.pauseView setHidden:NO];
  }
 }
 
