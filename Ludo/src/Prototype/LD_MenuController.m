@@ -7,22 +7,22 @@
 //
 
 #import "LD_MenuController.h"
+
 #import <GameKit/GameKit.h>
+
 #import "LD_GameContext.h"
+#import "LD_Prototype.h"
 
 @interface LD_MenuController () {
- NSMutableArray *games;
  GameContext context;
 }
--(NSString *) save_file_path;
--(BOOL) save_data;
 @end
 
 @implementation LD_MenuController
 
 -(void) dealloc {
  UnbindContext();
- [games release];
+ [LD_Prototype Destroy];
  [super dealloc];
 }
 
@@ -32,12 +32,8 @@
  BindContext(&context);
  
  [self init_game_center];
- 
- if ([[NSFileManager defaultManager] fileExistsAtPath:[self save_file_path]]) {
-  games = [[NSMutableArray alloc] initWithContentsOfFile:[self save_file_path]];
- } else {
-  games = [[NSMutableArray alloc] init];
- }
+
+ [LD_Prototype Create];
 }
 
 - (void)didReceiveMemoryWarning
@@ -48,7 +44,7 @@
 
 #pragma mark - Table view data source
 -(NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
- return [games count];
+ return [LD_Prototype gamesCount];
 }
 
 -(NSInteger) numberOfSectionsInTableView:(UITableView *)tableView {
@@ -63,14 +59,6 @@
  return cell;
 }
 
-#pragma mark - Save game
--(NSString *) save_file_path {
- return [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"game.plist"];
-}
-
--(BOOL) save_data {
- return [games writeToFile:[self save_file_path] atomically:YES];
-}
 
 #pragma mark - Game center
 -(void) init_game_center {

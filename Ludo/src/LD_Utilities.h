@@ -17,6 +17,10 @@
  */
 char *BundlePath(char *buffer, const char *filename);
 
+/** Get absolute path of the file inside directory
+ */
+char *DocumentPath(char *buffer, const char *filename);
+
 /**
  *	Read a file into buffer
  *
@@ -26,5 +30,8 @@ char *BundlePath(char *buffer, const char *filename);
  */
 char *ReadFile(char *buffer, const char *path);
 
-
+/** Write the buffer to file at path
+  Returns true if operation is successful.
+ */
+bool WriteFile(const char *path, const char *buffer, size_t size);
 #endif

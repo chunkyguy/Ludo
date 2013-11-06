@@ -7,6 +7,7 @@
 //
 #include "LD_std_incl.h"
 
+#import <stdio.h>
 #import <string.h>
 #import <Foundation/Foundation.h>
 
@@ -46,6 +47,12 @@ char *BundlePath(char *buffer, const char *filename) {
  return strcpy(buffer, [full_path UTF8String]);
 }
 
+char *DocumentPath(char *buffer, const char *filename) {
+ NSString *full_path = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:[NSString stringWithCString:filename encoding:NSASCIIStringEncoding]];
+ return strcpy(buffer, [full_path cStringUsingEncoding:NSASCIIStringEncoding]);
+}
+
+
 char *ReadFile(char *buffer, const char *path) {
  FILE *file = fopen(path, "r");
  assert(file);
@@ -58,5 +65,17 @@ char *ReadFile(char *buffer, const char *path) {
  *bp = '\0';
  fclose(file);
  return buffer;
+}
+
+bool WriteFile(const char *path, const char *buffer, size_t size) {
+ FILE *file = fopen(path, "w");
+ 
+ while(fwrite(buffer, 1024, 1, file) == 1024) {
+ }
+ 
+ bool success = (ferror(file) == 0);
+ fclose(file);
+
+ return success;
 }
 

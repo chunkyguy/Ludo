@@ -42,6 +42,7 @@
 		19BE33271828D80700401687 /* LD_Game.m in Sources */ = {isa = PBXBuildFile; fileRef = 19BE33261828D80700401687 /* LD_Game.m */; };
 		19BE332A1828DF1500401687 /* LD_PieceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 19BE33291828DF1500401687 /* LD_PieceView.m */; };
 		19C3BB1018265B77001F5437 /* LD_LuaInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 19C3BB0F18265B77001F5437 /* LD_LuaInterface.m */; };
+		19C43791182AC0F000892BEA /* LD_Prototype.m in Sources */ = {isa = PBXBuildFile; fileRef = 19C43790182AC0F000892BEA /* LD_Prototype.m */; };
 		19F68B0E182030CD00A90621 /* lapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 19F68ADA182030CD00A90621 /* lapi.c */; };
 		19F68B0F182030CD00A90621 /* lauxlib.c in Sources */ = {isa = PBXBuildFile; fileRef = 19F68ADC182030CD00A90621 /* lauxlib.c */; };
 		19F68B10182030CD00A90621 /* lbaselib.c in Sources */ = {isa = PBXBuildFile; fileRef = 19F68ADD182030CD00A90621 /* lbaselib.c */; };
@@ -145,6 +146,7 @@
 		19BE33281828DF1500401687 /* LD_PieceView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LD_PieceView.h; sourceTree = "<group>"; };
 		19BE33291828DF1500401687 /* LD_PieceView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LD_PieceView.m; sourceTree = "<group>"; };
 		19C3BB0F18265B77001F5437 /* LD_LuaInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LD_LuaInterface.m; sourceTree = "<group>"; };
+		19C43790182AC0F000892BEA /* LD_Prototype.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LD_Prototype.m; sourceTree = "<group>"; };
 		19F68AD4182030CD00A90621 /* lauxlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lauxlib.h; sourceTree = "<group>"; };
 		19F68AD5182030CD00A90621 /* lua.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lua.h; sourceTree = "<group>"; };
 		19F68AD6182030CD00A90621 /* lua.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = lua.hpp; sourceTree = "<group>"; };
@@ -236,6 +238,8 @@
 		19272B131827990C00E374B5 /* Prototype */ = {
 			isa = PBXGroup;
 			children = (
+				1986A72A182A166800705D79 /* LD_Prototype.h */,
+				19C43790182AC0F000892BEA /* LD_Prototype.m */,
 				19272B141827990C00E374B5 /* LD_MenuController.h */,
 				19272B151827990C00E374B5 /* LD_MenuController.m */,
 				1986A727182A129F00705D79 /* LD_SelectorViewController.h */,
@@ -244,7 +248,6 @@
 				19272B171827990C00E374B5 /* LD_RootViewController.m */,
 				19BE33281828DF1500401687 /* LD_PieceView.h */,
 				19BE33291828DF1500401687 /* LD_PieceView.m */,
-				1986A72A182A166800705D79 /* LD_Prototype.h */,
 				1986A72B182A180300705D79 /* LD_GameContext.h */,
 				1986A72C182A180300705D79 /* LD_GameContext.m */,
 			);
@@ -595,6 +598,7 @@
 				19F68B21182030CD00A90621 /* lobject.c in Sources */,
 				19F68B1A182030CD00A90621 /* lgc.c in Sources */,
 				19F68B24182030CD00A90621 /* lparser.c in Sources */,
+				19C43791182AC0F000892BEA /* LD_Prototype.m in Sources */,
 				19F68B17182030CD00A90621 /* ldo.c in Sources */,
 				1986A72D182A180300705D79 /* LD_GameContext.m in Sources */,
 				19BCCBE4181D09E90087BC8E /* LD_Utilities.m in Sources */,

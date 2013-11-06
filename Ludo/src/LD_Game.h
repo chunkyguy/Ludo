@@ -48,6 +48,7 @@ typedef struct  {
 
 @class LD_RootViewController;
 typedef struct {
+ unsigned long ID;
  int turn;
  Player player[4];
  int dice_val;
