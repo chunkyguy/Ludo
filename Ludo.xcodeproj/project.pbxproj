@@ -25,6 +25,8 @@
 		1957EA4A181BD77300F5832B /* LudoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1957EA49181BD77300F5832B /* LudoTests.m */; };
 		19681112181D6BA60043DBF0 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1968110E181D6BA60043DBF0 /* Main_iPad.storyboard */; };
 		19681113181D6BA60043DBF0 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 19681110181D6BA60043DBF0 /* Main_iPhone.storyboard */; };
+		1986A729182A129F00705D79 /* LD_SelectorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1986A728182A129F00705D79 /* LD_SelectorViewController.m */; };
+		1986A72D182A180300705D79 /* LD_GameContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 1986A72C182A180300705D79 /* LD_GameContext.m */; };
 		19BCCBC0181D09490087BC8E /* mesh.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 19BCCBA9181D09490087BC8E /* mesh.fsh */; };
 		19BCCBC1181D09490087BC8E /* mesh.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 19BCCBAA181D09490087BC8E /* mesh.vsh */; };
 		19BCCBDE181D09E90087BC8E /* LD_AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 19BCCBCC181D09E90087BC8E /* LD_AppDelegate.m */; };
@@ -110,6 +112,11 @@
 		1957EA49181BD77300F5832B /* LudoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LudoTests.m; sourceTree = "<group>"; };
 		1968110F181D6BA60043DBF0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
 		19681111181D6BA60043DBF0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
+		1986A727182A129F00705D79 /* LD_SelectorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LD_SelectorViewController.h; sourceTree = "<group>"; };
+		1986A728182A129F00705D79 /* LD_SelectorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LD_SelectorViewController.m; sourceTree = "<group>"; };
+		1986A72A182A166800705D79 /* LD_Prototype.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LD_Prototype.h; sourceTree = "<group>"; };
+		1986A72B182A180300705D79 /* LD_GameContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LD_GameContext.h; sourceTree = "<group>"; };
+		1986A72C182A180300705D79 /* LD_GameContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LD_GameContext.m; sourceTree = "<group>"; };
 		19BCCBA9181D09490087BC8E /* mesh.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = mesh.fsh; sourceTree = "<group>"; };
 		19BCCBAA181D09490087BC8E /* mesh.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = mesh.vsh; sourceTree = "<group>"; };
 		19BCCBCB181D09E90087BC8E /* LD_AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LD_AppDelegate.h; sourceTree = "<group>"; };
@@ -231,10 +238,15 @@
 			children = (
 				19272B141827990C00E374B5 /* LD_MenuController.h */,
 				19272B151827990C00E374B5 /* LD_MenuController.m */,
+				1986A727182A129F00705D79 /* LD_SelectorViewController.h */,
+				1986A728182A129F00705D79 /* LD_SelectorViewController.m */,
 				19272B161827990C00E374B5 /* LD_RootViewController.h */,
 				19272B171827990C00E374B5 /* LD_RootViewController.m */,
 				19BE33281828DF1500401687 /* LD_PieceView.h */,
 				19BE33291828DF1500401687 /* LD_PieceView.m */,
+				1986A72A182A166800705D79 /* LD_Prototype.h */,
+				1986A72B182A180300705D79 /* LD_GameContext.h */,
+				1986A72C182A180300705D79 /* LD_GameContext.m */,
 			);
 			path = Prototype;
 			sourceTree = "<group>";
@@ -561,6 +573,7 @@
 			files = (
 				19F68B1D182030CD00A90621 /* llex.c in Sources */,
 				19F68B1B182030CD00A90621 /* linit.c in Sources */,
+				1986A729182A129F00705D79 /* LD_SelectorViewController.m in Sources */,
 				19F68B15182030CD00A90621 /* ldblib.c in Sources */,
 				19BCCBE3181D09E90087BC8E /* LD_Transform.m in Sources */,
 				19272B181827990C00E374B5 /* LD_MenuController.m in Sources */,
@@ -583,6 +596,7 @@
 				19F68B1A182030CD00A90621 /* lgc.c in Sources */,
 				19F68B24182030CD00A90621 /* lparser.c in Sources */,
 				19F68B17182030CD00A90621 /* ldo.c in Sources */,
+				1986A72D182A180300705D79 /* LD_GameContext.m in Sources */,
 				19BCCBE4181D09E90087BC8E /* LD_Utilities.m in Sources */,
 				19BE33271828D80700401687 /* LD_Game.m in Sources */,
 				19F68B2B182030CD00A90621 /* lundump.c in Sources */,

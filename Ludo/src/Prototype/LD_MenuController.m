@@ -8,10 +8,11 @@
 
 #import "LD_MenuController.h"
 #import <GameKit/GameKit.h>
-#import "../LD_Game.h"
+#import "LD_GameContext.h"
 
 @interface LD_MenuController () {
  NSMutableArray *games;
+ GameContext context;
 }
 -(NSString *) save_file_path;
 -(BOOL) save_data;
@@ -20,12 +21,15 @@
 @implementation LD_MenuController
 
 -(void) dealloc {
+ UnbindContext();
  [games release];
  [super dealloc];
 }
 
 - (void)viewDidLoad {
  [super viewDidLoad];
+
+ BindContext(&context);
  
  [self init_game_center];
  
@@ -73,19 +77,20 @@
  
  GKLocalPlayer *player = [GKLocalPlayer localPlayer];
  [player setAuthenticateHandler:^(UIViewController *controller, NSError *error) {
-  SystemEnv sysenv;
-  sysenv.game_types = kGameType_local;
+  GameContext *c = CurrentContext();
+
+  c->sysenv.game_types = kGameType_local;
 
   if (controller) {
    [self.navigationController presentViewController:controller animated:YES completion:NULL];
   } else if (player.isAuthenticated) {
    /* Player authenticated. Continue */
-   sysenv.game_types |= kGameType_online;
+   c->sysenv.game_types |= kGameType_online;
   } else {
    /* GameCenter disabled */
   }
   
-  InitSystemEnv(&sysenv);
+  InitSystemEnv(&c->sysenv);
  }];
 }
 @end

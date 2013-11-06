@@ -8,6 +8,7 @@
 
 #import "LD_RootViewController.h"
 #import "LD_PieceView.h"
+#import "LD_GameContext.h"
 
 //#define kCheatcode_autoplay
 //#define kCheatcode_dice
@@ -65,7 +66,6 @@
  MARK: LD_RootViewController
  ***********************************************************************/
 @interface LD_RootViewController () {
- Game game;
 #if defined (kCheatcode_dice)
  int cheat_value;
 #endif
@@ -77,7 +77,7 @@
 @implementation LD_RootViewController
 
 -(void) dealloc {
- DeleteGame(&game);
+ DeleteGame(&CurrentContext()->game);
  [_diceView release];
  [super dealloc];
 }
@@ -86,16 +86,16 @@
  [super viewDidLoad];
  //LuaInit();
 
- game.gui = self;
- GenGame(&game);
- [self updateBackground:&game];
+ CurrentContext()->game.gui = self;
+ GenGame(&CurrentContext()->game);
+ [self updateBackground:&CurrentContext()->game];
 }
 
 -(void) viewDidAppear:(BOOL)animated {
  [super viewDidAppear:YES];
  for (int i = 0; i < 4; ++i) {
   for (int j = 0; j < 4; ++j) {
-   [self.view addSubview: game.player[i].piece[j].view];
+   [self.view addSubview: CurrentContext()->game.player[i].piece[j].view];
   }
  }
  
@@ -211,7 +211,7 @@
  
  /* Test for dice */
  if (CGRectContainsPoint(self.diceView.frame, touch_pt)) {
-  HandleDiceTouchEvent(&game);
+  HandleDiceTouchEvent(&CurrentContext()->game);
   return;
  }
 
@@ -219,9 +219,9 @@
  Set2i ppi;
  for (ppi.one = 0; ppi.one < 4; ++ppi.one) {
   for (ppi.two = 0; ppi.two < 4; ++ppi.two) {
-   LD_PieceView *piece_vw = game.player[ppi.one].piece[ppi.two].view;
+   LD_PieceView *piece_vw = CurrentContext()->game.player[ppi.one].piece[ppi.two].view;
    if (CGRectContainsPoint(piece_vw.frame, touch_pt)) {
-    HandlePieceTouchEvent(&game, &ppi);
+    HandlePieceTouchEvent(&CurrentContext()->game, &ppi);
     return;
    }
   }

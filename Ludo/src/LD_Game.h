@@ -26,9 +26,15 @@ typedef struct {
  int step_index; /* map to g_PathMap to get the point on screen */
 } Piece;
 
+typedef enum {
+ kIntelligence_Human,
+ kIntelligence_AI
+} kIntelligence;
+
 typedef struct {
  Piece piece[4];
  char flag;
+ kIntelligence intel;
 } Player;
 
 typedef struct {
