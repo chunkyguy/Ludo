@@ -5,7 +5,8 @@
 //  Created by Sid on 05/11/13.
 //  Copyright (c) 2013 whackylabs. All rights reserved.
 //
-
+#ifndef LD_Game_H
+#define LD_Game_H
 
 #define kGameType_local (1 << 0)
 #define kGameType_online (1 << 1)
@@ -46,9 +47,17 @@ typedef struct  {
  CGPoint point;
 } Tile;
 
+typedef unsigned long gameID;
+
+typedef struct {
+ gameID gID;
+ Set2i ppi;
+ int steps;
+} Move;
+
 @class LD_RootViewController;
 typedef struct {
- unsigned long ID;
+ gameID ID;
  int turn;
  Player player[4];
  int dice_val;
@@ -83,11 +92,28 @@ void GenGame(Game *game);
 /* Release any resources occupied at GenGame */
 void DeleteGame(Game *game);
 
+/* Get the filename for game-id */
+char *GameIDToFilename(char *buffer, gameID gameid);
+
+/* Save the current state of game to the associated file */
+bool SaveGame(Game *game);
+
+/* Load a saved game from file.
+ Fill in the game's gameid before calling this function.
+ The file should exist */
+Game *LoadGame(Game *game);
+
 /** Current game state */
 kGameState GameState(const Game *game);
 
 /* Returns the index of the current player */
 int CurrentPlayerIndex(const Game *game);
+
+/* Step game with move.
+ Under usual scenario, this method shouldn't be called explicitly 
+ Call the ForwardAndStore() instead, it indirectly calls this.
+ */
+void StepGame(Game *game, Move *move);
 
 /************************************************************************
  MARK: Touch Events
@@ -124,4 +150,5 @@ char IndexToFlag(int index);
 int PPIToTag(const Set2i *ppi);
 void TagtoPPI(Set2i *ppi, int tag);
 
+#endif
 /* EOF */

@@ -5,8 +5,10 @@
 //  Created by Sid on 06/11/13.
 //  Copyright (c) 2013 whackylabs. All rights reserved.
 //
+#ifndef LD_GameContext_h
+#define LD_GameContext_h
 
-#import "../LD_Game.h"
+#import "LD_Game.h"
 
 typedef struct {
  SystemEnv sysenv;
@@ -27,3 +29,5 @@ void UnbindContext();
 
 /** Get current context reference */
 GameContext *CurrentContext();
+
+#endif

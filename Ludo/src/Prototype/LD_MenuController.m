@@ -12,9 +12,11 @@
 
 #import "LD_GameContext.h"
 #import "LD_Prototype.h"
+#import "LD_MoveQueue.h"
 
 @interface LD_MenuController () {
  GameContext context;
+ Move moves_buffer[256];
 }
 @end
 
@@ -22,6 +24,7 @@
 
 -(void) dealloc {
  UnbindContext();
+ UnbindMoveQueueBuffer();
  [LD_Prototype Destroy];
  [super dealloc];
 }
@@ -30,7 +33,7 @@
  [super viewDidLoad];
 
  BindContext(&context);
- 
+ BindMoveQueueBuffer(moves_buffer, sizeof(moves_buffer));
  [self init_game_center];
 
  [LD_Prototype Create];

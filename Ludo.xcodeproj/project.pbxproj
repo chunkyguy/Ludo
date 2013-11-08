@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		19187270182BCC1C00648DCA /* LD_MoveQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 1918726F182BCC1C00648DCA /* LD_MoveQueue.m */; };
+		19187273182BDD6D00648DCA /* LD_GamesManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 19187272182BDD6D00648DCA /* LD_GamesManager.m */; };
+		19187276182BFD8400648DCA /* LD_GameContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 19187275182BFD8400648DCA /* LD_GameContext.m */; };
+		19187279182BFDA500648DCA /* LD_Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = 19187278182BFDA500648DCA /* LD_Settings.m */; };
 		19272B0E1827941600E374B5 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 19272B0D1827941600E374B5 /* GameKit.framework */; };
 		19272B181827990C00E374B5 /* LD_MenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = 19272B151827990C00E374B5 /* LD_MenuController.m */; };
 		19272B191827990C00E374B5 /* LD_RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 19272B171827990C00E374B5 /* LD_RootViewController.m */; };
@@ -26,7 +30,6 @@
 		19681112181D6BA60043DBF0 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1968110E181D6BA60043DBF0 /* Main_iPad.storyboard */; };
 		19681113181D6BA60043DBF0 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 19681110181D6BA60043DBF0 /* Main_iPhone.storyboard */; };
 		1986A729182A129F00705D79 /* LD_SelectorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1986A728182A129F00705D79 /* LD_SelectorViewController.m */; };
-		1986A72D182A180300705D79 /* LD_GameContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 1986A72C182A180300705D79 /* LD_GameContext.m */; };
 		19BCCBC0181D09490087BC8E /* mesh.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 19BCCBA9181D09490087BC8E /* mesh.fsh */; };
 		19BCCBC1181D09490087BC8E /* mesh.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 19BCCBAA181D09490087BC8E /* mesh.vsh */; };
 		19BCCBDE181D09E90087BC8E /* LD_AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 19BCCBCC181D09E90087BC8E /* LD_AppDelegate.m */; };
@@ -90,6 +93,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1918726E182BCC1C00648DCA /* LD_MoveQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LD_MoveQueue.h; sourceTree = "<group>"; };
+		1918726F182BCC1C00648DCA /* LD_MoveQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LD_MoveQueue.m; sourceTree = "<group>"; };
+		19187271182BDD6D00648DCA /* LD_GamesManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LD_GamesManager.h; sourceTree = "<group>"; };
+		19187272182BDD6D00648DCA /* LD_GamesManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LD_GamesManager.m; sourceTree = "<group>"; };
+		19187274182BFD8400648DCA /* LD_GameContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LD_GameContext.h; sourceTree = "<group>"; };
+		19187275182BFD8400648DCA /* LD_GameContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LD_GameContext.m; sourceTree = "<group>"; };
+		19187277182BFDA500648DCA /* LD_Settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LD_Settings.h; sourceTree = "<group>"; };
+		19187278182BFDA500648DCA /* LD_Settings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LD_Settings.m; sourceTree = "<group>"; };
 		19272B0D1827941600E374B5 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		19272B141827990C00E374B5 /* LD_MenuController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LD_MenuController.h; sourceTree = "<group>"; };
 		19272B151827990C00E374B5 /* LD_MenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LD_MenuController.m; sourceTree = "<group>"; };
@@ -116,8 +127,6 @@
 		1986A727182A129F00705D79 /* LD_SelectorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LD_SelectorViewController.h; sourceTree = "<group>"; };
 		1986A728182A129F00705D79 /* LD_SelectorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LD_SelectorViewController.m; sourceTree = "<group>"; };
 		1986A72A182A166800705D79 /* LD_Prototype.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LD_Prototype.h; sourceTree = "<group>"; };
-		1986A72B182A180300705D79 /* LD_GameContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LD_GameContext.h; sourceTree = "<group>"; };
-		1986A72C182A180300705D79 /* LD_GameContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LD_GameContext.m; sourceTree = "<group>"; };
 		19BCCBA9181D09490087BC8E /* mesh.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = mesh.fsh; sourceTree = "<group>"; };
 		19BCCBAA181D09490087BC8E /* mesh.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = mesh.vsh; sourceTree = "<group>"; };
 		19BCCBCB181D09E90087BC8E /* LD_AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LD_AppDelegate.h; sourceTree = "<group>"; };
@@ -248,8 +257,6 @@
 				19272B171827990C00E374B5 /* LD_RootViewController.m */,
 				19BE33281828DF1500401687 /* LD_PieceView.h */,
 				19BE33291828DF1500401687 /* LD_PieceView.m */,
-				1986A72B182A180300705D79 /* LD_GameContext.h */,
-				1986A72C182A180300705D79 /* LD_GameContext.m */,
 			);
 			path = Prototype;
 			sourceTree = "<group>";
@@ -367,6 +374,14 @@
 				19C3BB0F18265B77001F5437 /* LD_LuaInterface.m */,
 				19BE33251828D80700401687 /* LD_Game.h */,
 				19BE33261828D80700401687 /* LD_Game.m */,
+				1918726E182BCC1C00648DCA /* LD_MoveQueue.h */,
+				1918726F182BCC1C00648DCA /* LD_MoveQueue.m */,
+				19187271182BDD6D00648DCA /* LD_GamesManager.h */,
+				19187272182BDD6D00648DCA /* LD_GamesManager.m */,
+				19187274182BFD8400648DCA /* LD_GameContext.h */,
+				19187275182BFD8400648DCA /* LD_GameContext.m */,
+				19187277182BFDA500648DCA /* LD_Settings.h */,
+				19187278182BFDA500648DCA /* LD_Settings.m */,
 				19272B131827990C00E374B5 /* Prototype */,
 			);
 			path = src;
@@ -597,13 +612,15 @@
 				19F68B2D182030CD00A90621 /* lzio.c in Sources */,
 				19F68B21182030CD00A90621 /* lobject.c in Sources */,
 				19F68B1A182030CD00A90621 /* lgc.c in Sources */,
+				19187273182BDD6D00648DCA /* LD_GamesManager.m in Sources */,
 				19F68B24182030CD00A90621 /* lparser.c in Sources */,
 				19C43791182AC0F000892BEA /* LD_Prototype.m in Sources */,
 				19F68B17182030CD00A90621 /* ldo.c in Sources */,
-				1986A72D182A180300705D79 /* LD_GameContext.m in Sources */,
 				19BCCBE4181D09E90087BC8E /* LD_Utilities.m in Sources */,
 				19BE33271828D80700401687 /* LD_Game.m in Sources */,
 				19F68B2B182030CD00A90621 /* lundump.c in Sources */,
+				19187270182BCC1C00648DCA /* LD_MoveQueue.m in Sources */,
+				19187276182BFD8400648DCA /* LD_GameContext.m in Sources */,
 				19F68B20182030CD00A90621 /* loadlib.c in Sources */,
 				19F68B14182030CD00A90621 /* lctype.c in Sources */,
 				19F68B27182030CD00A90621 /* lstrlib.c in Sources */,
@@ -616,6 +633,7 @@
 				19BCCBE2181D09E90087BC8E /* LD_Shader.m in Sources */,
 				1957EA24181BD77300F5832B /* main.m in Sources */,
 				19F68B0F182030CD00A90621 /* lauxlib.c in Sources */,
+				19187279182BFDA500648DCA /* LD_Settings.m in Sources */,
 				19F68B2C182030CD00A90621 /* lvm.c in Sources */,
 				19F68B23182030CD00A90621 /* loslib.c in Sources */,
 				19C3BB1018265B77001F5437 /* LD_LuaInterface.m in Sources */,

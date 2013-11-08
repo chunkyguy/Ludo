@@ -9,6 +9,45 @@
 #import "LD_Game.h"
 #import "Prototype/LD_PieceView.h"
 #import "Prototype/LD_RootViewController.h"
+#import "LD_Constants.h"
+#import "LD_Utilities.h"
+#import "LD_MoveQueue.h"
+
+/************************************************************************
+ MARK: Private interface
+ ***********************************************************************/
+/* fill init tilemap */
+static void gen_tilemap(Tile map[][TILE_MAX]);
+
+/** Returns a value in set [1.6] */
+static int roll_dice();
+
+/* Search for player-piece set at given index
+ Store the results in set. The set should have enough space to hold the data.
+ Typically for 16 pieces, it should not exceed 15
+ Return number of sets found.
+ */
+static int search_playerpieces_at_tile_index(Set2i *set, Game *game, int tile_index);
+
+/** number of moves possible for the player
+ The moves should be an array for all the moves possible (less than 8)
+ Returns number of moves possible.
+ */
+static int calc_possible_moves(Move *moves, int player_index, Game *game);
+
+/** Roll the dice, update the UI
+ If no move is possible with the dice value, automatically step game forward.
+ */
+static void step_game_dice(Game *game);
+
+/** Step the player. Used by the AI */
+static void auto_step_player(int player_index, Game *game);
+
+
+/** Updates the UI with the current game state.
+ */
+static void step_game_forward(Game *game);
+
 
 /************************************************************************
  MARK: SystemEnv
@@ -49,7 +88,7 @@ int GameTypeCount(const SystemEnv *sys_env) {
 //}
 
 /* fill init tilemap */
-static void gen_tilemap(Tile map[][TILE_MAX]) {
+void gen_tilemap(Tile map[][TILE_MAX]) {
  CGFloat minx = 20.0f;
  CGFloat miny = 20.0f;
  CGFloat maxx = 800.0f;
@@ -105,6 +144,25 @@ void DeleteGame(Game *game) {
    [game->player[i].piece[j].view release];
   }
  }
+}
+
+/* Get the filename for game-id */
+char *GameIDToFilename(char *buffer, gameID gameid) {
+ sprintf(buffer, "%ld.game",gameid);
+ return buffer;
+}
+
+/* Save the current state of game to the associated file */
+bool SaveGame(Game *game) {
+ char fn_buf[kBuffer256];
+ return WriteFile(GameIDToFilename(fn_buf, game->ID), (char*)game, sizeof(Game));
+}
+
+/* Load a saved game from file. The file should exist */
+Game *LoadGame(Game *game) {
+ char fn_buf[kBuffer256];
+ ReadFile((char*)game, GameIDToFilename(fn_buf, game->ID));
+ return game;
 }
 
 /* Returns the index of the current player */
@@ -216,7 +274,7 @@ void DispatchEvent(float delay_secs, DispatchEventAction action) {
 }
 
 /** Returns a value in set [1.6] */
-static int roll_dice() {
+int roll_dice() {
  return rand() % 6 + 1;
 }
 
@@ -304,7 +362,7 @@ int g_PathMap[4][MOVE_MAX] = {
  Typically for 16 pieces, it should not exceed 15
  Return number of sets found.
  */
-static int SearchPlayerPiecesAtTileIndex(Set2i *set, Game *game, int tile_index) {
+int search_playerpieces_at_tile_index(Set2i *set, Game *game, int tile_index) {
  int count = 0;
  for (int player_index = 0; player_index < 4; ++player_index) {
   for (int piece_index = 0; piece_index < 4; ++piece_index) {
@@ -320,17 +378,13 @@ static int SearchPlayerPiecesAtTileIndex(Set2i *set, Game *game, int tile_index)
  return count;
 }
 
-typedef struct {
- Set2i ppi;
- int steps;
-} Move;
 
 /** Move a give piece forward steps
  @param playerpiece_index The set of {player_index, piece_index}
  @param steps Number of steps to be moved forward.
  @note If steps < 0, then moves to the home tile i.e. step # 0.
  */
-static void move(Game *game, Move *move) {
+void StepGame(Game *game, Move *move){
 
  Player *player = &game->player[move->ppi.one];
  int next_si = player->piece[move->ppi.two].step_index + move->steps;
@@ -345,7 +399,7 @@ static void move(Game *game, Move *move) {
   Except for the same flag pieces.
   */
  Set2i old_ppi[15];
- int old_ppi_count = SearchPlayerPiecesAtTileIndex(old_ppi, game, tile_index);
+ int old_ppi_count = search_playerpieces_at_tile_index(old_ppi, game, tile_index);
  for (int i = 0; i < old_ppi_count; ++i) {
   char old_flag = game->player[old_ppi[i].one].flag;
   if (player->flag != old_flag) {
@@ -366,7 +420,7 @@ static void move(Game *game, Move *move) {
   The moves should be an array for all the moves possible (less than 8)
   Returns number of moves possible.
  */
-static int calc_possible_moves(Move *moves, int player_index, Game *game) {
+int calc_possible_moves(Move *moves, int player_index, Game *game) {
  Player *player = &game->player[player_index];
  int dice_val = game->dice_val;
  int move_count = 0;
@@ -398,30 +452,11 @@ static int calc_possible_moves(Move *moves, int player_index, Game *game) {
  return move_count;
 }
 
-/** Step the player. Used by the AI */
-static void step_player(int player_index, Game *game) {
- Move moves[8];
- int moves_count = calc_possible_moves(moves, player_index, game);
-
- /* Play the first move possible */
- for (int i = 0; i < moves_count; ++i) {
-  move(game, &moves[i]);
-  break;
- }
-}
-
-static void step_game_forward(Game *game) {
- /* Update the game state*/
- kGameState state = GameState(game);
-
- /* After all animations are over, move to next player */
- game->turn++;
- 
- /* Update the GUI */
- [game->gui updatePieces:game state:state];
-}
-
-static void step_game_dice(Game *game, int dice_val) {
+/** Roll the dice, update the UI
+ If no move is possible with the dice value, automatically step game forward.
+ */
+void step_game_dice(Game *game) {
+ int dice_val = roll_dice();
  game->dice_val = dice_val;
  /* animate the dice and update the view */
  [game->gui updateDice:game];
@@ -434,10 +469,47 @@ static void step_game_dice(Game *game, int dice_val) {
  }
 }
 
+/** Step the player. Used by the AI */
+void auto_step_player(int player_index, Game *game) {
+ /* roll the dice */
+ step_game_dice(game);
+
+ Move moves[8];
+ int moves_count = calc_possible_moves(moves, player_index, game);
+ 
+ /* Play the first move possible */
+ for (int i = 0; i < moves_count; ++i) {
+  ForwardOrStore(game, &moves[i]);
+  step_game_forward(game);
+  break;
+ }
+ 
+}
+
+/** Updates the UI with the current game state.
+ */
+void step_game_forward(Game *game) {
+ /* Update the game state*/
+ kGameState state = GameState(game);
+
+ /* After all animations are over, move to next player */
+ game->turn++;
+ 
+ /* Update the GUI */
+ [game->gui updatePieces:game state:state];
+ 
+ /* Inform the next player about the turn */
+ int npi = CurrentPlayerIndex(game);
+ if (game->player[npi].intel == kIntelligence_AI) {
+  auto_step_player(npi, game);
+ }
+}
+
 
 /************************************************************************
  MARK: Touch Events
  ***********************************************************************/
+/* Invoked when a human touches a piece */
 void HandlePieceTouchEvent(Game *game, const Set2i *ppi) {
  /* test if the player is legal   */
  int cpi = CurrentPlayerIndex(game);
@@ -453,7 +525,7 @@ void HandlePieceTouchEvent(Game *game, const Set2i *ppi) {
 
  for (int i = 0; i < movec; ++i) {
   if (moves[i].ppi.two == ppi->two) {
-   move(game, &moves[i]);
+   ForwardOrStore(game, &moves[i]);
    break;
   }
  }
@@ -470,8 +542,9 @@ void HandlePieceTouchEvent(Game *game, const Set2i *ppi) {
  step_game_forward(game);
 }
 
+/* Invoked when a human touches the dice */
 void HandleDiceTouchEvent(Game *game) {
- step_game_dice(game, roll_dice());
+ step_game_dice(game);
 }
 
 

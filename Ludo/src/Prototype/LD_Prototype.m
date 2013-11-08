@@ -22,7 +22,7 @@
 -(id) init {
  self = [super init];
  if (self) {
-  /* Load saved games */
+  /* Load meta table. It contais the list of all available game id's and little description */
   if ([[NSFileManager defaultManager] fileExistsAtPath:[self save_file_path]]) {
    games = [[NSMutableArray alloc] initWithContentsOfFile:[self save_file_path]];
   } else {
@@ -69,8 +69,7 @@ static LD_Prototype_Internal *g_Internal = nil;
 }
 
 +(BOOL) savedGame:(Game*)game {
- 
- return [g_Internal saveGames];
+ return SaveGame(game) && [g_Internal saveGames];
 }
 
 +(NSInteger) gamesCount {
