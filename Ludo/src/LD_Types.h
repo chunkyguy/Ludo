@@ -1,168 +1,79 @@
 //
-//  Types.h
-//  Camera
+//  LD_Type.h
+//  Ludo
 //
-//  Created by Sid on 31/08/13.
+//  Created by Sid on 09/11/13.
 //  Copyright (c) 2013 whackylabs. All rights reserved.
 //
 
-#ifndef Camera_Types_h
-#define Camera_Types_h
-#include "LD_std_incl.h"
+#ifndef Ludo_LD_Type_h
+#define Ludo_LD_Type_h
 
-/*******************************************************************************
- MARK: Maths
- *******************************************************************************/
-typedef GLKVector2 Vec2f;
-typedef GLKVector3 Vec3f;
-typedef GLKVector4 Vec4f;
-typedef GLKMatrix2 Mat2;
-typedef GLKMatrix3 Mat3;
-typedef GLKMatrix4 Mat4;
+#define kGameType_local (1 << 0)
+#define kGameType_online (1 << 1)
 
-typedef union {
- struct {int x, y; };
- int v[2];
-} Vec2i;
+#define TILE_MAX 15
+#define MOVE_MAX 57
 
+/************************************************************************
+ MARK: Types
+ ***********************************************************************/
 typedef struct {
- struct {int x, y, z; };
- int v[3];
-} Vec3i;
+ UInt32 game_types; /* The types of games available */
+} SystemEnv;
 
+@class LD_PieceView;
 typedef struct {
- struct {int x, y, z, w; };
- int v[4];
-} Vec4i;
-
-/*******************************************************************************
-	MARK: Framebuffer
-*******************************************************************************/
-// The Framebuffer object
-#define kRenderbuffer_Color				0
-#define kRenderbuffer_DepthStencil		1
-#define kRenderbuffer_Total				2
-typedef struct {
- GLuint buffer;
- GLuint renderbuffer[kRenderbuffer_Total]; //Color buffer, depth buffer, stencil buffer
- GLint width;
- GLint height;
-}Framebuffer;
-
-/*******************************************************************************
- MARK: RenderbufferStorage
- *******************************************************************************/
-// Callback to allocate the color renderbuffer storage.
-typedef struct {
- int(*callback)(void *context, void *layer);
- void *context;
- void *layer;
-} RenderbufferStorage;
-
-/*******************************************************************************
- MARK: Shader
- *******************************************************************************/
-#define kShaderAttribMask(attrib) 	(0x1 << attrib)
-// Compiled shader program
-typedef struct {
- GLuint vert_shader;
- GLuint frag_shader;
- GLuint program;
- int attrib_flag;
-} Shader;
-
-/*******************************************************************************
- MARK: Mesh
- *******************************************************************************/
+ LD_PieceView *view;
+ int step_index; /* map to g_PathMap to get the point on screen */
+} Piece;
 
 typedef enum {
- kCommonMesh_Triangle, kCommonMesh_Square, kCommonMesh_Cube
- } kCommonMesh;
-
-// Renderable Mesh
-typedef struct {
- GLuint vao;			// Vertex array object
- GLuint vbo;			// Vertex buffer object
- int vertex_count;	// Number of vertices.
- GLuint ibo;			// Index buffer object (if available)
- int index_count;		// Number of indices.
-                        //This is the default rendering behavior.
-                        //Set as -1 if rendering as glDrawArrays()
- GLenum primitive;	// Triangles, fan, strip, lines or points
-} Mesh;
-
-typedef union {
- GLvoid *ptr;
- size_t size;
-} Offset;
+ kIntelligence_Human,
+ kIntelligence_AI
+} kIntelligence;
 
 typedef struct {
- int rows;
- int cols;
-} Grid;
-
-/*******************************************************************************
- MARK: Transform
- *******************************************************************************/
-/**	@struct Transform
- Handle transformations of a coordinate system
- Every object has its own coordinate system in reference to some parent coordinate system.
- At the root level there is the Device's coordinate system (the world space) which is located at {0, 0, Screen::z}
- */
-#define kTransformMask_Translation 	(0x1 << 0)
-#define kTransformMask_Rotation		(0x1 << 1)
-#define kTransformMask_Scaling		(0x1 << 2)
-struct Transform_ {
- /** Get position in object space. */
- Vec3f position; //{x, y, z}
- Vec3f axis;	//{x, y, z}
- float angle;
- Vec3f scale;	//{x, y, z}
- const struct Transform_ *parent;
- unsigned int mask_flag;
-};
-typedef struct Transform_ Transform;
-
-/*******************************************************************************
- MARK: Frustum
- *******************************************************************************/
-typedef struct {
- Vec3f dimension;	/*width, height, depth */
- float nearZ;
-} Frustum;
-
-/*******************************************************************************
- MARK: Vertex
- *******************************************************************************/
-
-typedef union {
- struct {
-  Vec3f position;
-  Vec3f normal;
- };
- float data[6];
-} Vertex;
-
-typedef union {
- GLushort data[3];
-} Face;
-
+ Piece piece[4];
+ char flag;
+ kIntelligence intel;
+} Player;
 
 typedef struct {
- Frustum f;
- Transform t;
-} World;
+ int one;
+ int two;
+} Set2i;
+
+typedef struct  {
+ CGPoint point;
+} Tile;
+
+typedef unsigned long gameID;
 
 typedef struct {
- Mesh *m;
- Transform t;
- Vec4f color;
-} Cube;
+ gameID gID;
+ Set2i ppi;
+ int steps;
+} Move;
 
+@class LD_RootViewController;
 typedef struct {
- Mesh m;
- Transform t;
- Vec4f color;
-} Board;
+ gameID ID;
+ int turn;
+ Player player[4];
+ int dice_val;
+ Tile map[TILE_MAX][TILE_MAX];
+ LD_RootViewController *gui;
+} Game;
+
+/** Ordering matters. It's in the order the player's play */
+typedef enum {
+ kGameState_RedWins,
+ kGameState_BlueWins,
+ kGameState_YellowWins,
+ kGameState_GreenWins,
+ kGameState_None
+} kGameState;
+
 
 #endif

@@ -8,7 +8,7 @@
 
 #ifndef Ludo_Ludo_h
 #define Ludo_Ludo_h
-#include "LD_std_incl.h"
+#include "he_std_incl.h"
 
 /**
  	Load shaders, globals, buffer objects, textures, default GL state, etc.

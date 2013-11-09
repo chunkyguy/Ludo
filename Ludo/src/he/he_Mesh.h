@@ -8,7 +8,7 @@
 
 #ifndef Camera_Cube_h
 #define Camera_Cube_h
-#include "LD_Types.h"
+#include "he_Types.h"
 
 Mesh *CreateMesh(Mesh *mesh,
                  const kCommonMesh mesh_type);

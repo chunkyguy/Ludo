@@ -9,7 +9,7 @@
 #ifndef OGL_Basic_Shader_h
 #define OGL_Basic_Shader_h
 
-#include "LD_Types.h"
+#include "he_Types.h"
 
 /**
  *	Compile shader from filename

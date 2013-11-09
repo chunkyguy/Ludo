@@ -5,11 +5,11 @@
 //  Created by Sid on 22/08/13.
 //  Copyright (c) 2013 whackylabs. All rights reserved.
 //
+#include "he_Shader.h"
 
-#include "LD_std_incl.h"
-#include "LD_Shader.h"
-#include "LD_Utilities.h"
-#include "LD_Constants.h"
+#include "he_std_incl.h"
+#include "he_Utilities.h"
+#include "he_Constants.h"
 
 Shader *CompileShader(Shader *shader,
                       const char *vsh_filename,

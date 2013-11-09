@@ -7,7 +7,6 @@
 //
 
 #import "LD_MoveQueue.h"
-#include "LD_GamesManager.h"
 
 static unsigned int max_slots;
 static Move *buffer_head;

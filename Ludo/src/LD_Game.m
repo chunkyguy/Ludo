@@ -9,8 +9,8 @@
 #import "LD_Game.h"
 #import "Prototype/LD_PieceView.h"
 #import "Prototype/LD_RootViewController.h"
-#import "LD_Constants.h"
-#import "LD_Utilities.h"
+#import "he/he_Constants.h"
+#import "he/he_Utilities.h"
 #import "LD_MoveQueue.h"
 
 /************************************************************************

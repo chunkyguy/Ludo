@@ -9,8 +9,8 @@
 #ifndef __HideousGameEngine__Transform__
 #define __HideousGameEngine__Transform__
 
-#include "LD_std_incl.h"
-#include "LD_Types.h"
+#include "he_std_incl.h"
+#include "he_Types.h"
 
 /** @file Transform.h
  */

@@ -5,14 +5,14 @@
 //  Created by Sid on 26/10/13.
 //  Copyright (c) 2013 whackylabs. All rights reserved.
 //
-#include "LD_Root.h"
+#include "he_Root.h"
 
-#include "LD_Constants.h"
-#include "LD_Utilities.h"
-#include "LD_Shader.h"
-#include "LD_Mesh.h"
-#include "LD_Transform.h"
-#include "LD_Types.h"
+#include "he_Constants.h"
+#include "he_Utilities.h"
+#include "he_Shader.h"
+#include "he_Mesh.h"
+#include "he_Transform.h"
+#include "he_Types.h"
 
 Shader color_sh;//mesh_sh;
 World world;

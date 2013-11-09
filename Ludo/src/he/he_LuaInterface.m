@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 whackylabs. All rights reserved.
 //
 
-#import "lua/include/lua.h"
-#import "lua/include/lualib.h"
-#import "lua/include/lauxlib.h"
+#include "../lua/include/lua.h"
+#include "../lua/include/lualib.h"
+#include "../lua/include/lauxlib.h"
 
 lua_State *L;
 
