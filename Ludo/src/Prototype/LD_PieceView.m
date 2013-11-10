@@ -8,23 +8,26 @@
 
 #import "LD_PieceView.h"
 #import "../LD_Game.h"
+#import "../LD_Utilities.h"
 
 @interface LD_PieceView () {
- Set2i ppi_;
+ ID playerID;
+ ID pieceID;
 }
 @end
 
 @implementation LD_PieceView
 
--(id) initWithFrame:(CGRect)frame playerPieceIndex:(const Set2i *)ppi {
+-(id) initWithFrame:(CGRect)frame playerID:(const ID) in_playerID pieceID:(const ID) in_pieceID {
  self = [super initWithFrame:frame];
  if (self) {
 
-  memcpy(&ppi_, ppi, sizeof(ppi_));
+  playerID = in_playerID;
+  pieceID = in_pieceID;
 
   char cname[3];
-  cname[0] = IndexToFlag(ppi->one);
-  cname[1] = 'A'+ppi->two;
+  cname[0] = IndexToFlag(playerID);
+  cname[1] = 'A'+pieceID;
   cname[2] = '\0';
 
   NSString *name = [[NSString alloc] initWithCString:cname encoding:NSASCIIStringEncoding];
@@ -42,7 +45,7 @@
 -(void) drawRect:(CGRect)rect {
  CGContextRef context = UIGraphicsGetCurrentContext();
  CGFloat color[4];
- CGContextSetFillColor(context, FlagToColor(color, IndexToFlag(ppi_.one)));
+ CGContextSetFillColor(context, FlagToColor(color, IndexToFlag(playerID)));
  CGFloat strok_clr[4] = {1.0f};
  CGContextSetStrokeColor(context, strok_clr);
  CGContextFillEllipseInRect(context, self.bounds);

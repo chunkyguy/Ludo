@@ -6,12 +6,18 @@
 //  Copyright (c) 2013 whackylabs. All rights reserved.
 //
 
-#import "LD_Game.h"
-#import "Prototype/LD_PieceView.h"
-#import "Prototype/LD_RootViewController.h"
-#import "he/he_Constants.h"
+#include "LD_Game.h"
+
+#include "Prototype/LD_PieceView.h"
+#include "Prototype/LD_RootViewController.h"
+
+#include "he/he_Constants.h"
 #import "he/he_Utilities.h"
-#import "LD_MoveQueue.h"
+
+#include "LD_MoveQueue.h"
+#include "LD_Utilities.h"
+#include "LD_AI.h"
+#include "LD_File.h"
 
 /************************************************************************
  MARK: Private interface
@@ -19,60 +25,22 @@
 /* fill init tilemap */
 static void gen_tilemap(Tile map[][TILE_MAX]);
 
-/** Returns a value in set [1.6] */
-static int roll_dice();
-
 /* Search for player-piece set at given index
  Store the results in set. The set should have enough space to hold the data.
  Typically for 16 pieces, it should not exceed 15
  Return number of sets found.
  */
-static int search_playerpieces_at_tile_index(Set2i *set, Game *game, int tile_index);
+static int search_playerpieces_at_tile_index(ID *playerIDs, ID *pieceIDs, Game *game, int tile_index);
 
 /** number of moves possible for the player
  The moves should be an array for all the moves possible (less than 8)
  Returns number of moves possible.
  */
-static int calc_possible_moves(Move *moves, int player_index, Game *game);
-
-/** Roll the dice, update the UI
- If no move is possible with the dice value, automatically step game forward.
- */
-static void step_game_dice(Game *game);
-
-/** Step the player. Used by the AI */
-static void auto_step_player(int player_index, Game *game);
-
+static int calc_possible_moves(Move *moves, ID playerID, Game *game);
 
 /** Updates the UI with the current game state.
  */
 static void step_game_forward(Game *game);
-
-
-/************************************************************************
- MARK: SystemEnv
- ***********************************************************************/
-void InitSystemEnv(SystemEnv *sys_env) {
- 
-}
-
-int GameTypeCount(const SystemEnv *sys_env) {
- UInt32 gt[] = {
-  kGameType_local,
-  kGameType_online
- };
- 
- int count = 0;
- int t_gt = sizeof(gt) / sizeof(gt[0]);
- for (int i = 0; i < t_gt; ++i) {
-  if (sys_env->game_types & gt[i]) {
-   count++;
-  }
- }
- 
- return count;
-}
-
 
 
 /************************************************************************
@@ -124,16 +92,19 @@ void GenGame(Game *game) {
   game->player[i].flag = flag;
   for (int j = 0; j < 4; ++j) {
    FlagToOrigin(&origin, flag, j);
-   Set2i ppi = {i, j};
    game->player[i].piece[j].view =
    [[LD_PieceView alloc] initWithFrame:CGRectMake(origin.x, origin.y + center_offset[j].y, 50, 50)
-                            playerPieceIndex:&ppi];
-   game->player[i].piece[j].view.tag = PPIToTag(&ppi);
+                              playerID:i
+                               pieceID:j];
+   game->player[i].piece[j].view.tag = PPIToTag(i, j);
    game->player[i].piece[j].step_index = -1;
   }
  }
  
- game->turn = 0;
+ game->gameID = time(NULL);
+ game->moveID = 0;
+ game->playerID = 0;
+ game->dice_val = 0;
 }
 
 /* Release any resources occupied at GenGame */
@@ -146,29 +117,10 @@ void DeleteGame(Game *game) {
  }
 }
 
-/* Get the filename for game-id */
-char *GameIDToFilename(char *buffer, gameID gameid) {
- sprintf(buffer, "%ld.game",gameid);
- return buffer;
-}
-
-/* Save the current state of game to the associated file */
-bool SaveGame(Game *game) {
- char fn_buf[kBuffer256];
- return WriteFile(GameIDToFilename(fn_buf, game->ID), (char*)game, sizeof(Game));
-}
-
-/* Load a saved game from file. The file should exist */
-Game *LoadGame(Game *game) {
- char fn_buf[kBuffer256];
- ReadFile((char*)game, GameIDToFilename(fn_buf, game->ID));
- return game;
-}
-
-/* Returns the index of the current player */
-int CurrentPlayerIndex(const Game *game) {
- return game->turn % 4;
-}
+///* Returns the index of the current player */
+//int CurrentPlayerIndex(const Game *game) {
+// return game->turn % 4;
+//}
 
 
 /** Current game state */
@@ -195,99 +147,14 @@ kGameState GameState(const Game *game) {
 }
 
 
-
 /************************************************************************
- MARK: Utility
- ***********************************************************************/
-static char flags[] = {'r', 'b', 'y', 'g'};
-
-int FlagToIndex(const char flag) {
- int index = 0;
-
- while ((flags[index++] != flag)){
-  assert(index < 4);
- }
- 
- return index;
-}
-
-char IndexToFlag(int index) {
- return flags[index];
-}
-
-int PPIToTag(const Set2i *ppi) {
- return ppi->one * 10 + ppi->two;
-}
-
-void TagtoPPI(Set2i *ppi, int tag) {
- ppi->one = tag/10;
- ppi->two = tag%10;
-}
-
-/** Get the color for a flag value
- @param color An array of 4 floats.
- @param flag The flag {rgby}
- */
-float *FlagToColor(float color[], const char flag) {
- color[0] = 0.0f;
- color[1] = 0.0f;
- color[2] = 0.0f;
- color[3] = 1.0f;
- 
- switch (flag) {
-  case 'r': color[0] = 1.0f;   break;
-  case 'g': color[1] = 1.0f;   break;
-  case 'b': color[2] = 1.0f;   break;
-  case 'y': color[0] = 1.0f; color[1] = 1.0f;   break;
- }
- return color;
-}
-
-/* The center point where the pieces stand at the beginning */
-CGPoint *FlagToOrigin(CGPoint *origin, const char flag, int offset_index) {
- 
- switch (flag) {
-  case 'r': origin->x = 600.0f; origin->y = 200.0f;   break;
-  case 'g': origin->x = 100.0f; origin->y = 200.0f;   break;
-  case 'b': origin->x = 600.0f; origin->y = 800.0f;   break;
-  case 'y': origin->x = 100.0f; origin->y = 800.0f;   break;
- }
- 
- CGPoint center_offset[] = {
-  {-50, -50},
-  {50, -50},
-  {-50, 50},
-  {50, 50}
- };
- origin->x += center_offset[offset_index].x;
- origin->y += center_offset[offset_index].y;
- 
- return origin;
-}
-
-/* 	Call some action after delay */
-void DispatchEvent(float delay_secs, DispatchEventAction action) {
- dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay_secs * NSEC_PER_SEC));
- dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-  action();
- });
-}
-
-/** Returns a value in set [1.6] */
-int roll_dice() {
- return rand() % 6 + 1;
-}
-
-
-
-/************************************************************************
- MARK: Moves
+ MARK: Globals
  ***********************************************************************/
 /** Path map: maps to all the possible location any piece can have
  If you watch closely, you can see a pattern.
  I was just being lazy, to calculate it programatically.
  */
-int g_PathMap[4][MOVE_MAX] = {
+static int g_PathMap[4][MOVE_MAX] = {
  /* red */
  {
   //8,
@@ -357,19 +224,60 @@ int g_PathMap[4][MOVE_MAX] = {
  }
 };
 
+/************************************************************************
+ MARK: Execute moves
+ ***********************************************************************/
+/** Updates the UI with the current game state.
+ */
+void step_game_forward(Game *game) {
+ /* Update the game state*/
+ kGameState state = GameState(game);
+ 
+ /* After all animations are over, move to next player */
+ game->playerID++;
+ if (game->playerID >= MAX_PLAYERS) {
+  game->playerID = 0;
+ }
+ 
+ /* Update the GUI */
+ [game->gui updatePieces:game state:state];
+ 
+ /* Inform the next player about the turn */
+// int npi = game->playerID;
+// if (game->player[npi].intel == kIntelligence_AI) {
+//  auto_step_player(npi, game);
+// }
+ 
+ SyncGame(game);
+}
+
+static void move_type_dice(Game *game, Move *move) {
+ int dice_val = move->steps;
+ game->dice_val = dice_val;
+ /* animate the dice and update the view */
+ [game->gui updateDice:game];
+ 
+ /* test if dice value is not playable, else move forward with the game */
+ Move moves[8];
+ int movesc = calc_possible_moves(moves, game->playerID, game);
+ if (movesc == 0) {
+  step_game_forward(game);
+ }
+}
+
 /* Search for player-piece set at given index
  Store the results in set. The set should have enough space to hold the data.
  Typically for 16 pieces, it should not exceed 15
  Return number of sets found.
  */
-int search_playerpieces_at_tile_index(Set2i *set, Game *game, int tile_index) {
+int search_playerpieces_at_tile_index(ID *playerIDs, ID *pieceIDs, Game *game, int tile_index) {
  int count = 0;
- for (int player_index = 0; player_index < 4; ++player_index) {
-  for (int piece_index = 0; piece_index < 4; ++piece_index) {
-   int si = game->player[player_index].piece[piece_index].step_index;
-   if (g_PathMap[player_index][si] == tile_index) {
-    set[count].one = player_index;
-    set[count].two = piece_index;
+ for (int playerid = 0; playerid < 4; ++playerid) {
+  for (int pieceid = 0; pieceid < 4; ++pieceid) {
+   int si = game->player[playerid].piece[pieceid].step_index;
+   if (g_PathMap[playerid][si] == tile_index) {
+    playerIDs[count] = playerid;
+    pieceIDs[count] = pieceid;
     count++;
    }
   }
@@ -378,73 +286,145 @@ int search_playerpieces_at_tile_index(Set2i *set, Game *game, int tile_index) {
  return count;
 }
 
-
 /** Move a give piece forward steps
  @param playerpiece_index The set of {player_index, piece_index}
  @param steps Number of steps to be moved forward.
  @note If steps < 0, then moves to the home tile i.e. step # 0.
  */
-void StepGame(Game *game, Move *move){
+static void move_type_steps(Game *game, Move *move, int next_si) {
+ Player *player = &game->player[move->senderID];
 
- Player *player = &game->player[move->ppi.one];
- int next_si = player->piece[move->ppi.two].step_index + move->steps;
- if (move->steps < 0) {
+ if (next_si < 0) {
   next_si = 0;
  }
- int tile_index = g_PathMap[move->ppi.one][next_si];
+ 
+ int tile_index = g_PathMap[move->senderID][next_si];
  Tile tile = game->map[tile_index/15][tile_index%15];
  
  /* test if there is something already at that tile
   Otherwise, it dies it and goes back to where it came from.
   Except for the same flag pieces.
   */
- Set2i old_ppi[15];
- int old_ppi_count = search_playerpieces_at_tile_index(old_ppi, game, tile_index);
- for (int i = 0; i < old_ppi_count; ++i) {
-  char old_flag = game->player[old_ppi[i].one].flag;
+ ID old_playerIDs[15];
+ ID old_pieceIDs[15];
+ int count = search_playerpieces_at_tile_index(old_playerIDs, old_pieceIDs, game, tile_index);
+ for (int i = 0; i < count; ++i) {
+  char old_flag = game->player[old_playerIDs[i]].flag;
   if (player->flag != old_flag) {
    CGPoint p_origin;
-   FlagToOrigin(&p_origin, old_flag, old_ppi[i].two);
-   Piece *old_piece = &game->player[old_ppi[i].one].piece[old_ppi[i].two];
+   FlagToOrigin(&p_origin, old_flag, old_pieceIDs[i]);
+   Piece *old_piece = &game->player[old_playerIDs[i]].piece[old_pieceIDs[i]];
    old_piece->view.center = p_origin;
    old_piece->step_index = -1;
   }
  }
  
  /* Move the piece */
- [player->piece[move->ppi.two].view setCenter:tile.point];
- player->piece[move->ppi.two].step_index = next_si;
+ [player->piece[move->pieceID].view setCenter:tile.point];
+ player->piece[move->pieceID].step_index = next_si;
+ 
+ step_game_forward(game);
 }
 
-/** number of moves possible for the player 
-  The moves should be an array for all the moves possible (less than 8)
-  Returns number of moves possible.
+static void move_type_base(Game *game, Move *move) {
+ move_type_steps(game, move, 0);
+}
+
+static void move_type_home(Game *game, Move *move) {
+ char flag = game->player[game->playerID].flag;
+ CGPoint p_origin;
+ FlagToOrigin(&p_origin, flag, move->pieceID);
+ Piece *piece = &game->player[game->playerID].piece[move->pieceID];
+ piece->view.center = p_origin;
+ piece->step_index = -1;
+ 
+ step_game_forward(game);
+}
+
+static void move_type_forward(Game *game, Move *move) {
+ Player *player = &game->player[move->senderID];
+ int next_si = player->piece[move->pieceID].step_index + move->steps;
+ move_type_steps(game, move, next_si);
+}
+
+void StepGame(Game *game, Move *move){
+ 
+ switch (move->type) {
+  case kMoveType_Roll: move_type_dice(game, move); break;
+  case kMoveType_Birth: move_type_base(game, move); break;
+  case kMoveType_Death: move_type_home(game, move); break;
+  case kMoveType_Step: move_type_forward(game, move);  break;
+ }
+}
+
+
+/* Get moves from MoveQueue
+ If new moves are found update the game,
+ Delete the moves from the MoveQueue
+ Save the game to file.
  */
-int calc_possible_moves(Move *moves, int player_index, Game *game) {
- Player *player = &game->player[player_index];
+void SyncGame(Game *game) {
+ bool modified = false;
+ 
+ /* TODO: Look for new moves from GameCenter */
+ 
+ /* Look for new moves from AI */
+ if (game->player[game->playerID].intel == kIntelligence_AI) {
+  modified = PlayAI(game);
+ }
+ 
+ /* TODO: Remove the moves for human players from the Queue */
+ 
+ if (modified) {
+  StoreGameToFile(game);
+ }
+}
+
+
+/************************************************************************
+ MARK: Push moves
+ ***********************************************************************/
+
+/** Roll the dice, update the UI
+ If no move is possible with the dice value, automatically step game forward.
+ Invoked when a human touches the dice.
+ */
+void MakeDiceMove(Game *game) {
+ /* Create a dice move */
+ Move dice_move;
+ dice_move.moveID = game->moveID++;
+ dice_move.type = kMoveType_Roll;
+ dice_move.gameID = game->gameID;
+ dice_move.senderID = game->playerID;
+ dice_move.recvID = game->playerID;
+ dice_move.pieceID = -1;
+ dice_move.steps = RollDice();
+ 
+ /* Send the move to the queue */
+ StepGame(game, &dice_move);
+ // StoreAndForwardMove(&dice_move);
+}
+
+/** number of moves possible for the player
+ Fills for each pieceIDs and steps it can take.
+ The moves should be an array for all the moves possible
+ Returns number of moves possible.
+ */
+int calc_possible_moves(Move *moves, ID playerID, Game *game) {
+ Player *player = &game->player[playerID];
  int dice_val = game->dice_val;
  int move_count = 0;
  
- /* if 6, launch a new piece move */
- if (dice_val == 6) {
-  for (int piecei = 0; piecei < 4; ++piecei) {
-   int si = player->piece[piecei].step_index;
-   if (si < 0) {
-    moves[move_count].ppi.one = player_index;
-    moves[move_count].ppi.two = piecei;
-    moves[move_count].steps = -1;
-    move_count++;
-   }
-  }
- }
- 
- /* else move */
- for (int piecei = 0; piecei < 4; ++piecei) {
+ for (ID piecei = 0; piecei < 4; ++piecei) {
   int si = player->piece[piecei].step_index;
-  if (si >= 0 && (si + dice_val) < MOVE_MAX) {
-   moves[move_count].ppi.one = player_index;
-   moves[move_count].ppi.two = piecei;
-   moves[move_count].steps = dice_val;
+
+  if (si < 0 && dice_val == 6) {  /* if 6, launch a new piece move */
+   moves[move_count].pieceID = piecei;
+   moves[move_count].type = kMoveType_Birth;
+   move_count++;
+  } else if (si >= 0 && (si + dice_val) < MOVE_MAX) {  /* else move */
+   moves[move_count].pieceID = piecei;
+   moves[move_count].type = kMoveType_Step;
    move_count++;
   }
  }
@@ -452,100 +432,72 @@ int calc_possible_moves(Move *moves, int player_index, Game *game) {
  return move_count;
 }
 
-/** Roll the dice, update the UI
- If no move is possible with the dice value, automatically step game forward.
- */
-void step_game_dice(Game *game) {
- int dice_val = roll_dice();
- game->dice_val = dice_val;
- /* animate the dice and update the view */
- [game->gui updateDice:game];
- 
- /* test if dice value is not playable, else move forward with the game */
- Move moves[8];
- int movesc = calc_possible_moves(moves, CurrentPlayerIndex(game), game);
- if (movesc == 0) {
-  step_game_forward(game);
- }
-}
-
-/** Step the player. Used by the AI */
-void auto_step_player(int player_index, Game *game) {
- /* roll the dice */
- step_game_dice(game);
-
- Move moves[8];
- int moves_count = calc_possible_moves(moves, player_index, game);
- 
- /* Play the first move possible */
- for (int i = 0; i < moves_count; ++i) {
-  ForwardOrStore(game, &moves[i]);
-  step_game_forward(game);
-  break;
- }
- 
-}
-
-/** Updates the UI with the current game state.
- */
-void step_game_forward(Game *game) {
- /* Update the game state*/
- kGameState state = GameState(game);
-
- /* After all animations are over, move to next player */
- game->turn++;
- 
- /* Update the GUI */
- [game->gui updatePieces:game state:state];
- 
- /* Inform the next player about the turn */
- int npi = CurrentPlayerIndex(game);
- if (game->player[npi].intel == kIntelligence_AI) {
-  auto_step_player(npi, game);
- }
-}
-
-
-/************************************************************************
- MARK: Touch Events
- ***********************************************************************/
 /* Invoked when a human touches a piece */
-void HandlePieceTouchEvent(Game *game, const Set2i *ppi) {
+void MakePieceMove(Game *game, const ID playerID, const ID pieceID) {
  /* test if the player is legal   */
- int cpi = CurrentPlayerIndex(game);
- if (cpi != ppi->one) {
+ if (game->playerID != playerID) {
   return;
  }
  
- /* step the game. By this time the dice should have the value.
-  Update UI
-  */
- Move moves[8];
- int movec = calc_possible_moves(moves, cpi, game);
+ /* Search for a move with requested playerID & pieceID */
+ Move moves[4];
+ int moves_count = calc_possible_moves(moves, game->playerID, game);
+ if (!moves_count) {
+  return; /* no moves */
+ }
 
- for (int i = 0; i < movec; ++i) {
-  if (moves[i].ppi.two == ppi->two) {
-   ForwardOrStore(game, &moves[i]);
+ Move *selected_mv = NULL;
+ for (int i = 0; i < moves_count; ++i) {
+  if (moves[i].pieceID == pieceID) {
+   selected_mv = &moves[i];
    break;
   }
  }
+ /* Fill the missing data */
+ selected_mv->moveID = game->moveID++;
+ //selected_mv->type = kMoveType_Roll;
+ selected_mv->gameID = game->gameID;
+ selected_mv->senderID = game->playerID;
+ selected_mv->recvID = (playerID+1)%4;
+ //selected_mv->pieceID = -1;
+ selected_mv->steps = game->dice_val;
 
-// Move m;
-// m.ppi.one = ppi->one;
-// m.ppi.two = ppi->two;
-// m.steps = game->dice_val;
-//
-// move(game, &m);
-// step_player(cpi, game);
+ StepGame(game, selected_mv);
+ //StoreAndForwardMove(selected_mv);
  
-
- step_game_forward(game);
+ // Move m;
+ // m.ppi.one = ppi->one;
+ // m.ppi.two = ppi->two;
+ // m.steps = game->dice_val;
+ //
+ // move(game, &m);
+ // step_player(cpi, game);
+ 
+ 
+ // step_game_forward(game);
 }
 
-/* Invoked when a human touches the dice */
-void HandleDiceTouchEvent(Game *game) {
- step_game_dice(game);
+void MakeRandomPieceMove(Game *game, ID playerID) {
+
+ Move moves[4];
+ int moves_count = calc_possible_moves(moves, playerID, game);
+ if (!moves_count) {
+  return; /* no moves */
+ }
+ 
+ /* Play the move at random */
+ Move *selected_mv = &moves[rand()%moves_count];
+ 
+ /* Fill the missing data */
+ selected_mv->moveID = game->moveID++;
+ //selected_mv->type = kMoveType_Roll;
+ selected_mv->gameID = game->gameID;
+ selected_mv->senderID = game->playerID;
+ selected_mv->recvID = (playerID+1)%4;
+ //selected_mv->pieceID = -1;
+ selected_mv->steps = game->dice_val;
+
+ StepGame(game, selected_mv);
+ //StoreAndForwardMove(selected_mv);
 }
-
-
 

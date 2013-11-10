@@ -8,19 +8,11 @@
 
 #ifndef Ludo_LD_Type_h
 #define Ludo_LD_Type_h
-
-#define kGameType_local (1 << 0)
-#define kGameType_online (1 << 1)
-
-#define TILE_MAX 15
-#define MOVE_MAX 57
+#include "LD_Constants.h"
 
 /************************************************************************
  MARK: Types
  ***********************************************************************/
-typedef struct {
- UInt32 game_types; /* The types of games available */
-} SystemEnv;
 
 @class LD_PieceView;
 typedef struct {
@@ -33,33 +25,42 @@ typedef enum {
  kIntelligence_AI
 } kIntelligence;
 
+typedef unsigned long ID;
+
 typedef struct {
+ ID playerID;
  Piece piece[4];
  char flag;
  kIntelligence intel;
 } Player;
 
-typedef struct {
- int one;
- int two;
-} Set2i;
-
 typedef struct  {
  CGPoint point;
 } Tile;
 
-typedef unsigned long gameID;
+typedef enum {
+ kMoveType_Birth, /* Bring a piece to life */
+ kMoveType_Roll, /* Roll the dice */
+ kMoveType_Step, /* Update the piece forward */
+ kMoveType_Death /* Start a new piece */
+} kMoveType;
 
 typedef struct {
- gameID gID;
- Set2i ppi;
- int steps;
+ ID moveID; /* Move number */
+ kMoveType type; /* Move type */
+ ID gameID; /* The game */
+ ID recvID; /* receiver player */
+ ID senderID; /* sender player */
+ ID pieceID; /* sender's piece */
+ int steps; /* For kMoveType_Fwd holds either the moves for the piece
+             in case of kMoveType_Dice fills the dice value */
 } Move;
 
 @class LD_RootViewController;
 typedef struct {
- gameID ID;
- int turn;
+ ID gameID;
+ ID playerID;
+ ID moveID;
  Player player[4];
  int dice_val;
  Tile map[TILE_MAX][TILE_MAX];
@@ -75,5 +76,15 @@ typedef enum {
  kGameState_None
 } kGameState;
 
+typedef struct {
+ UInt32 game_types; /* The types of games available */
+ //Move moves_buffer[MOVES_BUFFER]; /* Max moves that can be stored */
+} SystemEnv;
+
+/* The one object for all global entities */
+typedef struct {
+ SystemEnv sysenv;
+ Game game;
+} Context;
 
 #endif

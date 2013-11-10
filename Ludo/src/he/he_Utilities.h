@@ -9,7 +9,7 @@
 #define OGL_Basic_Utilities_h
 
 /**
- *	Get absolute Bundle path
+ *	Get absolute Bundle path. Optionally provide a filename.
  *
  *	@param	filename	 The filename (In)
  *	@param	buffer	The absolute path (Out)
@@ -18,6 +18,8 @@
 char *BundlePath(char *buffer, const char *filename);
 
 /** Get absolute path of the file inside directory
+ The filename is optional.
+ Returns the pointer to buffer (for chaining)
  */
 char *DocumentPath(char *buffer, const char *filename);
 

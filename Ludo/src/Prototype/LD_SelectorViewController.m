@@ -8,13 +8,16 @@
 
 #import "LD_SelectorViewController.h"
 #import "LD_Prototype.h"
-#import "LD_GameContext.h"
+
+#import "../LD_Context.h"
+#import "../LD_Constants.h"
+#import "../LD_File.h"
 
 /* Maps with the segment titles in the xib/storuboard */
-static kIntelligence segment_to_intelligence(NSInteger seg_index) {
+static kIntelligence index_to_intelligence(int index) {
  kIntelligence intel;
  
- switch (seg_index) {
+ switch (index) {
   case 0: intel = kIntelligence_Human; break;
   case 1: intel = kIntelligence_AI; break;
   default: assert(0); break; /* No intelligence found! */
@@ -23,6 +26,16 @@ static kIntelligence segment_to_intelligence(NSInteger seg_index) {
  return intel;
 }
 
+static Game *finalize_players(Game *game, int intelindex[MAX_PLAYERS]) {
+ /* Assign intelligence */
+ for (int i = 0; i < MAX_PLAYERS; ++i) {
+	 game->player[i].intel = index_to_intelligence(intelindex[i]);
+ }
+ 
+ /* Could run some tests to check if the context is in valid state
+  and return NO  */
+ return game;
+}
 
 @interface LD_SelectorViewController ()
 @end
@@ -60,16 +73,20 @@ static kIntelligence segment_to_intelligence(NSInteger seg_index) {
 
 -(BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
  if ([identifier isEqualToString:kSegue_displayGameController]) {
-  GameContext *context = CurrentContext();
-  
-  /* Assign intelligence */
-  context->game.player[0].intel = segment_to_intelligence(_redSelector.selectedSegmentIndex);
-  context->game.player[1].intel = segment_to_intelligence(_blueSelector.selectedSegmentIndex);
-  context->game.player[2].intel = segment_to_intelligence(_yellowSelector.selectedSegmentIndex);
-  context->game.player[3].intel = segment_to_intelligence(_greenSelector.selectedSegmentIndex);
 
-  /* Could run some tests to check if the context is in valid state 
-    and return NO  */
+  Game new_game;
+  int intelindex[MAX_PLAYERS] = {
+   _redSelector.selectedSegmentIndex,
+   _blueSelector.selectedSegmentIndex,
+   _yellowSelector.selectedSegmentIndex,
+   _greenSelector.selectedSegmentIndex,
+  };
+  
+  finalize_players(&new_game, intelindex);
+
+  /* Update the context */
+  Context *context = CurrentContext();
+  memcpy(&context->game, &new_game, sizeof(new_game));
  }
  return YES;
 }

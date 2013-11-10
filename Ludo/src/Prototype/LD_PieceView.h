@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "../LD_Game.h"
+#import "../LD_Types.h"
 
 
 @interface LD_PieceView : UILabel
--(id) initWithFrame:(CGRect)frame playerPieceIndex:(const Set2i *)ppi;
+-(id) initWithFrame:(CGRect)frame playerID:(const ID) playerID pieceID:(const ID)pieceID;
 @end
 

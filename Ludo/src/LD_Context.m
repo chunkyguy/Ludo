@@ -6,11 +6,11 @@
 //  Copyright (c) 2013 whackylabs. All rights reserved.
 //
 
-#import "LD_GameContext.h"
+#include "LD_Context.h"
 
-static GameContext *g_CurrentContext = NULL;
+static Context *g_CurrentContext = NULL;
 
-GameContext *BindContext(GameContext *some_context) {
+Context *BindContext(Context *some_context) {
  g_CurrentContext = some_context;
  return g_CurrentContext;
 }
@@ -19,6 +19,6 @@ void UnbindContext() {
  g_CurrentContext = NULL;
 }
 
-GameContext *CurrentContext() {
+Context *CurrentContext() {
  return g_CurrentContext;
 }

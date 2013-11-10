@@ -9,7 +9,7 @@
 #define LD_MoveQueue_H
 
 #include "LD_Game.h"
-#include "LD_GameContext.h"
+#include "LD_Context.h"
 
 /** Move Queue
  Stores all the moves pending.
@@ -20,7 +20,7 @@
  Something like Move moves_buffer[256] should be enough I guess 
  Note, this method won't allocate any memory.
  */
-void BindMoveQueueBuffer(Move *buffer, size_t buffer_sz);
+//void BindMoveQueueBuffer(Move *buffer, size_t buffer_sz);
 
 /** The current move queue is unbinded.
   No memory release happens, as not sure how the memeory is allocated.
@@ -28,23 +28,24 @@ void BindMoveQueueBuffer(Move *buffer, size_t buffer_sz);
   This is only useful if you wish to manage more than one memory pools.
   Save one pool to file and bind another.
  */
-void UnbindMoveQueueBuffer();
+//void UnbindMoveQueueBuffer();
 
-/** Check if there's any taker for the move else store it.
- First try to forward the move to the active_listener (if any/interested).
- Else store the move in buffer, might be coming from some other game.
+/** store the move in buffer, might be coming from some other game.
  Return false, in case of exception, like memory overflow (no vacant slot)
  */
-bool ForwardOrStore(Game *game, Move *move);
+//bool StoreAndForwardMove(Move *move);
 
 
-/** Get all stored moves for a given gameid 
+/** Get all stored moves for a given gameid and a given playerID
   Returns number of saved moves, the buffer should have sufficient space.
  Moves could be more than one, for example, the user is playing the game after a 
  long time.
  Typically, the buffer should not expect more than 3 moves, as this is a 4 player game.
-  The slot is emptied thereafter, so don't release the received data.
+ Don't forget to call DeleteMove after done with the move.
  */
-int StoredMoves(Move *buffer, gameID gID);
+//int StoredMoves(Move *buffer, ID gameID, ID playerID);
+
+/** Delete the move from queue */
+//void DeleteMove(ID moveID);
 
 #endif

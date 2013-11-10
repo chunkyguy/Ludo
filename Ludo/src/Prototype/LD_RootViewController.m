@@ -7,8 +7,15 @@
 //
 
 #import "LD_RootViewController.h"
+
 #import "LD_PieceView.h"
-#import "LD_GameContext.h"
+
+#import "../LD_Context.h"
+#import "../LD_Utilities.h"
+#import "../LD_MoveQueue.h"
+#import "../LD_Game.h"
+#import "../LD_File.h"
+#import "../LD_AI.h"
 
 //#define kCheatcode_autoplay
 //#define kCheatcode_dice
@@ -106,6 +113,8 @@
 #if defined (kCheatcode_dice)
  cheat_value = 6;
 #endif
+ Game *g = &(CurrentContext()->game);
+ SyncGame(g);
 }
 
 #if defined (kCheatcode_autoplay)
@@ -183,7 +192,7 @@
 
 -(void) updateBackground:(const Game *)gp {
  float color[4];
- FlagToColor(color, IndexToFlag(CurrentPlayerIndex(gp)));
+ FlagToColor(color, IndexToFlag(gp->playerID));
  [self.view setBackgroundColor:[UIColor colorWithRed:color[0] green:color[1] blue:color[2] alpha:0.5]];
  //self.diceView.text = @"-";
 }
@@ -211,17 +220,16 @@
  
  /* Test for dice */
  if (CGRectContainsPoint(self.diceView.frame, touch_pt)) {
-  HandleDiceTouchEvent(&CurrentContext()->game);
+  MakeDiceMove(&(CurrentContext()->game));
   return;
  }
 
  /* Test for pieces */
- Set2i ppi;
- for (ppi.one = 0; ppi.one < 4; ++ppi.one) {
-  for (ppi.two = 0; ppi.two < 4; ++ppi.two) {
-   LD_PieceView *piece_vw = CurrentContext()->game.player[ppi.one].piece[ppi.two].view;
+ for (ID playerID = 0; playerID < 4; ++playerID) {
+  for (ID pieceID = 0; pieceID < 4; ++pieceID) {
+   LD_PieceView *piece_vw = CurrentContext()->game.player[playerID].piece[pieceID].view;
    if (CGRectContainsPoint(piece_vw.frame, touch_pt)) {
-    HandlePieceTouchEvent(&CurrentContext()->game, &ppi);
+    MakePieceMove(&(CurrentContext()->game), playerID, pieceID);
     return;
    }
   }

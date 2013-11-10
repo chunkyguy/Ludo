@@ -41,14 +41,23 @@ char *BundlePath(char *buffer, const char *filename) {
  char file[kBuffer256] = {0};
  char extn[10] = {0};
  split(filename, file, extn);
- NSString *full_path = [[NSBundle mainBundle] pathForResource:[NSString stringWithUTF8String:file] ofType:[NSString stringWithUTF8String:extn]];
+ NSString *full_path = nil;
+ if (filename) {
+  full_path = [[NSBundle mainBundle] pathForResource:[NSString stringWithUTF8String:file] ofType:[NSString stringWithUTF8String:extn]];
+ } else {
+ full_path = [[NSBundle mainBundle] resourcePath];
+ }
  assert(full_path);
  
  return strcpy(buffer, [full_path UTF8String]);
 }
 
 char *DocumentPath(char *buffer, const char *filename) {
- NSString *full_path = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:[NSString stringWithCString:filename encoding:NSASCIIStringEncoding]];
+ NSString *full_path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+ if (filename) {
+  full_path = [full_path stringByAppendingPathComponent:[NSString stringWithCString:filename encoding:NSASCIIStringEncoding]];
+ }
+
  return strcpy(buffer, [full_path cStringUsingEncoding:NSASCIIStringEncoding]);
 }
 

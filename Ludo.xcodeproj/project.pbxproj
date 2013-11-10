@@ -29,10 +29,8 @@
 		195C298F182E1DF800EC9C16 /* he_Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 195C2934182E1DF800EC9C16 /* he_Utilities.m */; };
 		195C2990182E1DF800EC9C16 /* LD_AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 195C2936182E1DF800EC9C16 /* LD_AppDelegate.m */; };
 		195C2991182E1DF800EC9C16 /* LD_Game.m in Sources */ = {isa = PBXBuildFile; fileRef = 195C2938182E1DF800EC9C16 /* LD_Game.m */; };
-		195C2992182E1DF800EC9C16 /* LD_GameContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 195C293A182E1DF800EC9C16 /* LD_GameContext.m */; };
 		195C2993182E1DF800EC9C16 /* LD_MoveQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 195C293C182E1DF800EC9C16 /* LD_MoveQueue.m */; };
 		195C2994182E1DF800EC9C16 /* LD_Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = 195C293E182E1DF800EC9C16 /* LD_Settings.m */; };
-		195C2995182E1DF800EC9C16 /* LD_Transform.m in Sources */ = {isa = PBXBuildFile; fileRef = 195C293F182E1DF800EC9C16 /* LD_Transform.m */; };
 		195C2996182E1DF800EC9C16 /* LD_ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 195C2942182E1DF800EC9C16 /* LD_ViewController.m */; };
 		195C2997182E1DF800EC9C16 /* lapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 195C294B182E1DF800EC9C16 /* lapi.c */; };
 		195C2998182E1DF800EC9C16 /* lauxlib.c in Sources */ = {isa = PBXBuildFile; fileRef = 195C294D182E1DF800EC9C16 /* lauxlib.c */; };
@@ -68,15 +66,19 @@
 		195C29B6182E1DF800EC9C16 /* lzio.c in Sources */ = {isa = PBXBuildFile; fileRef = 195C297D182E1DF800EC9C16 /* lzio.c */; };
 		195C29B7182E1DF800EC9C16 /* LD_MenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = 195C2981182E1DF800EC9C16 /* LD_MenuController.m */; };
 		195C29B8182E1DF800EC9C16 /* LD_PieceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 195C2983182E1DF800EC9C16 /* LD_PieceView.m */; };
-		195C29B9182E1DF800EC9C16 /* LD_Prototype.m in Sources */ = {isa = PBXBuildFile; fileRef = 195C2985182E1DF800EC9C16 /* LD_Prototype.m */; };
 		195C29BA182E1DF800EC9C16 /* LD_RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 195C2987182E1DF800EC9C16 /* LD_RootViewController.m */; };
 		195C29BB182E1DF800EC9C16 /* LD_SelectorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 195C2989182E1DF800EC9C16 /* LD_SelectorViewController.m */; };
+		195C29BE182E212A00EC9C16 /* LD_Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 195C29BD182E212A00EC9C16 /* LD_Utilities.m */; };
+		195C29C2182E23F900EC9C16 /* he_Transform.m in Sources */ = {isa = PBXBuildFile; fileRef = 195C29C1182E23F900EC9C16 /* he_Transform.m */; };
+		195C29C5182E270D00EC9C16 /* LD_Context.m in Sources */ = {isa = PBXBuildFile; fileRef = 195C29C4182E270D00EC9C16 /* LD_Context.m */; };
 		19681112181D6BA60043DBF0 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1968110E181D6BA60043DBF0 /* Main_iPad.storyboard */; };
 		19681113181D6BA60043DBF0 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 19681110181D6BA60043DBF0 /* Main_iPhone.storyboard */; };
 		19BCCBC0181D09490087BC8E /* mesh.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 19BCCBA9181D09490087BC8E /* mesh.fsh */; };
 		19BCCBC1181D09490087BC8E /* mesh.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 19BCCBAA181D09490087BC8E /* mesh.vsh */; };
 		19BCCBE7181D10210087BC8E /* color.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 19BCCBE6181D10210087BC8E /* color.vsh */; };
 		19BCCBE9181D104F0087BC8E /* color.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 19BCCBE8181D104F0087BC8E /* color.fsh */; };
+		19C4FAC5182F624D00DDE06B /* LD_AI.m in Sources */ = {isa = PBXBuildFile; fileRef = 19C4FAC4182F624D00DDE06B /* LD_AI.m */; };
+		19C4FAC8182F724000DDE06B /* LD_File.m in Sources */ = {isa = PBXBuildFile; fileRef = 19C4FAC7182F724000DDE06B /* LD_File.m */; };
 		19F68B301820357700A90621 /* avg.lua in Resources */ = {isa = PBXBuildFile; fileRef = 19F68B2F1820357700A90621 /* avg.lua */; };
 		19F68B3218203E3000A90621 /* add.lua in Resources */ = {isa = PBXBuildFile; fileRef = 19F68B3118203E3000A90621 /* add.lua */; };
 /* End PBXBuildFile section */
@@ -128,13 +130,10 @@
 		195C2936182E1DF800EC9C16 /* LD_AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LD_AppDelegate.m; sourceTree = "<group>"; };
 		195C2937182E1DF800EC9C16 /* LD_Game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LD_Game.h; sourceTree = "<group>"; };
 		195C2938182E1DF800EC9C16 /* LD_Game.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LD_Game.m; sourceTree = "<group>"; };
-		195C2939182E1DF800EC9C16 /* LD_GameContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LD_GameContext.h; sourceTree = "<group>"; };
-		195C293A182E1DF800EC9C16 /* LD_GameContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LD_GameContext.m; sourceTree = "<group>"; };
 		195C293B182E1DF800EC9C16 /* LD_MoveQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LD_MoveQueue.h; sourceTree = "<group>"; };
 		195C293C182E1DF800EC9C16 /* LD_MoveQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LD_MoveQueue.m; sourceTree = "<group>"; };
 		195C293D182E1DF800EC9C16 /* LD_Settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LD_Settings.h; sourceTree = "<group>"; };
 		195C293E182E1DF800EC9C16 /* LD_Settings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LD_Settings.m; sourceTree = "<group>"; };
-		195C293F182E1DF800EC9C16 /* LD_Transform.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LD_Transform.m; sourceTree = "<group>"; };
 		195C2940182E1DF800EC9C16 /* LD_Types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LD_Types.h; sourceTree = "<group>"; };
 		195C2941182E1DF800EC9C16 /* LD_ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LD_ViewController.h; sourceTree = "<group>"; };
 		195C2942182E1DF800EC9C16 /* LD_ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LD_ViewController.m; sourceTree = "<group>"; };
@@ -199,18 +198,26 @@
 		195C2981182E1DF800EC9C16 /* LD_MenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LD_MenuController.m; sourceTree = "<group>"; };
 		195C2982182E1DF800EC9C16 /* LD_PieceView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LD_PieceView.h; sourceTree = "<group>"; };
 		195C2983182E1DF800EC9C16 /* LD_PieceView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LD_PieceView.m; sourceTree = "<group>"; };
-		195C2984182E1DF800EC9C16 /* LD_Prototype.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LD_Prototype.h; sourceTree = "<group>"; };
-		195C2985182E1DF800EC9C16 /* LD_Prototype.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LD_Prototype.m; sourceTree = "<group>"; };
 		195C2986182E1DF800EC9C16 /* LD_RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LD_RootViewController.h; sourceTree = "<group>"; };
 		195C2987182E1DF800EC9C16 /* LD_RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LD_RootViewController.m; sourceTree = "<group>"; };
 		195C2988182E1DF800EC9C16 /* LD_SelectorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LD_SelectorViewController.h; sourceTree = "<group>"; };
 		195C2989182E1DF800EC9C16 /* LD_SelectorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LD_SelectorViewController.m; sourceTree = "<group>"; };
+		195C29BC182E212A00EC9C16 /* LD_Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LD_Utilities.h; sourceTree = "<group>"; };
+		195C29BD182E212A00EC9C16 /* LD_Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LD_Utilities.m; sourceTree = "<group>"; };
+		195C29C1182E23F900EC9C16 /* he_Transform.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = he_Transform.m; sourceTree = "<group>"; };
+		195C29C3182E270D00EC9C16 /* LD_Context.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LD_Context.h; sourceTree = "<group>"; };
+		195C29C4182E270D00EC9C16 /* LD_Context.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LD_Context.m; sourceTree = "<group>"; };
+		195C29C6182E280B00EC9C16 /* LD_Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LD_Constants.h; sourceTree = "<group>"; };
 		1968110F181D6BA60043DBF0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
 		19681111181D6BA60043DBF0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
 		19BCCBA9181D09490087BC8E /* mesh.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = mesh.fsh; sourceTree = "<group>"; };
 		19BCCBAA181D09490087BC8E /* mesh.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = mesh.vsh; sourceTree = "<group>"; };
 		19BCCBE6181D10210087BC8E /* color.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = color.vsh; sourceTree = "<group>"; };
 		19BCCBE8181D104F0087BC8E /* color.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = color.fsh; sourceTree = "<group>"; };
+		19C4FAC3182F624D00DDE06B /* LD_AI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LD_AI.h; sourceTree = "<group>"; };
+		19C4FAC4182F624D00DDE06B /* LD_AI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LD_AI.m; sourceTree = "<group>"; };
+		19C4FAC6182F724000DDE06B /* LD_File.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LD_File.h; sourceTree = "<group>"; };
+		19C4FAC7182F724000DDE06B /* LD_File.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LD_File.m; sourceTree = "<group>"; };
 		19F68B2F1820357700A90621 /* avg.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = avg.lua; sourceTree = "<group>"; };
 		19F68B3118203E3000A90621 /* add.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = add.lua; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -321,22 +328,28 @@
 		195C2924182E1DF800EC9C16 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				195C2943182E1DF800EC9C16 /* lua */,
 				195C2925182E1DF800EC9C16 /* he */,
+				195C2940182E1DF800EC9C16 /* LD_Types.h */,
+				195C29C6182E280B00EC9C16 /* LD_Constants.h */,
 				195C2935182E1DF800EC9C16 /* LD_AppDelegate.h */,
 				195C2936182E1DF800EC9C16 /* LD_AppDelegate.m */,
+				195C2941182E1DF800EC9C16 /* LD_ViewController.h */,
+				195C2942182E1DF800EC9C16 /* LD_ViewController.m */,
 				195C2937182E1DF800EC9C16 /* LD_Game.h */,
 				195C2938182E1DF800EC9C16 /* LD_Game.m */,
-				195C2939182E1DF800EC9C16 /* LD_GameContext.h */,
-				195C293A182E1DF800EC9C16 /* LD_GameContext.m */,
+				195C29C3182E270D00EC9C16 /* LD_Context.h */,
+				195C29C4182E270D00EC9C16 /* LD_Context.m */,
 				195C293B182E1DF800EC9C16 /* LD_MoveQueue.h */,
 				195C293C182E1DF800EC9C16 /* LD_MoveQueue.m */,
 				195C293D182E1DF800EC9C16 /* LD_Settings.h */,
 				195C293E182E1DF800EC9C16 /* LD_Settings.m */,
-				195C293F182E1DF800EC9C16 /* LD_Transform.m */,
-				195C2940182E1DF800EC9C16 /* LD_Types.h */,
-				195C2941182E1DF800EC9C16 /* LD_ViewController.h */,
-				195C2942182E1DF800EC9C16 /* LD_ViewController.m */,
-				195C2943182E1DF800EC9C16 /* lua */,
+				195C29BC182E212A00EC9C16 /* LD_Utilities.h */,
+				195C29BD182E212A00EC9C16 /* LD_Utilities.m */,
+				19C4FAC3182F624D00DDE06B /* LD_AI.h */,
+				19C4FAC4182F624D00DDE06B /* LD_AI.m */,
+				19C4FAC6182F724000DDE06B /* LD_File.h */,
+				19C4FAC7182F724000DDE06B /* LD_File.m */,
 				195C297F182E1DF800EC9C16 /* Prototype */,
 			);
 			path = src;
@@ -345,9 +358,11 @@
 		195C2925182E1DF800EC9C16 /* he */ = {
 			isa = PBXGroup;
 			children = (
+				195C2932182E1DF800EC9C16 /* he_Types.h */,
+				195C2930182E1DF800EC9C16 /* he_std_incl.h */,
+				195C2928182E1DF800EC9C16 /* he_Constants.h */,
 				195C2926182E1DF800EC9C16 /* he_Console.h */,
 				195C2927182E1DF800EC9C16 /* he_Console.m */,
-				195C2928182E1DF800EC9C16 /* he_Constants.h */,
 				195C2929182E1DF800EC9C16 /* he_LuaInterface.m */,
 				195C292A182E1DF800EC9C16 /* he_Mesh.h */,
 				195C292B182E1DF800EC9C16 /* he_Mesh.m */,
@@ -355,9 +370,8 @@
 				195C292D182E1DF800EC9C16 /* he_Root.m */,
 				195C292E182E1DF800EC9C16 /* he_Shader.h */,
 				195C292F182E1DF800EC9C16 /* he_Shader.m */,
-				195C2930182E1DF800EC9C16 /* he_std_incl.h */,
 				195C2931182E1DF800EC9C16 /* he_Transform.h */,
-				195C2932182E1DF800EC9C16 /* he_Types.h */,
+				195C29C1182E23F900EC9C16 /* he_Transform.m */,
 				195C2933182E1DF800EC9C16 /* he_Utilities.h */,
 				195C2934182E1DF800EC9C16 /* he_Utilities.m */,
 			);
@@ -449,14 +463,12 @@
 			children = (
 				195C2980182E1DF800EC9C16 /* LD_MenuController.h */,
 				195C2981182E1DF800EC9C16 /* LD_MenuController.m */,
-				195C2982182E1DF800EC9C16 /* LD_PieceView.h */,
-				195C2983182E1DF800EC9C16 /* LD_PieceView.m */,
-				195C2984182E1DF800EC9C16 /* LD_Prototype.h */,
-				195C2985182E1DF800EC9C16 /* LD_Prototype.m */,
-				195C2986182E1DF800EC9C16 /* LD_RootViewController.h */,
-				195C2987182E1DF800EC9C16 /* LD_RootViewController.m */,
 				195C2988182E1DF800EC9C16 /* LD_SelectorViewController.h */,
 				195C2989182E1DF800EC9C16 /* LD_SelectorViewController.m */,
+				195C2982182E1DF800EC9C16 /* LD_PieceView.h */,
+				195C2983182E1DF800EC9C16 /* LD_PieceView.m */,
+				195C2986182E1DF800EC9C16 /* LD_RootViewController.h */,
+				195C2987182E1DF800EC9C16 /* LD_RootViewController.m */,
 			);
 			path = Prototype;
 			sourceTree = "<group>";
@@ -610,22 +622,24 @@
 				195C29B7182E1DF800EC9C16 /* LD_MenuController.m in Sources */,
 				195C29B5182E1DF800EC9C16 /* lvm.c in Sources */,
 				195C29A3182E1DF800EC9C16 /* lgc.c in Sources */,
+				195C29BE182E212A00EC9C16 /* LD_Utilities.m in Sources */,
 				195C298C182E1DF800EC9C16 /* he_Mesh.m in Sources */,
 				195C29AB182E1DF800EC9C16 /* lopcodes.c in Sources */,
 				195C29B4182E1DF800EC9C16 /* lundump.c in Sources */,
 				1957EA24181BD77300F5832B /* main.m in Sources */,
 				195C299D182E1DF800EC9C16 /* lctype.c in Sources */,
 				195C29BB182E1DF800EC9C16 /* LD_SelectorViewController.m in Sources */,
-				195C2992182E1DF800EC9C16 /* LD_GameContext.m in Sources */,
 				195C29AE182E1DF800EC9C16 /* lstate.c in Sources */,
 				195C29A7182E1DF800EC9C16 /* lmathlib.c in Sources */,
-				195C29B9182E1DF800EC9C16 /* LD_Prototype.m in Sources */,
+				19C4FAC8182F724000DDE06B /* LD_File.m in Sources */,
 				195C299F182E1DF800EC9C16 /* ldebug.c in Sources */,
 				195C29AD182E1DF800EC9C16 /* lparser.c in Sources */,
 				195C29AC182E1DF800EC9C16 /* loslib.c in Sources */,
 				195C29B0182E1DF800EC9C16 /* lstrlib.c in Sources */,
+				195C29C5182E270D00EC9C16 /* LD_Context.m in Sources */,
 				195C29A9182E1DF800EC9C16 /* loadlib.c in Sources */,
 				195C298B182E1DF800EC9C16 /* he_LuaInterface.m in Sources */,
+				19C4FAC5182F624D00DDE06B /* LD_AI.m in Sources */,
 				195C2999182E1DF800EC9C16 /* lbaselib.c in Sources */,
 				195C299B182E1DF800EC9C16 /* lcode.c in Sources */,
 				195C2990182E1DF800EC9C16 /* LD_AppDelegate.m in Sources */,
@@ -636,8 +650,8 @@
 				195C29B3182E1DF800EC9C16 /* ltm.c in Sources */,
 				195C2997182E1DF800EC9C16 /* lapi.c in Sources */,
 				195C2998182E1DF800EC9C16 /* lauxlib.c in Sources */,
+				195C29C2182E23F900EC9C16 /* he_Transform.m in Sources */,
 				195C29B2182E1DF800EC9C16 /* ltablib.c in Sources */,
-				195C2995182E1DF800EC9C16 /* LD_Transform.m in Sources */,
 				195C299E182E1DF800EC9C16 /* ldblib.c in Sources */,
 				195C2993182E1DF800EC9C16 /* LD_MoveQueue.m in Sources */,
 				195C29A4182E1DF800EC9C16 /* linit.c in Sources */,
